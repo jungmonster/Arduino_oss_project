@@ -19,11 +19,18 @@
             </Menu>
         
         <TabControl x:Name="tabControl" >
-                <TabItem Header="Node" Width="100">
-                    <Grid Background="#FFE5E5E5"/>
+                <TabItem Header="Node" Width="100" >
+                    <DockPanel Name="NodeDock">
+                        <Border DockPanel.Dock="Left" Width="100" Height="400" Background="PaleGreen" BorderThickness="1" BorderBrush="Black" >
+                            <TextBlock Text="Dock = Left"  />
+                        </Border>
+                        <Border Background="White" BorderThickness="1" BorderBrush="Black" >
+                            <TextBlock Text="This content will Fill the remaining space"  />
+                        </Border>
+                    </DockPanel>
                 </TabItem>
                 <TabItem Header="Edit" Width="100">
-                    <Grid Background="#FFE5E5E5"/>
+                    <TextBox Name="CodeView" Height="450" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ></TextBox>
                 </TabItem>
             </TabControl>
         </StackPanel>       
