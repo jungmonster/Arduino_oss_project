@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="550" Width="725">
     <Grid>
+        <StackPanel>
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="New File"></MenuItem>
+                    <MenuItem Header="Save"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Cut" Command="ApplicationCommands.Cut"></MenuItem>
+                </MenuItem>
+            </Menu>
         
+        <TabControl x:Name="tabControl" >
+                <TabItem Header="Node" Width="100">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="Edit" Width="100">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+        </StackPanel>       
     </Grid>
 </Window>
