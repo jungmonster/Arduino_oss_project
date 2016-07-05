@@ -22,10 +22,10 @@
                 <TabItem Header="Node" Width="100" >
                     <DockPanel Name="NodeDock">
                         <Border DockPanel.Dock="Left" Width="100" Height="400" Background="PaleGreen" BorderThickness="1" BorderBrush="Black" >
-                            <TextBlock Text="Dock = Left"  />
+                            <TextBlock Text="Arduino Module"  />
                         </Border>
                         <Border Background="White" BorderThickness="1" BorderBrush="Black" >
-                            <TextBlock Text="This content will Fill the remaining space"  />
+                            <TextBlock Text="Module Canvars!!!"  />
                         </Border>
                     </DockPanel>
                 </TabItem>
