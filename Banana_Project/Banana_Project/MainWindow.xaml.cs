@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Banana_Project
 {
@@ -24,5 +25,18 @@ namespace Banana_Project
         {
             InitializeComponent();
         }
+
+        private void NodeDockLayer_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("mouse : " + sender.ToString());
+        }
+
+        private void NodeDock_MouseMove(object sender, MouseEventArgs e)
+        {
+            //Console.WriteLine(sender.ToString());
+            //Console.WriteLine("mouse Move : x :" + e.GetPosition(NodeDock).X + ", Y: " + e.GetPosition(NodeDock).Y);
+        }
     }
+
+
 }
