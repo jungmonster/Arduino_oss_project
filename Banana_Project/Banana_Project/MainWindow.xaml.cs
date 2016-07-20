@@ -24,6 +24,7 @@ namespace Banana_Project
         public MainWindow()
         {
             InitializeComponent();
+            NodeScroll.
         }
 
         private void NodeDockLayer_MouseDown(object sender, MouseButtonEventArgs e)

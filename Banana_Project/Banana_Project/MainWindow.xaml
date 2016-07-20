@@ -35,9 +35,9 @@
                 <TabItem Header="Node" Width="100" >
                     <Grid Name="NodeDock" Mouse.MouseMove="NodeDock_MouseMove" MouseLeftButtonDown="NodeDockLayer_MouseDown" Background="Red">
 
-                        <ScrollViewer Height="472" Margin="0,0,549.429,0" Background="Yellow" MouseLeftButtonDown="NodeDockLayer_MouseDown" Mouse.MouseMove="NodeDock_MouseMove">
+                        <ScrollViewer x:Name="NodeScroll" Height="472" Margin="0,0,549.429,0" Background="Yellow" MouseLeftButtonDown="NodeDockLayer_MouseDown" Mouse.MouseMove="NodeDock_MouseMove">
                         </ScrollViewer>
-                        <Canvas  HorizontalAlignment="Left" Height="472" Margin="164,0,0,0" VerticalAlignment="Top" Width="540"
+                        <Canvas  HorizontalAlignment="Left" Height="472" Margin="169,0,0,0" VerticalAlignment="Top" Width="540"
                                  Mouse.MouseMove="NodeDock_MouseMove" MouseLeftButtonDown="NodeDockLayer_MouseDown" Background="Green"/>
 
                     </Grid>
