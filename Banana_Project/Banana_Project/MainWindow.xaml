@@ -8,38 +8,24 @@
         Title="MainWindow" Height="550" Width="725">
     <Grid>
         <StackPanel>
-            <Menu>
-                <MenuItem Header="파일">
-                    <MenuItem Header="새 파일"></MenuItem>
-                    <MenuItem Header="열기" Command="ApplicationCommands.Open"></MenuItem>
-                    <MenuItem Header="저장하기" Command="ApplicationCommands.Save"></MenuItem>
-                    <MenuItem Header="종료" Command="ApplicationCommands.Close"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="편집">
-                    <MenuItem Header="되돌리기" Command="ApplicationCommands.Undo" ></MenuItem>
-                    <MenuItem Header="다시 실행" Command="ApplicationCommands.Redo"></MenuItem>
-                    <MenuItem Header="복사" Command="ApplicationCommands.Copy"></MenuItem>
-                    <MenuItem Header="잘라내기" Command="ApplicationCommands.Cut"></MenuItem>
-                    <MenuItem Header="붙여넣기" Command="ApplicationCommands.Paste"></MenuItem>
-                    <MenuItem Header="모두 선택" Command="ApplicationCommands.SelectAll"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="도구">
-                    <MenuItem Header="찾기" Command="ApplicationCommands.Find"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="도움말">
-                    <MenuItem Header="도움말" Command="ApplicationCommands.Help"></MenuItem>
-                </MenuItem>
-            </Menu>
-
             <TabControl x:Name="tabControl" >
                 <TabItem Header="Node" Width="100" >
-                    <Grid Name="NodeDock" Mouse.MouseMove="NodeDock_MouseMove" MouseLeftButtonDown="NodeDockLayer_MouseDown" Background="Red">
-
-                        <ScrollViewer x:Name="NodeScroll" Height="472" Margin="0,0,549.429,0" Background="Yellow" MouseLeftButtonDown="NodeDockLayer_MouseDown" Mouse.MouseMove="NodeDock_MouseMove">
-                        </ScrollViewer>
-                        <Canvas  HorizontalAlignment="Left" Height="472" Margin="169,0,0,0" VerticalAlignment="Top" Width="540"
-                                 Mouse.MouseMove="NodeDock_MouseMove" MouseLeftButtonDown="NodeDockLayer_MouseDown" Background="Green"/>
-
+                    <Grid x:Name="GridList" Background="Beige" ShowGridLines="True">
+                        <!--List 비율을 1:5로 맞춤-->                  
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=".9*" />
+                            <RowDefinition Height=".1*" />
+                        </Grid.RowDefinitions>
+                        <ListBox x:Name="NodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown">
+                            
+                        </ListBox>
+                        <ListView x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop">
+                            <Button Content="test"/>
+                        </ListView>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Code Block" Width="100">
