@@ -6,46 +6,33 @@
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="725">
-  <Grid>
-    <StackPanel>
-      <Menu>
-        <MenuItem Header="파일">
-          <MenuItem Header="새 파일"></MenuItem>
-          <MenuItem Header="열기" Command="ApplicationCommands.Open"></MenuItem>
-          <MenuItem Header="저장하기" Command="ApplicationCommands.Save"></MenuItem>
-          <MenuItem Header="종료" Command="ApplicationCommands.Close"></MenuItem>
-        </MenuItem>
-        <MenuItem Header="편집">
-          <MenuItem Header="되돌리기" Command="ApplicationCommands.Undo" ></MenuItem>
-          <MenuItem Header="다시 실행" Command="ApplicationCommands.Redo"></MenuItem>
-          <MenuItem Header="복사" Command="ApplicationCommands.Copy"></MenuItem>
-          <MenuItem Header="잘라내기" Command="ApplicationCommands.Cut"></MenuItem>
-          <MenuItem Header="붙여넣기" Command="ApplicationCommands.Paste"></MenuItem>
-          <MenuItem Header="모두 선택" Command="ApplicationCommands.SelectAll"></MenuItem>
-        </MenuItem>
-        <MenuItem Header="도구">
-          <MenuItem Header="찾기" Command="ApplicationCommands.Find"></MenuItem>
-        </MenuItem>
-        <MenuItem Header="도움말">
-          <MenuItem Header="도움말" Command="ApplicationCommands.Help"></MenuItem>
-        </MenuItem>
-      </Menu>
-
-      <TabControl x:Name="tabControl" >
-        <TabItem Header="Node" Width="100" >
-          <DockPanel Name="NodeDock">
-            <Border DockPanel.Dock="Left" Width="200" Height="450" Background="AliceBlue" BorderThickness="1" BorderBrush="Black" >
-              <TextBlock Text="Modules" HorizontalAlignment="Center" Margin="29,0,29,378" VerticalAlignment="Top"  />
-            </Border>
-            <Border Background="White" BorderThickness="1" BorderBrush="Black" Height="450" >
-              <TextBlock Text="Module Canvas" HorizontalAlignment="Center" Height="18" VerticalAlignment="Top"  />
-            </Border>
-          </DockPanel>
-        </TabItem>
-        <TabItem Header="Code Block" Width="100">
-          <TextBox Name="CodeView" Width ="700" Height="450" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </TabItem>
-      </TabControl>
-    </StackPanel>
-  </Grid>
+    <Grid>
+        <StackPanel>
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="New File"></MenuItem>
+                    <MenuItem Header="Save"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Cut" Command="ApplicationCommands.Cut"></MenuItem>
+                </MenuItem>
+            </Menu>
+        
+        <TabControl x:Name="tabControl" >
+                <TabItem Header="Node" Width="100" >
+                    <DockPanel Name="NodeDock">
+                        <Border DockPanel.Dock="Left" Width="100" Height="400" Background="PaleGreen" BorderThickness="1" BorderBrush="Black" >
+                            <TextBlock Text="Arduino Module"  />
+                        </Border>
+                        <Border Background="White" BorderThickness="1" BorderBrush="Black" >
+                            <TextBlock Text="Module Canvars!!!"  />
+                        </Border>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Edit" Width="100">
+                    <TextBox Name="CodeView" Height="450" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ></TextBox>
+                </TabItem>
+            </TabControl>
+        </StackPanel>       
+    </Grid>
 </Window>
