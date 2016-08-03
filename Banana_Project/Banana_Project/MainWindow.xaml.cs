@@ -24,7 +24,6 @@ namespace Banana_Project
     public partial class MainWindow : Window
     {
         ListBox dragSource = null;
-        ObservableCollection<string> zoneList = new ObservableCollection<string>();
         ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
 
         public MainWindow()
@@ -34,20 +33,27 @@ namespace Banana_Project
 
             // Node List 높이를 지정하기 위해 설정... 이후 size가 변화될때마다 새로 설정이 필요함
             NodeList.Height = this.Height - 70;
+            CodeNodeList.Height = this.Height - 70;
             this.SizeChanged += new SizeChangedEventHandler(MainWindow_SizeChange);
-
-
-            //NodeList.ItemsSource = zoneList;
 
             SetNodeList();
         }
 
+        void Menu_Check(object sender, RoutedEventArgs e)
+        {
+            object ob = CodeNodeList.Items.GetItemAt(2);
+            CodeNodeList.Items.Remove(ob);
+            CodeNodeList.Items.Insert(4, ob);
+        }
         // Node 추가 할 리스트 설정
         void SetNodeList()
         {
             nodeObjectList.Add("Wifi Shield");
             nodeObjectList.Add("Switch");
             nodeObjectList.Add("Button");
+            nodeObjectList.Add("Test010101");
+            nodeObjectList.Add("hahahahahah");
+            nodeObjectList.Add("GGGGG");
             NodeList.ItemsSource = nodeObjectList;
         }  
         
@@ -55,64 +61,105 @@ namespace Banana_Project
         void MainWindow_SizeChange(object sender, SizeChangedEventArgs e)
         {
             NodeList.Height = this.Height - 70;
+            CodeNodeList.Height = this.Height - 70;
         }
 
         #region Drag&Drop
         void NodeListView_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Console.WriteLine("Node Click");
+
             ListBox parent = (ListBox)sender;
             dragSource = parent;
-            object data = GetDataFromListView (dragSource, e.GetPosition(parent));
-
+            object data = MouseEventHelper.GetDataFromNodeList(dragSource, e.GetPosition(parent));
+            if (data != null)
+                Console.WriteLine(data.ToString());
             if (data != null)
             {
                 DragDrop.DoDragDrop(parent, data, DragDropEffects.Move);
             }
         }
+
         
+        void ellipse1_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Grid da = e.Source as Grid;
+
+            if (da != null)
+            {
+                Console.WriteLine("Grid !!!!!!!!! : " + da.Uid);
+            }
+            //Mouse.Capture(ellipse1);
+        }
+
+
+
+        #endregion
+
 
         void CodeNode_Drop(object sender, DragEventArgs e)
         {
             Console.WriteLine("Drop event");
-            ListView parent = (ListView)sender;
-            object data = e.Data.GetData(typeof(string));
-            Console.WriteLine(e.Source.ToString());
-            parent.Items.Add(data);
-        }
 
-        // 마우스 아래 오브젝트 검색
-        private static object GetDataFromListView(ListBox source, Point point)
-        {
-            UIElement element = source.InputHitTest(point) as UIElement;
-            if (element != null)
+            if (e.Data.GetDataPresent("NodeList"))
             {
-                object data = DependencyProperty.UnsetValue;
-                while (data == DependencyProperty.UnsetValue)
-                {
-                    data = source.ItemContainerGenerator.ItemFromContainer(element);
+                object data = e.Data.GetData("NodeList");
+                UIElement droptarget = e.Source as UIElement;
+                ListBox parent = (ListBox)sender;
 
-                    if (data == DependencyProperty.UnsetValue)
-                    {
-                        element = VisualTreeHelper.GetParent(element) as UIElement;
-                    }
+                //Grid DynamicGrid = SetGridObject(data.ToString());
+                Grid DynamicGrid = ItemCreateHelper.SetGridObject(data.ToString());
 
-                    if (element == source)
-                    {
-                        return null;
-                    }
-                }
-
-                if (data != DependencyProperty.UnsetValue)
-                {
-                    return data;
-                }
+                parent.Items.Add(DynamicGrid);
             }
 
-            return null;
+            if (e.Data.GetDataPresent("UIElement"))
+            {
+
+            }
+
         }
-        #endregion
+        bool codeListBox_Click = false;
+        int currentClickID = -1;
+        void CodeNodeListView_MouseButtonDown(object sender, MouseEventArgs e)
+        {
+            if (codeListBox_Click == false)
+                codeListBox_Click = true;
+            ListBox ob = sender as ListBox;
+            Point po = e.GetPosition(ob);
+            DependencyObject ch = ob.InputHitTest(po) as DependencyObject;
+            int id = MouseEventHelper.findCodeListItemIndex(ob, ch);
+            currentClickID = id;
+            //Console.WriteLine("select object id : " + id);
+
+        }
+        void CodeNodeListView_MouseButtonUp(object sender, MouseEventArgs e)
+        {
+            if (codeListBox_Click == true)
+                codeListBox_Click = false;
+
+        }
+        void CodeNodeListView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (codeListBox_Click == false)
+                return;
+            ListBox ob = sender as ListBox;
+            Point po = e.GetPosition(ob);
+            DependencyObject ch = ob.InputHitTest(po) as DependencyObject;
+            int id = MouseEventHelper.findCodeListItemIndex(ob, ch);
+
+            //Console.WriteLine("current id : " + currentClickID + ",  select id : " + id);
+
+            if( (currentClickID != id) && (currentClickID != -1) && ( id != -1 ) )
+            {
+                object oot = CodeNodeList.Items.GetItemAt(currentClickID);
+                CodeNodeList.Items.Remove(oot);
+                CodeNodeList.Items.Insert(id, oot);
+                currentClickID = id;
+            }
+
+        }
+        
     }
 
-
+ 
 }

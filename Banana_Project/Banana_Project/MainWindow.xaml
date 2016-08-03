@@ -5,9 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="725">
-    <Grid>
+        Title="MainWindow" Height="860" Width="725"
+        WindowState="Maximized">
+    <Grid x:Name="MainGrid">
+        
         <StackPanel>
+            <Menu Height="25">
+                <MenuItem Header="test" Click="Menu_Check"></MenuItem>
+            </Menu>
             <TabControl x:Name="tabControl" >
                 <TabItem Header="Node" Width="100" >
                     <Grid x:Name="GridList" Background="Beige" ShowGridLines="True">
@@ -23,9 +28,13 @@
                         <ListBox x:Name="NodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown">
                             
                         </ListBox>
-                        <ListView x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop">
-                            <Button Content="test"/>
-                        </ListView>
+                        <ListBox x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop"
+                                 PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
+                                 PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
+                                 PreviewMouseMove="CodeNodeListView_MouseMove">
+                            
+                            
+                        </ListBox>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Code Block" Width="100">
