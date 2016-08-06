@@ -32,7 +32,25 @@ namespace Banana_Project
             nodeObjectList.Add("For_example");
             nodeObjectList.Add("If_example");
             nodeObjectList.Add("testing");
+
             return nodeObjectList;
+        }
+
+        public static BitmapImage SampleImage(string sampleName)
+        {
+            string currentPath = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = currentPath + @"..\..\sampleImage\" + sampleName + ".png";
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            if(!System.IO.File.Exists(filePath))
+            {
+                bi3.UriSource = new Uri(currentPath + @"..\..\sampleImage\err.png");
+            }
+            else
+                bi3.UriSource = new Uri(filePath);
+            bi3.EndInit();
+
+            return bi3;
         }
 
         public static List<string> SampleCodeExam(string sampleName)

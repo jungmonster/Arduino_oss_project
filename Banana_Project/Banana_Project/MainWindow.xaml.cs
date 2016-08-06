@@ -38,6 +38,15 @@ namespace Banana_Project
 
             NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
             SampleNodeList.ItemsSource = SampleTab.GetSampleList();
+
+            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            bi3.UriSource = new Uri(@"C:\sample.jpg");
+            bi3.EndInit();
+
+            //SampleImageViewImage.Stretch = Stretch.Fill;
+            SampleImageViewImage.Source = bi3;
         }
 
         void Menu_Check(object sender, RoutedEventArgs e)
@@ -53,8 +62,9 @@ namespace Banana_Project
         {
             NodeList.Height = this.Height - 60;
             CodeNodeList.Height = this.Height - 60;
-            SampleNodeList.Height = this.Height - 60;
-            SampleCode.Height = this.Height - 60;
+            SampleList.Height = this.Height - 60;
+            //SampleNodeList.Height = this.Height - 60;
+            //SampleCode.Height = (this.Height / 2 ) - 60;
         }
         #region SampleTab function
         void SampleNodeList_MouseDown(object sender, MouseButtonEventArgs e)
@@ -68,6 +78,11 @@ namespace Banana_Project
 
             Console.WriteLine("data : " + ob.GetData("NodeList").ToString());
             txtLine = SampleTab.SampleCodeExam(ob.GetData("NodeList").ToString());
+            BitmapImage bit = SampleTab.SampleImage(ob.GetData("NodeList").ToString());
+            if( bit != null)
+            {
+                SampleImageViewImage.Source = bit;
+            }
             if (txtLine != null)
             {
                 SampleCode.Clear();
