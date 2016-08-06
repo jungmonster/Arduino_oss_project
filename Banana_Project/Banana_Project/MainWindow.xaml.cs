@@ -65,17 +65,18 @@ namespace Banana_Project
             DataObject ob = data as DataObject;
             if (ob == null)
                 return;
-            
-            Console.WriteLine("data : " + ob.GetData("NodeList").ToString() );
+
+            Console.WriteLine("data : " + ob.GetData("NodeList").ToString());
             txtLine = SampleTab.SampleCodeExam(ob.GetData("NodeList").ToString());
-            if( txtLine != null)
+            if (txtLine != null)
             {
-                for(int i = 0; i < txtLine.Count; i++)
+                SampleCode.Clear();
+                for (int i = 0; i < txtLine.Count; i++)
                 {
-                    SampleCode.AppendText(txtLine[i]+"\n");
+                    SampleCode.AppendText(txtLine[i] + "\n");
                 }
-                
             }
+
         }
         #endregion
 

@@ -24,32 +24,32 @@ namespace Banana_Project
         {
             ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
 
-            nodeObjectList.Add("Wifi_shield");
-            nodeObjectList.Add("for function");
-            nodeObjectList.Add("run check~~~");
-            nodeObjectList.Add("Test010101");
-            nodeObjectList.Add("hahahahahah");
-            nodeObjectList.Add("GGGGG");
+            nodeObjectList.Add("Wifi_Shield");
+            nodeObjectList.Add("Web_Server");
+            nodeObjectList.Add("Bluetooth_4.0_Master");
+            nodeObjectList.Add("Bluetooth_4.0_Slave");
+            nodeObjectList.Add("GPS_module");
+            nodeObjectList.Add("For_example");
+            nodeObjectList.Add("If_example");
+            nodeObjectList.Add("testing");
             return nodeObjectList;
         }
 
         public static List<string> SampleCodeExam(string sampleName)
         {
-            string filePath = @"C:\Users\jungm\Documents\Arduino_oss_project\Banana_Project\Banana_Project\sampleCode\" + sampleName + ".txt";
+            string filePath = @"..\..\samplecode\" + sampleName + ".txt";
             int counter = 0;
             string line;
             List<string> txtline = new List<string>();
-            
-            System.IO.StreamReader file =   new System.IO.StreamReader(filePath);
-            if( file == null)
-            {
-                Console.WriteLine("none file!!!!!!!!");
+
+            //when file doesn't exist
+            if (!System.IO.File.Exists(filePath))
                 return null;
-            }
+
+            System.IO.StreamReader file = new System.IO.StreamReader(filePath);
             while ((line = file.ReadLine()) != null)
             {
-                
-                System.Console.WriteLine(line);
+                //System.Console.WriteLine(line);
                 txtline.Add(line);
                 counter++;
             }
