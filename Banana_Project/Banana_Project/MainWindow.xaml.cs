@@ -36,7 +36,7 @@ namespace Banana_Project
             CodeNodeList.Height = this.Height - 70;
             this.SizeChanged += new SizeChangedEventHandler(MainWindow_SizeChange);
 
-            SetNodeList();
+            NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
         }
 
         void Menu_Check(object sender, RoutedEventArgs e)
@@ -45,17 +45,7 @@ namespace Banana_Project
             CodeNodeList.Items.Remove(ob);
             CodeNodeList.Items.Insert(4, ob);
         }
-        // Node 추가 할 리스트 설정
-        void SetNodeList()
-        {
-            nodeObjectList.Add("Wifi Shield");
-            nodeObjectList.Add("Switch");
-            nodeObjectList.Add("Button");
-            nodeObjectList.Add("Test010101");
-            nodeObjectList.Add("hahahahahah");
-            nodeObjectList.Add("GGGGG");
-            NodeList.ItemsSource = nodeObjectList;
-        }  
+          
         
         //  windows size 변화에 따라 ListView Height 변경
         void MainWindow_SizeChange(object sender, SizeChangedEventArgs e)

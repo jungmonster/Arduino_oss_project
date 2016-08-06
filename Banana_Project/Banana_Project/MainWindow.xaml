@@ -40,6 +40,23 @@
                 <TabItem Header="Code Block" Width="100">
                     <TextBox Name="CodeView" Width ="700" Height="450" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </TabItem>
+                <TabItem Header="Sample" Width="100">
+                    <Grid x:Name="SampleList" Background="Beige" ShowGridLines="True">
+                        <!--List 비율을 1:5로 맞춤-->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=".9*" />
+                            <RowDefinition Height=".1*" />
+                        </Grid.RowDefinitions>
+                        <ListBox x:Name="SampleNodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown">
+
+                        </ListBox>
+                        <TextBox Grid.Column="1" Name="SampleCode"></TextBox>
+                    </Grid>
+                </TabItem>
             </TabControl>
 
         </StackPanel>

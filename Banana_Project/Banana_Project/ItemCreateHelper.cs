@@ -22,6 +22,20 @@ namespace Banana_Project
     {
         // ListBox item test Function
         static int counter = 1;
+
+        // Node List에 추가 내용
+        public static ObservableCollection<string> GetNodeList()
+        {
+            ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
+            nodeObjectList.Add("Wifi Shield");
+            nodeObjectList.Add("Switch");
+            nodeObjectList.Add("Button");
+            nodeObjectList.Add("Test010101");
+            nodeObjectList.Add("hahahahahah");
+            nodeObjectList.Add("GGGGG");
+            return nodeObjectList;
+        }
+
         public static Grid SetGridObject(string name)
         {
             Grid DynamicGrid = new Grid();
@@ -189,6 +203,37 @@ namespace Banana_Project
             DynamicGrid.RowDefinitions.Add(gridRow1);
             DynamicGrid.RowDefinitions.Add(gridRow2);
             DynamicGrid.RowDefinitions.Add(gridRow3);
+
+
+            return DynamicGrid;
+        }
+
+        public static Grid CodeItemPrintln(string UIDStirng)
+        {
+            Grid DynamicGrid = new Grid();
+            DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+            DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
+            DynamicGrid.ShowGridLines = true;
+            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
+            DynamicGrid.Uid = UIDStirng;
+
+
+            // Create Columns
+            ColumnDefinition gridCol1 = new ColumnDefinition();
+            gridCol1.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition gridCol2 = new ColumnDefinition();
+            gridCol2.Width = new GridLength(5, GridUnitType.Star);
+
+            DynamicGrid.ColumnDefinitions.Add(gridCol1);
+            DynamicGrid.ColumnDefinitions.Add(gridCol2);
+
+
+            // Create Rows
+            RowDefinition gridRow1 = new RowDefinition();
+            gridRow1.Height = new GridLength(45);
+
+            DynamicGrid.RowDefinitions.Add(gridRow1);
+
 
 
             return DynamicGrid;
