@@ -150,7 +150,7 @@ namespace Banana_Project
 
             //Console.WriteLine("current id : " + currentClickID + ",  select id : " + id);
 
-            if( (currentClickID != id) && (currentClickID != -1) && ( id != -1 ) )
+            if ( /*(currentClickID != id) &&*/ (currentClickID != -1) && ( id != -1 ) )
             {
                 object oot = CodeNodeList.Items.GetItemAt(currentClickID);
                 CodeNodeList.Items.Remove(oot);

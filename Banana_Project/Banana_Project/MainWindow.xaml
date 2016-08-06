@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
         Title="MainWindow" Height="860" Width="725"
+        WindowStyle="None" ResizeMode="NoResize"
         WindowState="Maximized">
     <Grid x:Name="MainGrid">
         
@@ -38,7 +39,8 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Code Block" Width="100">
-                    <TextBox Name="CodeView" Width ="700" Height="450" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox Name="CodeView" Width ="700" Height="450" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
+                             VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </TabItem>
                 <TabItem Header="Sample" Width="100">
                     <Grid x:Name="SampleList" Background="Beige" ShowGridLines="True">
@@ -54,7 +56,8 @@
                         <ListBox x:Name="SampleNodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="SampleNodeList_MouseDown">
 
                         </ListBox>
-                        <TextBox Grid.Column="1" Name="SampleCode" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"></TextBox>
+                        <TextBox Grid.Column="1" Name="SampleCode" 
+                                 TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"></TextBox>
                     </Grid>
                 </TabItem>
             </TabControl>

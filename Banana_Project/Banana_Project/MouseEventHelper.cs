@@ -31,10 +31,12 @@ namespace Banana_Project
             if (obj.GetType() == typeof(Grid))
             {
                 Grid item = obj as Grid;
-                if (MouseEventHelper.CheckCodeNodeUID(item.Uid))
-                {
+                //if (MouseEventHelper.CheckCodeNodeUID(item.Uid))
+                //{
+                //    return parent.Items.IndexOf(item);
+                //}
+                if(item != null)
                     return parent.Items.IndexOf(item);
-                }
                 else
                     return -1;
             }
@@ -46,10 +48,12 @@ namespace Banana_Project
                     Grid item = pt as Grid;
                     if (item == null)
                         return -1;
-                    if (MouseEventHelper.CheckCodeNodeUID(item.Uid))
-                    {
+                    //if (MouseEventHelper.CheckCodeNodeUID(item.Uid))
+                    //{
+                    //    return parent.Items.IndexOf(item);
+                    //}
+                    if (item != null)
                         return parent.Items.IndexOf(item);
-                    }
                     else
                         return -1;
                 }
