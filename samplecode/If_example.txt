@@ -1,0 +1,21 @@
+﻿void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  while(!Serial);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int n1, n2;
+  n1 = 20; //임시로 n1 n2 값 대입
+  n2 = 50;
+
+  Serial.println("IS n1 bigger than n2? ");
+
+  if(n1 > n2) //n1이 n2 보다 큰 경우
+    Serial.println("n1 is bigger than n2.");
+  else//n1이 n2 보다 작거나 같은 경우
+    Serial.println("n1 is smaller than n1.");
+    
+  delay(10000);//시리얼 모니터를 확인 하기 위한 지연시간
+}
