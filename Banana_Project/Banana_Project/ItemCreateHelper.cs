@@ -27,6 +27,8 @@ namespace Banana_Project
         public static ObservableCollection<string> GetNodeList()
         {
             ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
+            nodeObjectList.Add("println");
+
             nodeObjectList.Add("Wifi Shield");
             nodeObjectList.Add("Switch");
             nodeObjectList.Add("Button");
@@ -34,6 +36,16 @@ namespace Banana_Project
             nodeObjectList.Add("hahahahahah");
             nodeObjectList.Add("GGGGG");
             return nodeObjectList;
+        }
+        
+        public static Grid FindGetGridItem(string itemName)
+        {
+            if (itemName.Equals("println"))
+                return CodeItemPrintln(itemName);
+            //else if (itemName.Equals("Wifi Shield")) ;
+            //    return 
+            else
+                return SetGridObject(itemName);
         }
 
         public static Grid SetGridObject(string name)
@@ -211,6 +223,7 @@ namespace Banana_Project
         public static Grid CodeItemPrintln(string UIDStirng)
         {
             Grid DynamicGrid = new Grid();
+            DynamicGrid.Width = 600;
             DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
             DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
             DynamicGrid.ShowGridLines = true;
@@ -231,10 +244,29 @@ namespace Banana_Project
             // Create Rows
             RowDefinition gridRow1 = new RowDefinition();
             gridRow1.Height = new GridLength(45);
-
             DynamicGrid.RowDefinitions.Add(gridRow1);
 
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.Text = "println";
+            txtBlock1.FontSize = 14;
+            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumn(txtBlock1, 0);
 
+            TextBox txtBox1 = new TextBox();
+            txtBox1.FontSize = 14;
+            txtBox1.FontWeight = FontWeights.Bold;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtBox1, 0);
+            Grid.SetColumn(txtBox1, 1);
+
+            DynamicGrid.Children.Add(txtBlock1);
+            DynamicGrid.Children.Add(txtBox1);
 
             return DynamicGrid;
         }

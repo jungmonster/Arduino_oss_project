@@ -97,7 +97,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                Grid DynamicGrid = ItemCreateHelper.SetGridObject(data.ToString());
+                Grid DynamicGrid = ItemCreateHelper.FindGetGridItem( data.ToString() );
 
                 parent.Items.Add(DynamicGrid);
             }
