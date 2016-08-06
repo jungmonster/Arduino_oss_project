@@ -37,6 +37,7 @@ namespace Banana_Project
             this.SizeChanged += new SizeChangedEventHandler(MainWindow_SizeChange);
 
             NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
+            SampleNodeList.ItemsSource = SampleTab.GetSampleList();
         }
 
         void Menu_Check(object sender, RoutedEventArgs e)
@@ -50,14 +51,37 @@ namespace Banana_Project
         //  windows size 변화에 따라 ListView Height 변경
         void MainWindow_SizeChange(object sender, SizeChangedEventArgs e)
         {
-            NodeList.Height = this.Height - 70;
-            CodeNodeList.Height = this.Height - 70;
+            NodeList.Height = this.Height - 60;
+            CodeNodeList.Height = this.Height - 60;
+            SampleNodeList.Height = this.Height - 60;
+            SampleCode.Height = this.Height - 60;
         }
+        #region SampleTab function
+        void SampleNodeList_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ListBox parent = (ListBox)sender;
+            List<string> txtLine = null;
+            object data = MouseEventHelper.GetDataFromNodeList(parent, e.GetPosition(parent));
+            DataObject ob = data as DataObject;
+            if (ob == null)
+                return;
+            
+            Console.WriteLine("data : " + ob.GetData("NodeList").ToString() );
+            txtLine = SampleTab.SampleCodeExam(ob.GetData("NodeList").ToString());
+            if( txtLine != null)
+            {
+                for(int i = 0; i < txtLine.Count; i++)
+                {
+                    SampleCode.AppendText(txtLine[i]+"\n");
+                }
+                
+            }
+        }
+        #endregion
 
         #region Drag&Drop
         void NodeListView_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
             ListBox parent = (ListBox)sender;
             dragSource = parent;
             object data = MouseEventHelper.GetDataFromNodeList(dragSource, e.GetPosition(parent));
@@ -70,19 +94,6 @@ namespace Banana_Project
         }
 
         
-        void ellipse1_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Grid da = e.Source as Grid;
-
-            if (da != null)
-            {
-                Console.WriteLine("Grid !!!!!!!!! : " + da.Uid);
-            }
-            //Mouse.Capture(ellipse1);
-        }
-
-
-
         #endregion
 
 
