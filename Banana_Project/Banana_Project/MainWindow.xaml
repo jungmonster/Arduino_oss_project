@@ -27,7 +27,8 @@
                             <RowDefinition Height=".9*" />
                             <RowDefinition Height=".1*" />
                         </Grid.RowDefinitions>
-                        <ListBox x:Name="NodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown">
+                        <ListBox x:Name="NodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown"
+                                 FontSize="20">
                             
                         </ListBox>
                         <ListBox x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop"

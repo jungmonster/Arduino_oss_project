@@ -18,9 +18,6 @@ using System.Collections;
 
 namespace Banana_Project
 {
-    
-
-
     static class ItemCreateHelper
     {
         // ListBox item test Function
@@ -34,6 +31,7 @@ namespace Banana_Project
             nodeObjectList.Add("println");
             nodeObjectList.Add("Note");
             nodeObjectList.Add("Delay");
+            nodeObjectList.Add("Variable");
             nodeObjectList.Add("Wifi Shield");
             nodeObjectList.Add("Switch");
             nodeObjectList.Add("Button");
@@ -51,6 +49,8 @@ namespace Banana_Project
                 return CodeItem_Note("Note");
             else if (itemName.Equals("Delay"))
                 return CodeItem_Delay("Delay");
+            else if (itemName.Equals("Variable"))
+                return CodeItem_Variable("Variable");
 
             //else if (itemName.Equals("Wifi Shield")) ;
             //    return 
@@ -192,6 +192,7 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
+
         public static Grid CodeItemXXX(string UIDStirng)
         {
             Grid DynamicGrid = new Grid();
@@ -230,33 +231,7 @@ namespace Banana_Project
         }
         public static Grid CodeItemPrintln(string UIDStirng)
         {
-            Grid DynamicGrid = new Grid();
-            DynamicGrid.Width = itemWidth;
-            DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
-            DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
-            DynamicGrid.ShowGridLines = true;
-            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
-            DynamicGrid.Uid = UIDStirng;
-
-
-            // Create Columns
-            ColumnDefinition gridCol1 = new ColumnDefinition();
-            gridCol1.Width = new GridLength(1, GridUnitType.Star);
-            ColumnDefinition gridCol2 = new ColumnDefinition();
-            gridCol2.Width = new GridLength(4, GridUnitType.Star);
-            DynamicGrid.ColumnDefinitions.Add(gridCol1);
-            DynamicGrid.ColumnDefinitions.Add(gridCol2);
-
-            // Create Rows
-            RowDefinition gridRow1 = new RowDefinition();
-            gridRow1.Height = new GridLength(1, GridUnitType.Star);
-            RowDefinition gridRow2 = new RowDefinition();
-            gridRow2.Height = new GridLength(3, GridUnitType.Star);
-            RowDefinition gridRow3 = new RowDefinition();
-            gridRow3.Height = new GridLength(1, GridUnitType.Star);
-            DynamicGrid.RowDefinitions.Add(gridRow1);
-            DynamicGrid.RowDefinitions.Add(gridRow2);
-            DynamicGrid.RowDefinitions.Add(gridRow3);
+            Grid DynamicGrid = GetDynamicGrid2x3(UIDStirng);
 
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
@@ -308,31 +283,7 @@ namespace Banana_Project
         }
         public static Grid CodeItem_Note(string UIDStirng)
         {
-            Grid DynamicGrid = new Grid();
-            DynamicGrid.Width = itemWidth;
-            DynamicGrid.HorizontalAlignment = HorizontalAlignment.Center;
-            DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
-            DynamicGrid.ShowGridLines = true;
-            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
-            DynamicGrid.Uid = UIDStirng;
-
-
-            // Create Columns
-            ColumnDefinition gridCol1 = new ColumnDefinition();
-            gridCol1.Width = new GridLength(1, GridUnitType.Star);
-            
-            DynamicGrid.ColumnDefinitions.Add(gridCol1);
-            
-            // Create Rows
-            RowDefinition gridRow1 = new RowDefinition();
-            gridRow1.Height = new GridLength(1, GridUnitType.Star);
-            RowDefinition gridRow2 = new RowDefinition();
-            gridRow2.Height = new GridLength(3, GridUnitType.Star);
-            RowDefinition gridRow3 = new RowDefinition();
-            gridRow3.Height = new GridLength(1, GridUnitType.Star);
-            DynamicGrid.RowDefinitions.Add(gridRow1);
-            DynamicGrid.RowDefinitions.Add(gridRow2);
-            DynamicGrid.RowDefinitions.Add(gridRow3);
+            Grid DynamicGrid = GetDynamicGrid1x3(UIDStirng);
 
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
@@ -378,34 +329,7 @@ namespace Banana_Project
         }
         public static Grid CodeItem_Delay(string UIDStirng)
         {
-            Grid DynamicGrid = new Grid();
-            DynamicGrid.Width = itemWidth;
-            DynamicGrid.HorizontalAlignment = HorizontalAlignment.Center;
-
-            DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
-            DynamicGrid.ShowGridLines = true;
-            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
-            DynamicGrid.Uid = UIDStirng;
-
-
-            // Create Columns
-            ColumnDefinition gridCol1 = new ColumnDefinition();
-            gridCol1.Width = new GridLength(1, GridUnitType.Star);
-            ColumnDefinition gridCol2 = new ColumnDefinition();
-            gridCol2.Width = new GridLength(4, GridUnitType.Star);
-            DynamicGrid.ColumnDefinitions.Add(gridCol1);
-            DynamicGrid.ColumnDefinitions.Add(gridCol2);
-
-            // Create Rows
-            RowDefinition gridRow1 = new RowDefinition();
-            gridRow1.Height = new GridLength(1, GridUnitType.Star);
-            RowDefinition gridRow2 = new RowDefinition();
-            gridRow2.Height = new GridLength(3, GridUnitType.Star);
-            RowDefinition gridRow3 = new RowDefinition();
-            gridRow3.Height = new GridLength(1, GridUnitType.Star);
-            DynamicGrid.RowDefinitions.Add(gridRow1);
-            DynamicGrid.RowDefinitions.Add(gridRow2);
-            DynamicGrid.RowDefinitions.Add(gridRow3);
+            Grid DynamicGrid = GetDynamicGrid2x3(UIDStirng);
 
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
@@ -451,6 +375,165 @@ namespace Banana_Project
             DynamicGrid.Children.Add(txtTitle);
             DynamicGrid.Children.Add(txtBox1);
             DynamicGrid.Children.Add(txtBlock2);
+
+            return DynamicGrid;
+        }
+        public static Grid CodeItem_Variable(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
+
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "▼";
+            txtBlock1.FontSize = 14;
+            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 3);
+
+            TextBlock txtTitle = new TextBlock();
+            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            txtTitle.Text = "Variable";
+            txtTitle.FontSize = 14;
+            txtTitle.FontWeight = FontWeights.Bold;
+            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtTitle, 1);
+            Grid.SetColumn(txtTitle, 0);
+
+            CheckBox checkBox = new CheckBox();
+            checkBox.HorizontalAlignment = HorizontalAlignment.Center;
+            checkBox.Content = "사용여부";
+            checkBox.FontSize = 14;
+            checkBox.IsChecked = true;
+            Grid.SetRow(checkBox, 1);
+            Grid.SetColumn(checkBox, 1); 
+
+            TextBox txtBox1 = new TextBox();
+            txtBox1.FontSize = 14;
+            txtBox1.FontWeight = FontWeights.Bold;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBox1, 1);
+            Grid.SetColumn(txtBox1, 2);
+
+
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "▼";
+            txtBlock2.FontSize = 14;
+            txtBlock2.FontWeight = FontWeights.Bold;
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtBlock2, 2);
+            Grid.SetColumnSpan(txtBlock2, 3);
+
+            DynamicGrid.Children.Add(txtBlock1);
+            DynamicGrid.Children.Add(txtTitle);
+            DynamicGrid.Children.Add(checkBox);
+            DynamicGrid.Children.Add(txtBox1);
+            DynamicGrid.Children.Add(txtBlock2);
+
+            return DynamicGrid;
+        }
+
+        static Grid GetDynamicGrid3x3(string UIDStirng)
+        {
+            Grid DynamicGrid = new Grid();
+            DynamicGrid.Width = itemWidth;
+            DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+            DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
+            DynamicGrid.ShowGridLines = true;
+            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
+            DynamicGrid.Uid = UIDStirng;
+
+
+            // Create Columns
+            ColumnDefinition gridCol1 = new ColumnDefinition();
+            gridCol1.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition gridCol2 = new ColumnDefinition();
+            gridCol2.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition gridCol3 = new ColumnDefinition();
+            gridCol2.Width = new GridLength(1, GridUnitType.Star);
+            DynamicGrid.ColumnDefinitions.Add(gridCol1);
+            DynamicGrid.ColumnDefinitions.Add(gridCol2);
+            DynamicGrid.ColumnDefinitions.Add(gridCol3);
+
+            // Create Rows
+            RowDefinition gridRow1 = new RowDefinition();
+            gridRow1.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition gridRow2 = new RowDefinition();
+            gridRow2.Height = new GridLength(3, GridUnitType.Star);
+            RowDefinition gridRow3 = new RowDefinition();
+            gridRow3.Height = new GridLength(1, GridUnitType.Star);
+            DynamicGrid.RowDefinitions.Add(gridRow1);
+            DynamicGrid.RowDefinitions.Add(gridRow2);
+            DynamicGrid.RowDefinitions.Add(gridRow3);
+
+            return DynamicGrid;
+        }
+        static Grid GetDynamicGrid2x3(string UIDStirng)
+        {
+            Grid DynamicGrid = new Grid();
+            DynamicGrid.Width = itemWidth;
+            DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+            DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
+            DynamicGrid.ShowGridLines = true;
+            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
+            DynamicGrid.Uid = UIDStirng;
+
+
+            // Create Columns
+            ColumnDefinition gridCol1 = new ColumnDefinition();
+            gridCol1.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition gridCol2 = new ColumnDefinition();
+            gridCol2.Width = new GridLength(4, GridUnitType.Star);
+            DynamicGrid.ColumnDefinitions.Add(gridCol1);
+            DynamicGrid.ColumnDefinitions.Add(gridCol2);
+
+            // Create Rows
+            RowDefinition gridRow1 = new RowDefinition();
+            gridRow1.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition gridRow2 = new RowDefinition();
+            gridRow2.Height = new GridLength(3, GridUnitType.Star);
+            RowDefinition gridRow3 = new RowDefinition();
+            gridRow3.Height = new GridLength(1, GridUnitType.Star);
+            DynamicGrid.RowDefinitions.Add(gridRow1);
+            DynamicGrid.RowDefinitions.Add(gridRow2);
+            DynamicGrid.RowDefinitions.Add(gridRow3);
+
+            return DynamicGrid;
+        }
+        static Grid GetDynamicGrid1x3(string UIDStirng)
+        {
+            Grid DynamicGrid = new Grid();
+            DynamicGrid.Width = itemWidth;
+            DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+            DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
+            DynamicGrid.ShowGridLines = true;
+            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
+            DynamicGrid.Uid = UIDStirng;
+
+
+            // Create Columns
+            ColumnDefinition gridCol1 = new ColumnDefinition();
+            gridCol1.Width = new GridLength(1, GridUnitType.Star);
+            DynamicGrid.ColumnDefinitions.Add(gridCol1);
+
+            // Create Rows
+            RowDefinition gridRow1 = new RowDefinition();
+            gridRow1.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition gridRow2 = new RowDefinition();
+            gridRow2.Height = new GridLength(3, GridUnitType.Star);
+            RowDefinition gridRow3 = new RowDefinition();
+            gridRow3.Height = new GridLength(1, GridUnitType.Star);
+            DynamicGrid.RowDefinitions.Add(gridRow1);
+            DynamicGrid.RowDefinitions.Add(gridRow2);
+            DynamicGrid.RowDefinitions.Add(gridRow3);
 
             return DynamicGrid;
         }
