@@ -5,6 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
+<<<<<<< HEAD
+        Title="MainWindow" Height="550" Width="725">
+    <Grid>
+        <StackPanel>
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="New File"></MenuItem>
+                    <MenuItem Header="Save"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Cut" Command="ApplicationCommands.Cut"></MenuItem>
+                </MenuItem>
+            </Menu>
+        
+        <TabControl x:Name="tabControl" >
+                <TabItem Header="Node" Width="100" >
+                    <DockPanel Name="NodeDock">
+                        <Border DockPanel.Dock="Left" Width="100" Height="400" Background="PaleGreen" BorderThickness="1" BorderBrush="Black" >
+                            <TextBlock Text="Arduino Module"  />
+                        </Border>
+                        <Border Background="White" BorderThickness="1" BorderBrush="Black" >
+                            <TextBlock Text="Module Canvars!!!"  />
+                        </Border>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Edit" Width="100">
+                    <TextBox Name="CodeView" Height="450" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ></TextBox>
+                </TabItem>
+            </TabControl>
+        </StackPanel>       
+=======
         Title="MainWindow" Height="560" Width="725"
         WindowStyle="None" ResizeMode="NoResize"
         WindowState="Maximized">
@@ -75,5 +106,6 @@
             </TabControl>
 
         </StackPanel>
+>>>>>>> 67af9f42e2cc74a371ac4494a0d59df40eeb3e56
     </Grid>
 </Window>
