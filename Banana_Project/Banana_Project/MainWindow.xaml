@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="725">
+        Title="MainWindow" Height="560" Width="725"
+        WindowStyle="None" ResizeMode="NoResize"
+        WindowState="Maximized">
+
     <Grid x:Name="MainGrid">
 
         <StackPanel>
@@ -24,21 +27,22 @@
                             <RowDefinition Height=".9*" />
                             <RowDefinition Height=".1*" />
                         </Grid.RowDefinitions>
-                        <ListBox x:Name="NodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown">
+                        <ListBox x:Name="NodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown"
+                                 FontSize="20">
 
                         </ListBox>
                         <ListBox x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop"
-                                PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
-                                PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
-                                PreviewMouseMove="CodeNodeListView_MouseMove">
-
-
+                                 PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
+                                 PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
+                                 PreviewMouseMove="CodeNodeListView_MouseMove">
                         </ListBox>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Code Block" Width="100">
-                    <TextBox Name="CodeView" Width ="700" Height="450" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
-                            VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TabItem Header="Code Block" Width="100" Selector.Selected="Select_CodeVIewTab">
+                    <DockPanel x:Name="GeneraterTab">
+                        <TextBox Name="CodeView" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
+                             VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </DockPanel>
                 </TabItem>
                 <TabItem Header="Sample" Width="100">
                     <Grid x:Name="SampleList" Background="Beige" ShowGridLines="True">
@@ -52,15 +56,15 @@
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
                         <ListBox x:Name="SampleNodeList" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                                PreviewMouseLeftButtonDown="SampleNodeList_MouseDown">
+                                 PreviewMouseLeftButtonDown="SampleNodeList_MouseDown">
 
                         </ListBox>
                         <TextBox Grid.Column="1" Grid.Row="0" Name="SampleCode" 
-                                TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True">
+                                 TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True">
                         </TextBox>
                         <DockPanel x:Name="SampleImageView" Grid.Column="1" Grid.Row="1">
                             <Label x:Name="SampleImageVIewTitle" DockPanel.Dock="Top" Height="30" Content="  결과"
-                                Background="Green"></Label>
+                                   Background="Green"></Label>
 
                             <Image x:Name="SampleImageViewImage"  Height="400">
 
@@ -70,6 +74,7 @@
                     </Grid>
                 </TabItem>
             </TabControl>
+
         </StackPanel>
     </Grid>
 </Window>
