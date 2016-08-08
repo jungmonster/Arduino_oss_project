@@ -40,6 +40,7 @@
                 <TabItem Header="Code Block" Width="100" Selector.Selected="Select_CodeVIewTab">
                     <DockPanel x:Name="GeneraterTab">
                         <TextBox Name="CodeView" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
+                                 FontSize="20  "
                              VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </DockPanel>
                 </TabItem>
@@ -49,16 +50,17 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="5*"/>
+                            
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="2*" />
                         </Grid.RowDefinitions>
                         <ListBox x:Name="SampleNodeList" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                                  PreviewMouseLeftButtonDown="SampleNodeList_MouseDown">
 
                         </ListBox>
-                        <TextBox Grid.Column="1" Grid.Row="0" Name="SampleCode" 
+                        <TextBox Grid.Column="1" Grid.Row="0" Name="SampleCode" FontSize="20"
                                  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True">
                         </TextBox>
                         <DockPanel x:Name="SampleImageView" Grid.Column="1" Grid.Row="1">
