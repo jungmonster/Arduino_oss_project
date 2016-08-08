@@ -5,42 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
-<<<<<<< HEAD
         Title="MainWindow" Height="550" Width="725">
-    <Grid>
-        <StackPanel>
-            <Menu>
-                <MenuItem Header="File">
-                    <MenuItem Header="New File"></MenuItem>
-                    <MenuItem Header="Save"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Cut" Command="ApplicationCommands.Cut"></MenuItem>
-                </MenuItem>
-            </Menu>
-        
-        <TabControl x:Name="tabControl" >
-                <TabItem Header="Node" Width="100" >
-                    <DockPanel Name="NodeDock">
-                        <Border DockPanel.Dock="Left" Width="100" Height="400" Background="PaleGreen" BorderThickness="1" BorderBrush="Black" >
-                            <TextBlock Text="Arduino Module"  />
-                        </Border>
-                        <Border Background="White" BorderThickness="1" BorderBrush="Black" >
-                            <TextBlock Text="Module Canvars!!!"  />
-                        </Border>
-                    </DockPanel>
-                </TabItem>
-                <TabItem Header="Edit" Width="100">
-                    <TextBox Name="CodeView" Height="450" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" ></TextBox>
-                </TabItem>
-            </TabControl>
-        </StackPanel>       
-=======
-        Title="MainWindow" Height="560" Width="725"
-        WindowStyle="None" ResizeMode="NoResize"
-        WindowState="Maximized">
     <Grid x:Name="MainGrid">
-        
+
         <StackPanel>
             <Menu Height="25">
                 <MenuItem Header="test" Click="Menu_Check"></MenuItem>
@@ -48,7 +15,7 @@
             <TabControl x:Name="tabControl" >
                 <TabItem Header="Node" Width="100" >
                     <Grid x:Name="GridList" Background="Beige" ShowGridLines="True">
-                        <!--List 비율을 1:5로 맞춤-->                  
+                        <!--List 비율을 1:5로 맞춤-->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="5*"/>
@@ -58,20 +25,20 @@
                             <RowDefinition Height=".1*" />
                         </Grid.RowDefinitions>
                         <ListBox x:Name="NodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown">
-                            
+
                         </ListBox>
                         <ListBox x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop"
-                                 PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
-                                 PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
-                                 PreviewMouseMove="CodeNodeListView_MouseMove">
-                            
-                            
+                                PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
+                                PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
+                                PreviewMouseMove="CodeNodeListView_MouseMove">
+
+
                         </ListBox>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Code Block" Width="100">
                     <TextBox Name="CodeView" Width ="700" Height="450" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
-                             VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </TabItem>
                 <TabItem Header="Sample" Width="100">
                     <Grid x:Name="SampleList" Background="Beige" ShowGridLines="True">
@@ -85,26 +52,24 @@
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
                         <ListBox x:Name="SampleNodeList" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                                 PreviewMouseLeftButtonDown="SampleNodeList_MouseDown">
+                                PreviewMouseLeftButtonDown="SampleNodeList_MouseDown">
 
                         </ListBox>
                         <TextBox Grid.Column="1" Grid.Row="0" Name="SampleCode" 
-                                 TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True">
+                                TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True">
                         </TextBox>
                         <DockPanel x:Name="SampleImageView" Grid.Column="1" Grid.Row="1">
                             <Label x:Name="SampleImageVIewTitle" DockPanel.Dock="Top" Height="30" Content="  결과"
-                                   Background="Green"></Label>
-                            
+                                Background="Green"></Label>
+
                             <Image x:Name="SampleImageViewImage"  Height="400">
-                                
+
                             </Image>
                         </DockPanel>
-                        
+
                     </Grid>
                 </TabItem>
             </TabControl>
-
         </StackPanel>
->>>>>>> 67af9f42e2cc74a371ac4494a0d59df40eeb3e56
     </Grid>
 </Window>
