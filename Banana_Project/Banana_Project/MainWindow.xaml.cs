@@ -24,6 +24,7 @@ namespace Banana_Project
     public partial class MainWindow : Window
     {
         ListBox dragSource = null;
+        CodeGenerator codegnt = new CodeGenerator();
         ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
 
         public MainWindow()
@@ -39,14 +40,6 @@ namespace Banana_Project
             NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
             SampleNodeList.ItemsSource = SampleTab.GetSampleList();
 
-            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
-            BitmapImage bi3 = new BitmapImage();
-            bi3.BeginInit();
-            bi3.UriSource = new Uri(@"C:\sample.jpg");
-            bi3.EndInit();
-
-            //SampleImageViewImage.Stretch = Stretch.Fill;
-            SampleImageViewImage.Source = bi3;
         }
 
         void Menu_Check(object sender, RoutedEventArgs e)
@@ -54,15 +47,33 @@ namespace Banana_Project
             object ob = CodeNodeList.Items.GetItemAt(2);
             CodeNodeList.Items.Remove(ob);
             CodeNodeList.Items.Insert(4, ob);
+
         }
-          
-        
+
+        void Select_CodeVIewTab(object sender, RoutedEventArgs e)
+        {
+            //Console.WriteLine("Select Code Tab");
+            codegnt.CodeGeneratorClear();                       // init
+            codegnt.ChangeToCode(CodeNodeList);
+            List<string> loop = codegnt.GetLoopString();
+            CodeView.Clear();
+
+            for (int i = 0; i < loop.Count; i++)
+            {
+                CodeView.AppendText(loop[i] + "\n");
+            }
+        }
+
+
         //  windows size 변화에 따라 ListView Height 변경
         void MainWindow_SizeChange(object sender, SizeChangedEventArgs e)
         {
             NodeList.Height = this.Height - 60;
             CodeNodeList.Height = this.Height - 60;
             SampleList.Height = this.Height - 60;
+            GeneraterTab.Height = this.Height - 60;
+            CodeView.Width = this.Width;
+            CodeView.Height = this.Height - 60;
             //SampleNodeList.Height = this.Height - 60;
             //SampleCode.Height = (this.Height / 2 ) - 60;
         }
@@ -79,7 +90,7 @@ namespace Banana_Project
             Console.WriteLine("data : " + ob.GetData("NodeList").ToString());
             txtLine = SampleTab.SampleCodeExam(ob.GetData("NodeList").ToString());
             BitmapImage bit = SampleTab.SampleImage(ob.GetData("NodeList").ToString());
-            if( bit != null)
+            if (bit != null)
             {
                 SampleImageViewImage.Source = bit;
             }
@@ -109,7 +120,7 @@ namespace Banana_Project
             }
         }
 
-        
+
         #endregion
 
 
@@ -124,7 +135,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                Grid DynamicGrid = ItemCreateHelper.FindGetGridItem( data.ToString() );
+                Grid DynamicGrid = ItemCreateHelper.FindGetGridItem(data.ToString());
 
                 parent.Items.Add(DynamicGrid);
             }
@@ -166,7 +177,7 @@ namespace Banana_Project
 
             //Console.WriteLine("current id : " + currentClickID + ",  select id : " + id);
 
-            if ( /*(currentClickID != id) &&*/ (currentClickID != -1) && ( id != -1 ) )
+            if ( /*(currentClickID != id) &&*/ (currentClickID != -1) && (id != -1))
             {
                 object oot = CodeNodeList.Items.GetItemAt(currentClickID);
                 CodeNodeList.Items.Remove(oot);
@@ -175,8 +186,8 @@ namespace Banana_Project
             }
 
         }
-        
+
     }
 
- 
+
 }
