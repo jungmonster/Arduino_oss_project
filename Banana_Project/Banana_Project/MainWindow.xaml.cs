@@ -39,11 +39,6 @@ namespace Banana_Project
 
             NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
             SampleNodeList.ItemsSource = SampleTab.GetSampleList();
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> 899a036e3cb312d8a0579101f5297baa3ccca41f
         }
 
         void Menu_Check(object sender, RoutedEventArgs e)
@@ -51,11 +46,6 @@ namespace Banana_Project
             object ob = CodeNodeList.Items.GetItemAt(2);
             CodeNodeList.Items.Remove(ob);
             CodeNodeList.Items.Insert(4, ob);
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> 899a036e3cb312d8a0579101f5297baa3ccca41f
         }
 
         void Select_CodeVIewTab(object sender, RoutedEventArgs e)
@@ -65,11 +55,7 @@ namespace Banana_Project
             codegnt.ChangeToCode(CodeNodeList);
             List<string> loop = codegnt.GetLoopString();
             CodeView.Clear();
-<<<<<<< HEAD
-            
-=======
 
->>>>>>> 899a036e3cb312d8a0579101f5297baa3ccca41f
             for (int i = 0; i < loop.Count; i++)
             {
                 CodeView.AppendText(loop[i] + "\n");

@@ -8,11 +8,7 @@
         Title="MainWindow" Height="560" Width="725"
         WindowStyle="None" ResizeMode="NoResize"
         WindowState="Maximized">
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 899a036e3cb312d8a0579101f5297baa3ccca41f
     <Grid x:Name="MainGrid">
 
         <StackPanel>
@@ -33,11 +29,7 @@
                         </Grid.RowDefinitions>
                         <ListBox x:Name="NodeList" Grid.Column="0" Grid.Row="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown"
                                  FontSize="20">
-<<<<<<< HEAD
-                            
-=======
 
->>>>>>> 899a036e3cb312d8a0579101f5297baa3ccca41f
                         </ListBox>
                         <ListBox x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop"
                                  PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
@@ -48,12 +40,8 @@
                 </TabItem>
                 <TabItem Header="Code Block" Width="100" Selector.Selected="Select_CodeVIewTab">
                     <DockPanel x:Name="GeneraterTab">
-                        <TextBox Name="CodeView" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
-<<<<<<< HEAD
-                                 FontSize="20  "
-=======
->>>>>>> 899a036e3cb312d8a0579101f5297baa3ccca41f
-                             VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Name="CodeView" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" FontSize="20"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </DockPanel>
                 </TabItem>
                 <TabItem Header="Sample" Width="100">
@@ -62,7 +50,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="5*"/>
-                            
+
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="3*" />
