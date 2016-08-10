@@ -13,7 +13,9 @@
 
         <StackPanel>
             <Menu Height="25">
-                <MenuItem Header="test" Click="Menu_Check"></MenuItem>
+                <MenuItem Header="File">
+                    <MenuItem Header="Save" Click="SaveMenu_Click"/>
+                </MenuItem>
             </Menu>
             <TabControl x:Name="tabControl" >
                 <TabItem Header="Node" Width="100" >
