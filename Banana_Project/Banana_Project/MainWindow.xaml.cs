@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
-using System.Collections;
+using Microsoft.Win32;
+using System.IO;
 
 namespace Banana_Project
 {
@@ -185,6 +178,24 @@ namespace Banana_Project
 
         }
 
+        private void SaveMenu_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "ino|*.ino";
+            saveFileDialog.Title = "Save a Code Block";
+            saveFileDialog.ShowDialog();
+
+            if (saveFileDialog.FileName != "")
+            {
+                using (FileStream fs = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                {
+                    StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+                    sw.WriteLine(CodeView.Text);
+                    sw.Flush();
+                    MessageBox.Show("Save Complete", "Save");
+                }
+            }
+        }
     }
 
 
