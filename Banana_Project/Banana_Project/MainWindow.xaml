@@ -13,7 +13,9 @@
 
         <StackPanel>
             <Menu Height="25">
-                <MenuItem Header="test" Click="Menu_Check"></MenuItem>
+                <MenuItem Header="File">
+                    <MenuItem Header="Save" Click="SaveMenu_Click"/>
+                </MenuItem>
             </Menu>
             <TabControl x:Name="tabControl" >
                 <TabItem Header="Node" Width="100" >
@@ -40,7 +42,7 @@
                 </TabItem>
                 <TabItem Header="Code Block" Width="100" Selector.Selected="Select_CodeVIewTab">
                     <DockPanel x:Name="GeneraterTab">
-                        <TextBox Name="CodeView" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
+                        <TextBox x:Name="CodeView" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
                              VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </DockPanel>
                 </TabItem>
