@@ -23,6 +23,8 @@ namespace Banana_Project
         public MainWindow()
         {
             InitializeComponent();
+            this.Height = SystemParameters.MaximizedPrimaryScreenHeight;
+            this.Width = SystemParameters.MaximizedPrimaryScreenWidth;
             NodeList.MouseDown += NodeListView_MouseDown;
 
             // Node List 높이를 지정하기 위해 설정... 이후 size가 변화될때마다 새로 설정이 필요함
@@ -87,10 +89,10 @@ namespace Banana_Project
             }
             if (txtLine != null)
             {
-                SampleCode.Clear();
+                sampleCode.Clear();
                 for (int i = 0; i < txtLine.Count; i++)
                 {
-                    SampleCode.AppendText(txtLine[i] + "\n");
+                    sampleCode.AppendText(txtLine[i] + "\n");
                 }
             }
 
@@ -187,13 +189,34 @@ namespace Banana_Project
 
             if (saveFileDialog.FileName != "")
             {
+
                 using (FileStream fs = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 {
                     StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-                    sw.WriteLine(CodeView.Text);
+                    if (tabControl.SelectedIndex == 2)
+                        sw.WriteLine(sampleCode.Text);
+                    else
+                        sw.WriteLine(CodeView.Text);
                     sw.Flush();
                     MessageBox.Show("Save Complete", "Save");
                 }
+            }
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Resize_Click(object sender, RoutedEventArgs e)
+        {
+            NodeList.Height = NodeDockPanel.ActualHeight;
+        }
+
+        private void Window_Resize(object sender, SizeChangedEventArgs e)
+        {
+            if(mainWindow.WindowState == WindowState.Maximized) { 
+                NodeList.Height = NodeDockPanel.ActualHeight;
             }
         }
     }
