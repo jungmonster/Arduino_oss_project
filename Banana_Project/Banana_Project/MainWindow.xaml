@@ -6,8 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
-        SizeChanged="Window_Resize"
-        Title="MainWindow" Height="560" Width="725"
+        Title="MainWindow" Height="740" Width="793"
         ResizeMode="CanResize" WindowState="Maximized">
 
     <Window.CommandBindings>
@@ -19,96 +18,112 @@
         <Menu Height="25" DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="_Save" Click="SaveMenu_Click" InputGestureText="Ctrl+S"/>
-                <MenuItem Header="_Resize" Click="Resize_Click" />
             </MenuItem>
         </Menu>
-        <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" 
+        <TabControl x:Name="tabControl"
                     DockPanel.Dock="Bottom">
             <TabItem Header="Node" Width="100" VerticalAlignment="Stretch" >
-                <!--<Grid x:Name="GridList" Background="Beige">
-                    --><!--List 비율을 1:5로 맞춤--><!--
+                <Grid x:Name="GridList" Background="Beige"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".1*" />
-                        <ColumnDefinition Width=".4*"/>
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="2"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <ListBox x:Name="NodeList" Grid.Column="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown" 
-                             FontSize="20" 
-                             Margin="5"
+                             FontSize="15" 
                              Height="Auto"
                              VerticalAlignment="Stretch"
-                             HorizontalAlignment="Stretch">
+                             HorizontalAlignment="Stretch"/>
 
-                    </ListBox>
-                    <ListBox x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop"
-                                PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
-                                PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
-                                PreviewMouseMove="CodeNodeListView_MouseMove"
-                                Margin="5"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch"
-                                >
-
-                    </ListBox>
-                </Grid>-->
-                <DockPanel x:Name="NodeDockPanel" Background="Blue">
-                    <ListBox x:Name="NodeList" Grid.Column="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown" 
-                             FontSize="20" 
-                             Margin="5"
-                             DockPanel.Dock="Left"
-                             Width="250"
-                             Height="Auto"
+                    <GridSplitter Grid.Column="1" 
+                             HorizontalAlignment="Stretch" 
                              VerticalAlignment="Stretch"
-                             HorizontalAlignment="Stretch">
-                    </ListBox>
-                    <ListBox x:Name="CodeNodeList" Grid.Column="1" AllowDrop="True" Drop="CodeNode_Drop"
-                             DockPanel.Dock="Right"
-                                PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
-                                PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
-                                PreviewMouseMove="CodeNodeListView_MouseMove"
-                                Margin="5"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch"
-                                >
+                             Background="Silver" 
+                             ShowsPreview="true"
+                             ResizeDirection="Columns"
+                             />
 
-                    </ListBox>
-                </DockPanel>
+                    <ListBox x:Name="CodeNodeList" Grid.Column="2" AllowDrop="True" Drop="CodeNode_Drop"
+                             PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
+                             PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
+                             PreviewMouseMove="CodeNodeListView_MouseMove"
+                             VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch"
+                                />
+                </Grid>
             </TabItem>
             <TabItem Header="Code Block" Width="100" Selector.Selected="Select_CodeVIewTab" VerticalAlignment="Stretch">
                 <DockPanel x:Name="GeneraterTab">
-                    <TextBox Name="CodeView" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" FontSize="20"
-                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox Name="CodeView" 
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Visible"
+                            AcceptsReturn="True"
+                            FontSize="15"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch" />
                 </DockPanel>
             </TabItem>
+
             <TabItem Header="Sample" Width="100">
-                <Grid x:Name="SampleList" Background="Beige" ShowGridLines="True">
-                    <!--List 비율을 1:5로 맞춤-->
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="5*"/>
-
-                    </Grid.ColumnDefinitions>
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="3*" />
-                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2" />
+                        <RowDefinition Height="300" />
                     </Grid.RowDefinitions>
-                    <ListBox x:Name="SampleNodeList" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                                PreviewMouseLeftButtonDown="SampleNodeList_MouseDown">
+                    
+                    <Grid x:Name="SampleList"
+                          Background="Beige"
+                          Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="2" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    </ListBox>
-                    <TextBox x:Name="sampleCode"
-                                Grid.Column="1" Grid.Row="0" FontSize="20"
-                                TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True">
-                    </TextBox>
-                    <DockPanel x:Name="SampleImageView" Grid.Column="1" Grid.Row="1">
+                        <ListBox x:Name="SampleNodeList"
+                                 Grid.Column="0"
+                                 Grid.Row="0"
+                                 Grid.RowSpan="2"
+                                 PreviewMouseLeftButtonDown="SampleNodeList_MouseDown">
+                        </ListBox>
+
+                        <GridSplitter Grid.Column="1" 
+                             HorizontalAlignment="Stretch" 
+                             VerticalAlignment="Stretch"
+                             Background="Silver" 
+                             ShowsPreview="true"
+                             ResizeDirection="Columns"
+                             />
+
+                        <TextBox x:Name="sampleCode"
+                                Grid.Column="2"
+                                FontSize="15"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Visible"
+                                 AcceptsReturn="True">
+                        </TextBox>
+                    </Grid>
+
+                    <GridSplitter Grid.Row="1" 
+                             HorizontalAlignment="Stretch" 
+                             VerticalAlignment="Stretch"
+                             Background="Silver" 
+                             ShowsPreview="true"
+                             ResizeDirection="Rows"
+                             />
+                    <DockPanel x:Name="SampleImageView" Grid.Row="2">
                         <Label x:Name="SampleImageVIewTitle" DockPanel.Dock="Top" Height="30" Content="  결과"
                                 Background="Green"></Label>
 
-                        <Image x:Name="SampleImageViewImage"  Height="400">
-
-                        </Image>
+                        <Image x:Name="SampleImageViewImage"
+                               Height="Auto"
+                               VerticalAlignment="Stretch"
+                               HorizontalAlignment="Stretch" />
                     </DockPanel>
-
                 </Grid>
             </TabItem>
         </TabControl>

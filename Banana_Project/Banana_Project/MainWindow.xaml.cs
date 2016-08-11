@@ -27,11 +27,6 @@ namespace Banana_Project
             this.Width = SystemParameters.MaximizedPrimaryScreenWidth;
             NodeList.MouseDown += NodeListView_MouseDown;
 
-            // Node List 높이를 지정하기 위해 설정... 이후 size가 변화될때마다 새로 설정이 필요함
-            NodeList.Height = this.Height - 70;
-            CodeNodeList.Height = this.Height - 70;
-            this.SizeChanged += new SizeChangedEventHandler(MainWindow_SizeChange);
-
             NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
             SampleNodeList.ItemsSource = SampleTab.GetSampleList();
         }
@@ -57,19 +52,6 @@ namespace Banana_Project
             }
         }
 
-
-        //  windows size 변화에 따라 ListView Height 변경
-        void MainWindow_SizeChange(object sender, SizeChangedEventArgs e)
-        {
-            NodeList.Height = this.Height - 60;
-            CodeNodeList.Height = this.Height - 60;
-            SampleList.Height = this.Height - 60;
-            GeneraterTab.Height = this.Height - 60;
-            CodeView.Width = this.Width;
-            CodeView.Height = this.Height - 60;
-            //SampleNodeList.Height = this.Height - 60;
-            //SampleCode.Height = (this.Height / 2 ) - 60;
-        }
         #region SampleTab function
         void SampleNodeList_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -202,24 +184,5 @@ namespace Banana_Project
                 }
             }
         }
-
-        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Resize_Click(object sender, RoutedEventArgs e)
-        {
-            NodeList.Height = NodeDockPanel.ActualHeight;
-        }
-
-        private void Window_Resize(object sender, SizeChangedEventArgs e)
-        {
-            if(mainWindow.WindowState == WindowState.Maximized) { 
-                NodeList.Height = NodeDockPanel.ActualHeight;
-            }
-        }
     }
-
-
 }
