@@ -12,13 +12,12 @@ namespace Banana_Project
             ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
 
             nodeObjectList.Add("Wifi_Shield");
-            nodeObjectList.Add("Web_Server");
             nodeObjectList.Add("Bluetooth_4.0_Master");
             nodeObjectList.Add("Bluetooth_4.0_Slave");
             nodeObjectList.Add("GPS_module");
+            nodeObjectList.Add("Web_Server_example");
             nodeObjectList.Add("For_example");
             nodeObjectList.Add("If_example");
-            nodeObjectList.Add("testing");
 
             return nodeObjectList;
         }

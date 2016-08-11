@@ -1,35 +1,37 @@
 ﻿#include <SoftwareSerial.h> 
 #define RxD 2
 #define TxD 3
- 
+
 #define DEBUG_ENABLED  1
- 
+
 SoftwareSerial BLE(RxD,TxD);
- 
+
 void setup() 
 { 
   Serial.begin(9600);
   pinMode(RxD, INPUT);
   pinMode(TxD, OUTPUT);
   setupBleConnection();
- 
 } 
- 
+
 void loop() 
 { 
   char recvChar;
-  while(1){
-    if(BLE.available()){
+  while(1)
+  {
+    if(BLE.available())
+    {
       recvChar = BLE.read();
       Serial.print(recvChar);
     }
-    if(Serial.available()){
+    if(Serial.available())
+    {
       recvChar  = Serial.read();
       BLE.print(recvChar);
     }
   }
 } 
- 
+
 void setupBleConnection()
 {
   BLE.begin(9600); 
