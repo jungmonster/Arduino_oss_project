@@ -1,43 +1,44 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
 using System.Collections.ObjectModel;
+
 
 namespace Banana_Project
 {
     static class ItemCreateHelper
     {
         // ListBox item test Function
-        static int counter = 1;
-        static int itemWidth = 1000;
+        public static int counter = 1;
+        static int itemWidth = 1500;
+        static Thickness itemMargin = new Thickness(5, 5, 5, 5);
 
         // Node List에 추가 내용
         public static ObservableCollection<string> GetNodeList()
         {
             ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
-            nodeObjectList.Add("println");
-            nodeObjectList.Add("Note");
-            nodeObjectList.Add("Delay");
+            nodeObjectList.Add("문자열출력");
+            nodeObjectList.Add("주석");
+            nodeObjectList.Add("시간지연");
+            nodeObjectList.Add("여러번반복");
             nodeObjectList.Add("Variable");
-            nodeObjectList.Add("Wifi Shield");
-            nodeObjectList.Add("Switch");
-            nodeObjectList.Add("Button");
-            nodeObjectList.Add("Test010101");
-            nodeObjectList.Add("hahahahahah");
-            nodeObjectList.Add("GGGGG");
             return nodeObjectList;
         }
         
         public static Grid FindGetGridItem(string itemName)
         {
-            if (itemName.Equals("println"))
-                return CodeItemPrintln(itemName);
-            else if (itemName.Equals("Note"))
+            if (itemName.Equals("문자열출력"))
+                return CodeItemPrintln("Println");
+            else if (itemName.Equals("주석"))
                 return CodeItem_Note("Note");
-            else if (itemName.Equals("Delay"))
+            else if (itemName.Equals("시간지연"))
                 return CodeItem_Delay("Delay");
             else if (itemName.Equals("Variable"))
                 return CodeItem_Variable("Variable");
+            else if (itemName.Equals("여러번반복"))
+                return CodeItem_While("While");
 
             //else if (itemName.Equals("Wifi Shield")) ;
             //    return 
@@ -179,7 +180,6 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
-
         public static Grid CodeItemXXX(string UIDStirng)
         {
             Grid DynamicGrid = new Grid();
@@ -216,20 +216,31 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
+
+        // Create item 
         public static Grid CodeItemPrintln(string UIDStirng)
         {
-            Grid DynamicGrid = GetDynamicGrid2x3(UIDStirng);
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "▼";
+            txtBlock1.Text = "콘솔에 출력할 문자를 적으세요.";
             txtBlock1.FontSize = 14;
             txtBlock1.FontWeight = FontWeights.Bold;
             txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumn(txtBlock1, 0);
             Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
@@ -240,6 +251,8 @@ namespace Banana_Project
             txtTitle.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtTitle, 1);
             Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
+
 
             TextBox txtBox1 = new TextBox();
             txtBox1.FontSize = 14;
@@ -248,6 +261,8 @@ namespace Banana_Project
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 1);
+            Grid.SetColumnSpan(txtBox1, 2);
+            DynamicGrid.Children.Add(txtBox1);
 
             TextBlock txtBlock2 = new TextBlock();
             txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
@@ -258,11 +273,7 @@ namespace Banana_Project
             txtBlock2.VerticalAlignment = VerticalAlignment.Top;
 
             Grid.SetRow(txtBlock2, 2);
-            Grid.SetColumnSpan(txtBlock2, 2);
-
-            DynamicGrid.Children.Add(txtBlock1);
-            DynamicGrid.Children.Add(txtTitle);
-            DynamicGrid.Children.Add(txtBox1);
+            Grid.SetColumnSpan(txtBlock2, 3);
             DynamicGrid.Children.Add(txtBlock2);
 
 
@@ -270,18 +281,27 @@ namespace Banana_Project
         }
         public static Grid CodeItem_Note(string UIDStirng)
         {
-            Grid DynamicGrid = GetDynamicGrid1x3(UIDStirng);
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "▼";
+            txtBlock1.Text = "코드에 삽입할 주석을 입력하세요";
             txtBlock1.FontSize = 14;
             txtBlock1.FontWeight = FontWeights.Bold;
             txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
             Grid.SetColumn(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
 
             TextBox txtBox1 = new TextBox();
             txtBox1.FontSize = 14;
@@ -290,10 +310,10 @@ namespace Banana_Project
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
             txtBox1.TextWrapping = TextWrapping.Wrap;
             txtBox1.AcceptsReturn = true;
-
-
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 0);
+            Grid.SetColumnSpan(txtBox1, 3);
+            DynamicGrid.Children.Add(txtBox1);
 
             TextBlock txtBlock2 = new TextBlock();
             txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
@@ -302,32 +322,34 @@ namespace Banana_Project
             txtBlock2.FontWeight = FontWeights.Bold;
             txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
             txtBlock2.VerticalAlignment = VerticalAlignment.Top;
-
-            
-
             Grid.SetRow(txtBlock2, 2);
             Grid.SetColumn(txtBlock2, 0);
-
-            DynamicGrid.Children.Add(txtBlock1);
-            DynamicGrid.Children.Add(txtBox1);
+            Grid.SetColumnSpan(txtBlock2, 3);
             DynamicGrid.Children.Add(txtBlock2);
 
             return DynamicGrid;
         }
         public static Grid CodeItem_Delay(string UIDStirng)
         {
-            Grid DynamicGrid = GetDynamicGrid2x3(UIDStirng);
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
-            //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "▼";
+            txtBlock1.Text = "지연 시간을 입력하세요 ( 1000 = 1s )";
             txtBlock1.FontSize = 14;
             txtBlock1.FontWeight = FontWeights.Bold;
             txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
             Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
@@ -338,6 +360,7 @@ namespace Banana_Project
             txtTitle.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtTitle, 1);
             Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
 
             TextBox txtBox1 = new TextBox();
             txtBox1.FontSize = 14;
@@ -346,6 +369,7 @@ namespace Banana_Project
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 1);
+            DynamicGrid.Children.Add(txtBox1);
 
             TextBlock txtBlock2 = new TextBlock();
             txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
@@ -354,13 +378,8 @@ namespace Banana_Project
             txtBlock2.FontWeight = FontWeights.Bold;
             txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
             txtBlock2.VerticalAlignment = VerticalAlignment.Top;
-
             Grid.SetRow(txtBlock2, 2);
             Grid.SetColumnSpan(txtBlock2,2);
-
-            DynamicGrid.Children.Add(txtBlock1);
-            DynamicGrid.Children.Add(txtTitle);
-            DynamicGrid.Children.Add(txtBox1);
             DynamicGrid.Children.Add(txtBlock2);
 
             return DynamicGrid;
@@ -378,7 +397,17 @@ namespace Banana_Project
             txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 3);
+            Grid.SetColumn(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
@@ -387,25 +416,31 @@ namespace Banana_Project
             txtTitle.FontWeight = FontWeights.Bold;
             txtTitle.Foreground = new SolidColorBrush(Colors.Green);
             txtTitle.VerticalAlignment = VerticalAlignment.Top;
+
             Grid.SetRow(txtTitle, 1);
             Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
 
             CheckBox checkBox = new CheckBox();
             checkBox.HorizontalAlignment = HorizontalAlignment.Center;
             checkBox.Content = "사용여부";
             checkBox.FontSize = 14;
             checkBox.IsChecked = true;
+
             Grid.SetRow(checkBox, 1);
-            Grid.SetColumn(checkBox, 1); 
+            Grid.SetColumn(checkBox, 1);
+            DynamicGrid.Children.Add(checkBox);
+
 
             TextBox txtBox1 = new TextBox();
             txtBox1.FontSize = 14;
             txtBox1.FontWeight = FontWeights.Bold;
             txtBox1.Foreground = new SolidColorBrush(Colors.Green);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
+
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 2);
-
+            DynamicGrid.Children.Add(txtBox1);
 
 
             TextBlock txtBlock2 = new TextBlock();
@@ -418,23 +453,189 @@ namespace Banana_Project
 
             Grid.SetRow(txtBlock2, 2);
             Grid.SetColumnSpan(txtBlock2, 3);
-
-            DynamicGrid.Children.Add(txtBlock1);
-            DynamicGrid.Children.Add(txtTitle);
-            DynamicGrid.Children.Add(checkBox);
-            DynamicGrid.Children.Add(txtBox1);
             DynamicGrid.Children.Add(txtBlock2);
 
             return DynamicGrid;
         }
+        public static Grid CodeItem_While(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "해당 구간을 지정한 수 만큼 반복합니다. (숫자만 입력하세요)";
+            txtBlock1.FontSize = 14;
+            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumn(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
+            TextBlock txtTitle = new TextBlock();
+            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            txtTitle.Text = "While";
+            txtTitle.FontSize = 14;
+            txtTitle.FontWeight = FontWeights.Bold;
+            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtTitle, 1);
+            Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
+
+            TextBlock txt = new TextBlock();
+            txt.HorizontalAlignment = HorizontalAlignment.Center;
+            txt.Text = "Count : ";
+            txt.FontSize = 14;
+            txt.FontWeight = FontWeights.Bold;
+            txt.Foreground = new SolidColorBrush(Colors.Green);
+            txt.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txt, 1);
+            Grid.SetColumn(txt, 1);
+            DynamicGrid.Children.Add(txt);
+
+            TextBox txtBox1 = new TextBox();
+            txtBox1.FontSize = 14;
+            txtBox1.FontWeight = FontWeights.Bold;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.VerticalAlignment = VerticalAlignment.Top;
+            
+            Grid.SetRow(txtBox1, 1);
+            Grid.SetColumn(txtBox1, 2);
+            DynamicGrid.Children.Add(txtBox1);
+
+
+            ListBox listbox = new ListBox();
+            listbox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            listbox.VerticalAlignment = VerticalAlignment.Top;
+            listbox.Foreground = new SolidColorBrush(Colors.Red);
+            listbox.AllowDrop = true;
+            listbox.Drop += Node_Drop;
+            listbox.PreviewMouseLeftButtonDown += ChildListBox_MouseButtonDown;
+            listbox.PreviewMouseLeftButtonUp += ChildListBox_MouseButtonUp;
+            listbox.MouseMove += ChildListBox_MouseButtonMove;
+            listbox.MinHeight = 20 ;
+            Grid.SetRow(listbox, 2);
+            Grid.SetColumnSpan(listbox, 3);
+
+            DynamicGrid.Children.Add(listbox);
+
+            return DynamicGrid;
+        }
+
+        
+
+
+        // Event helper function
+        static void Node_Drop(object sender, DragEventArgs e)
+        {
+            //Console.WriteLine("Drop event!!!!!!!!!!!!!!!!!!");
+            if (counter > 1)
+                return;
+            if (e.Data.GetDataPresent("NodeList"))
+            {
+                object data = e.Data.GetData("NodeList");
+                UIElement droptarget = e.Source as UIElement;
+                ListBox parent = (ListBox)sender;
+
+                //Grid DynamicGrid = SetGridObject(data.ToString());
+                Grid DynamicGrid = ItemCreateHelper.FindGetGridItem(data.ToString());
+
+                parent.Items.Add(DynamicGrid);
+                counter++;
+            }
+        }
+        static void RemoveBtn_ClickEvent(object sender, RoutedEventArgs e)
+        {
+            DependencyObject element = null;
+            Button btn = sender as Button;
+
+            Grid btnParent = VisualTreeHelper.GetParent(btn) as Grid;
+            if(btnParent == null)
+            {
+                Console.WriteLine("Err : Don' find parent of item. check item tree (" + btn.ToString() + ")");
+            }
+
+            element = VisualTreeHelper.GetParent(btnParent) as DependencyObject;
+            while (true)
+            {
+                Console.WriteLine(element.GetType());   
+                if (element == null)
+                {
+                    Console.WriteLine("Err : null point inception");
+                    return ;
+                }
+                if( element.GetType() == typeof(ListBox))
+                {
+                    ListBox temp = element as ListBox;
+                    Console.WriteLine(temp.Uid);
+                    temp.Items.Remove(btnParent);
+                    break;
+                }
+                element = VisualTreeHelper.GetParent(element) as DependencyObject;
+            } 
+
+        }
+
+        static bool codeListBox_Click = false;
+        static int currentClickID = -1;
+
+        static void ChildListBox_MouseButtonDown(object sender, MouseEventArgs e)
+        {
+            //Console.WriteLine("Mouse btn down");
+            if (codeListBox_Click == false)
+                codeListBox_Click = true;
+            ListBox ob = sender as ListBox;
+            Point po = e.GetPosition(ob);
+            DependencyObject ch = ob.InputHitTest(po) as DependencyObject; 
+            int id = MouseEventHelper.findCodeListItemIndex(ob, ch);
+            currentClickID = id;
+        }
+        static void ChildListBox_MouseButtonUp(object sender, MouseEventArgs e)
+        {
+            //Console.WriteLine("Mouse btn up");
+            if (codeListBox_Click == true)
+                codeListBox_Click = false;
+        }
+        static void ChildListBox_MouseButtonMove(object sender, MouseEventArgs e)
+        {
+            if (codeListBox_Click == false)
+                return;
+            ListBox ob = sender as ListBox;
+            Point po = e.GetPosition(ob);
+            DependencyObject ch = ob.InputHitTest(po) as DependencyObject;
+            int id = MouseEventHelper.findCodeListItemIndex(ob, ch);
+
+            Console.WriteLine("current id : " + currentClickID + ",  select id : " + id);
+
+            if ( /*(currentClickID != id) &&*/ (currentClickID != -1) && (id != -1))
+            {
+                object oot = ob.Items.GetItemAt(currentClickID);
+                ob.Items.Remove(oot);
+                ob.Items.Insert(id, oot);
+                currentClickID = id;
+            }
+        }
+
+
+        // Grid make helper function
         static Grid GetDynamicGrid3x3(string UIDStirng)
         {
             Grid DynamicGrid = new Grid();
             DynamicGrid.Width = itemWidth;
             DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
             DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
-            DynamicGrid.ShowGridLines = true;
+            DynamicGrid.Margin = itemMargin;
+            //DynamicGrid.ShowGridLines = true;
             DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
             DynamicGrid.Uid = UIDStirng;
 
@@ -469,7 +670,8 @@ namespace Banana_Project
             DynamicGrid.Width = itemWidth;
             DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
             DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
-            DynamicGrid.ShowGridLines = true;
+            DynamicGrid.Margin = itemMargin;
+            //DynamicGrid.ShowGridLines = true;
             DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
             DynamicGrid.Uid = UIDStirng;
 
@@ -501,7 +703,8 @@ namespace Banana_Project
             DynamicGrid.Width = itemWidth;
             DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
             DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
-            DynamicGrid.ShowGridLines = true;
+            DynamicGrid.Margin = itemMargin;
+            //DynamicGrid.ShowGridLines = true;
             DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
             DynamicGrid.Uid = UIDStirng;
 

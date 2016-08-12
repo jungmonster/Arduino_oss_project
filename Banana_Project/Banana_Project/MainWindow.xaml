@@ -46,7 +46,7 @@
                              ResizeDirection="Columns"
                              />
 
-                    <ListBox x:Name="CodeNodeList" Grid.Column="2" AllowDrop="True" Drop="CodeNode_Drop"
+                    <ListBox x:Name="CodeNodeList" x:Uid="LastNodeListBox" Grid.Column="2" AllowDrop="True" Drop="CodeNode_Drop"  
                              PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
                              PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
                              PreviewMouseMove="CodeNodeListView_MouseMove"

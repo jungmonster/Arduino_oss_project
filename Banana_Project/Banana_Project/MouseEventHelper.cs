@@ -78,14 +78,6 @@ namespace Banana_Project
             return null;
         }
 
-        // check UID
-        public static bool CheckCodeNodeUID(string UID)
-        {
-            if (UID.Equals("codeItem"))
-                return true;
-            else
-                return false;
-        }
 
     }
 }

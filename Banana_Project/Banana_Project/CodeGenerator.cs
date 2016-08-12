@@ -14,6 +14,7 @@ namespace Banana_Project
         
         public CodeGenerator()
         {
+            initSetGenerator();
 
         }
 
@@ -22,7 +23,45 @@ namespace Banana_Project
             ortherArea.Clear();
             setupArea.Clear();
             loopArea.Clear();
+            initSetGenerator();
         }
+
+        private void initSetGenerator()
+        {
+            // ortherArea setting
+            ortherArea.Add("// 전역 구역");
+
+            // setupArea setting
+            setupArea.Add("// setup 함수 구역");
+            setupArea.Add("void setup(){");
+
+            // loopArea setting
+            loopArea.Add("// loop 함수 구역 ");
+            loopArea.Add("void loop() {");
+        }
+
+        public void endSetGenerator()
+        {
+            // add empty space in ortherArea
+            ortherArea.Add("");
+            ortherArea.Add("");
+            ortherArea.Add("");
+
+            // close setup function and add empty space
+            setupArea.Add("}");
+            setupArea.Add("");
+            setupArea.Add("");
+            setupArea.Add("");
+
+            // close loop funtion and add empty space
+            loopArea.Add("}");
+            loopArea.Add("");
+            loopArea.Add("");
+            loopArea.Add("");
+
+        }
+        
+
         public List<string> GetLoopString()
         {
             return loopArea;
@@ -38,15 +77,17 @@ namespace Banana_Project
 
         public void ChangeToCode(ListBox listbox)
         {
+            //Console.WriteLine("Change to Code Event");
             for(int i = 0; i < listbox.Items.Count; i++)
             {
+                //Console.WriteLine("Change to Code Event");
                 Grid child = listbox.Items[i] as Grid;
                 if(child == null)
                 {
                     Console.WriteLine("err : List child is not Grid at index num : " + i );
                     continue;
                 }
-                if (child.Uid.Equals("println"))
+                if (child.Uid.Equals("Println"))
                 {
                     string str = Parser_Println(child);
                     if(str != null)
@@ -65,9 +106,13 @@ namespace Banana_Project
                     if (str != null)
                         loopArea.Add(str);
                 }
+                else if(child.Uid.Equals("While"))
+                {
+
+                }
                 else
                 {
-                    loopArea.Add("ererererererererer");
+                    Console.WriteLine("Err : Undefined object " + child.Uid);
                 }
             }
         }
@@ -80,6 +125,7 @@ namespace Banana_Project
                 if(element != null)
                 {
                     string str = "println(\"" + element.Text + "\");" ;
+
                     //Console.WriteLine(str);
                     return str;
                 }
