@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
+using System.Windows;
 
 namespace Banana_Project
 {
@@ -11,6 +13,8 @@ namespace Banana_Project
         List<string> ortherArea = new List<string>();
         List<string> setupArea = new List<string>();
         List<string> loopArea = new List<string>();
+        int check_maxCounter = 0;
+        int check_counter = 0;
         
         public CodeGenerator()
         {
@@ -23,6 +27,8 @@ namespace Banana_Project
             ortherArea.Clear();
             setupArea.Clear();
             loopArea.Clear();
+            check_maxCounter = 0;
+            check_counter = 0;
             initSetGenerator();
         }
 
@@ -89,26 +95,28 @@ namespace Banana_Project
                 }
                 if (child.Uid.Equals("Println"))
                 {
-                    string str = Parser_Println(child);
-                    if(str != null)
-                        loopArea.Add(str);
+                    bool check = Parser_Println(child);
+                    if(!check)
+                        Console.WriteLine("Err : println object err");
                     
                 }
                 else if (child.Uid.Equals("Note"))
                 {
-                    string str = Parser_Note(child);
-                    if (str != null)
-                        loopArea.Add(str);
+                    bool check = Parser_Note(child);
+                    if (!check)
+                        Console.WriteLine("Err : Note object err");
                 }
                 else if (child.Uid.Equals("Delay"))
                 {
-                    string str = Parser_Delay(child);
-                    if (str != null)
-                        loopArea.Add(str);
+                    bool check = Parser_Delay(child);
+                    if (!check)
+                        Console.WriteLine("Err : Delay object err");
                 }
                 else if(child.Uid.Equals("While"))
                 {
-
+                    bool check = Parser_While(child);
+                    if (!check)
+                        Console.WriteLine("Err : While object err");
                 }
                 else
                 {
@@ -117,7 +125,7 @@ namespace Banana_Project
             }
         }
 
-        string Parser_Println(Grid child)
+        bool Parser_Println(Grid child)
         {
             for(int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
             {
@@ -125,16 +133,15 @@ namespace Banana_Project
                 if(element != null)
                 {
                     string str = "println(\"" + element.Text + "\");" ;
-
-                    //Console.WriteLine(str);
-                    return str;
+                    loopArea.Add(str);
+                    return true;
                 }
 
             }
-            return null;    
+            return false;    
         }
 
-        string Parser_Delay(Grid child)
+        bool Parser_Delay(Grid child)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
             {
@@ -142,15 +149,15 @@ namespace Banana_Project
                 if (element != null)
                 {
                     string str = "delay(" + element.Text + ");";
-                    //Console.WriteLine(str);
-                    return str;
+                    loopArea.Add(str);
+                    return true;
                 }
 
             }
-            return null;
+            return false;
         }
 
-        string Parser_Note(Grid child)
+        bool Parser_Note(Grid child)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
             {
@@ -158,12 +165,40 @@ namespace Banana_Project
                 if (element != null)
                 {
                     string str = "// " + element.Text;
-                    //Console.WriteLine(str);
-                    return str;
+                    loopArea.Add(str);
+                    return true;
                 }
 
             }
-            return null;
+            return false;
+        }
+
+        bool Parser_While(Grid child)
+        {
+            check_counter += 1;
+            if(check_maxCounter < check_counter)
+            {
+                check_maxCounter += 1;
+                ortherArea.Add("int counter" + check_maxCounter + " = 0;");
+            }
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
+            {
+                UIElement element = VisualTreeHelper.GetChild(child, i) as UIElement;
+
+                if (element.GetType() == typeof(TextBox))
+                {
+                    Console.WriteLine("Find text box for get count");
+                }
+                else if(element.GetType() == typeof(ListBox))
+                {
+                    Console.WriteLine("Find Listbox");
+                    ListBox listbox = element as ListBox;
+                    ChangeToCode(listbox);
+                }
+
+            }
+            check_counter -= 1;
+            return false;
         }
 
     }
