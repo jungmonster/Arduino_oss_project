@@ -44,7 +44,8 @@ namespace Banana_Project
         {
             //Console.WriteLine("Select Code Tab");
             codegnt.CodeGeneratorClear();                       // init
-            codegnt.ChangeToCode(this.CodeNodeList);
+            codegnt.ChangeToCode_Setup(this.SetupNodeList);
+            codegnt.ChangeToCode_Loop(this.CodeNodeList);
             codegnt.endSetGenerator();
             List<string> orther = codegnt.GetOrtherString();
             List<string> setup = codegnt.GetSetupString();
@@ -144,7 +145,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                Grid DynamicGrid = ItemCreateHelper.FindGetGridItem(data.ToString());
+                Grid DynamicGrid = ItemCreateHelper.FindGetCodeGridItem(data.ToString());
 
                 parent.Items.Add(DynamicGrid);
                 ItemCreateHelper.counter++;
@@ -164,7 +165,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                Grid DynamicGrid = ItemCreateHelper.FindGetGridItem(data.ToString());
+                Grid DynamicGrid = ItemCreateHelper.FindGetSetupGridItem(data.ToString());
 
                 parent.Items.Add(DynamicGrid);
                 ItemCreateHelper.counter++;

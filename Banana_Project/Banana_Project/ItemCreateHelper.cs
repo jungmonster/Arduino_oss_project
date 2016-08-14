@@ -14,17 +14,17 @@ namespace Banana_Project
         // ListBox item test Function
         public static int counter = 1;
         static int itemWidth = 1500;
-        static Thickness itemMargin = new Thickness(5, 5, 5, 5);
+        static Thickness itemMargin = new Thickness(5, 10, 5, 10);
 
         public static ObservableCollection<string> GetSetupList()
         {
             ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
             nodeObjectList.Add("포트설정");
-            nodeObjectList.Add("와이파이모듈");
+            nodeObjectList.Add("문자열출력");
+            nodeObjectList.Add("주석");
             nodeObjectList.Add("시간지연");
-            nodeObjectList.Add("여러번반복");
-            nodeObjectList.Add("포트사용");
-            nodeObjectList.Add("Variable");
+            nodeObjectList.Add("와이파이모듈");
+            nodeObjectList.Add("변수선언");
             return nodeObjectList;
         }
 
@@ -36,12 +36,29 @@ namespace Banana_Project
             nodeObjectList.Add("주석");
             nodeObjectList.Add("시간지연");
             nodeObjectList.Add("여러번반복");
-            nodeObjectList.Add("포트사용");
-            nodeObjectList.Add("Variable");
+            nodeObjectList.Add("포트출력");
+            nodeObjectList.Add("포트입력");
+            nodeObjectList.Add("변수사용");
             return nodeObjectList;
         }
         
-        public static Grid FindGetGridItem(string itemName)
+        public static Grid FindGetSetupGridItem(string itemName)
+        {
+            if (itemName.Equals("포트설정"))
+                return CodeItem_PinMode("PinMode");
+            else if (itemName.Equals("주석"))
+                return CodeItem_Note("Note");
+            else if (itemName.Equals("시간지연"))
+                return CodeItem_Delay("Delay");
+            if (itemName.Equals("문자열출력"))
+                return CodeItemPrintln("Println");
+            if (itemName.Equals("변수선언"))
+                return CodeItem_Variable("Variable");
+            else
+                return SetGridObject(itemName);
+        }
+
+        public static Grid FindGetCodeGridItem(string itemName)
         {
             if (itemName.Equals("문자열출력"))
                 return CodeItemPrintln("Println");
@@ -53,16 +70,15 @@ namespace Banana_Project
                 return CodeItem_Variable("Variable");
             else if (itemName.Equals("여러번반복"))
                 return CodeItem_While("While");
-            else if (itemName.Equals("포트사용"))
+            else if (itemName.Equals("포트출력"))
                 return CodeItem_DigitalWrite("DigitalWrite");
-
-
-            //else if (itemName.Equals("Wifi Shield")) ;
-            //    return 
+            else if (itemName.Equals("포트입력"))
+                return CodeItem_DigitalRead("DigitalRead");
+            if (itemName.Equals("변수사용"))
+                return CodeItem_Variable_Use("Variable_Use");
             else
                 return SetGridObject(itemName);
         }
-
         public static Grid SetGridObject(string name)
         {
             Grid DynamicGrid = new Grid();
@@ -401,6 +417,72 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
+        public static Grid CodeItem_Variable_Use(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
+
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "변수에 데이터를 입력하세요 (선언한 변수의 이름과 데이터를 참고하세요)";
+            txtBlock1.FontSize = 14;
+            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
+            TextBlock txtTitle = new TextBlock();
+            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            txtTitle.Text = "변수 이름 & 데이터";
+            txtTitle.FontSize = 14;
+            txtTitle.FontWeight = FontWeights.Bold;
+            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtTitle, 1);
+            Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
+
+            TextBox txtBox1 = new TextBox();
+            txtBox1.Uid = "NAME";
+            txtBox1.FontSize = 14;
+            txtBox1.FontWeight = FontWeights.Bold;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBox1, 1);
+            Grid.SetColumn(txtBox1, 1);
+            DynamicGrid.Children.Add(txtBox1);
+
+            TextBox txtBox2 = new TextBox();
+            txtBox2.Uid = "DATA";
+            txtBox2.FontSize = 14;
+            txtBox2.FontWeight = FontWeights.Bold;
+            txtBox2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox2.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBox2, 1);
+            Grid.SetColumn(txtBox2, 2);
+            DynamicGrid.Children.Add(txtBox2);
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "▼";
+            txtBlock2.FontSize = 14;
+            txtBlock2.FontWeight = FontWeights.Bold;
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock2, 2);
+            Grid.SetColumnSpan(txtBlock2, 2);
+            DynamicGrid.Children.Add(txtBlock2);
+
+            return DynamicGrid;
+        }
         public static Grid CodeItem_Variable(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
@@ -408,7 +490,7 @@ namespace Banana_Project
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "▼";
+            txtBlock1.Text = "자료형과 변수 이름을 지정하세요";
             txtBlock1.FontSize = 14;
             txtBlock1.FontWeight = FontWeights.Bold;
             txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
@@ -428,7 +510,7 @@ namespace Banana_Project
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "Variable";
+            txtTitle.Text = "자료형 & 이름";
             txtTitle.FontSize = 14;
             txtTitle.FontWeight = FontWeights.Bold;
             txtTitle.Foreground = new SolidColorBrush(Colors.Green);
@@ -438,18 +520,17 @@ namespace Banana_Project
             Grid.SetColumn(txtTitle, 0);
             DynamicGrid.Children.Add(txtTitle);
 
-            CheckBox checkBox = new CheckBox();
-            checkBox.HorizontalAlignment = HorizontalAlignment.Center;
-            checkBox.Content = "사용여부";
-            checkBox.FontSize = 14;
-            checkBox.IsChecked = true;
-
-            Grid.SetRow(checkBox, 1);
-            Grid.SetColumn(checkBox, 1);
-            DynamicGrid.Children.Add(checkBox);
+            ComboBox comboBox = new ComboBox();
+            comboBox.Uid = "DATA";
+            comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox.ItemsSource = MakeItemDataMenu();
+            Grid.SetRow(comboBox, 1);
+            Grid.SetColumn(comboBox, 1);
+            DynamicGrid.Children.Add(comboBox);
 
 
             TextBox txtBox1 = new TextBox();
+            txtBox1.Uid = "NAME";
             txtBox1.FontSize = 14;
             txtBox1.FontWeight = FontWeights.Bold;
             txtBox1.Foreground = new SolidColorBrush(Colors.Green);
@@ -555,7 +636,7 @@ namespace Banana_Project
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "▼";
+            txtBlock1.Text = "사용중인 포트의 출력을 조절합니다.";
             txtBlock1.FontSize = 14;
             txtBlock1.FontWeight = FontWeights.Bold;
             txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
@@ -575,7 +656,7 @@ namespace Banana_Project
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "Variable";
+            txtTitle.Text = "DigitaWrite";
             txtTitle.FontSize = 14;
             txtTitle.FontWeight = FontWeights.Bold;
             txtTitle.Foreground = new SolidColorBrush(Colors.Green);
@@ -585,25 +666,86 @@ namespace Banana_Project
             Grid.SetColumn(txtTitle, 0);
             DynamicGrid.Children.Add(txtTitle);
 
-            //CheckBox checkBox = new CheckBox();
-            //checkBox.HorizontalAlignment = HorizontalAlignment.Center;
-            //checkBox.Content = "사용여부";
-            //checkBox.FontSize = 14;
-            //checkBox.IsChecked = true;
-
-            //Grid.SetRow(checkBox, 1);
-            //Grid.SetColumn(checkBox, 1);
-            //DynamicGrid.Children.Add(checkBox);
-
             ComboBox comboBox = new ComboBox();
+            comboBox.Uid = "PORT";
             comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
             comboBox.ItemsSource = MakePortItemMenu();
             Grid.SetRow(comboBox, 1);
             Grid.SetColumn(comboBox, 1);
-            DynamicGrid.Children.Add(comboBox); 
+            DynamicGrid.Children.Add(comboBox);
+
+
+            ComboBox comboBox2 = new ComboBox();
+            comboBox2.Uid = "OUTPUT";
+            comboBox2.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox2.ItemsSource = MakeItemOutputMenu();
+            Grid.SetRow(comboBox2, 1);
+            Grid.SetColumn(comboBox2, 2);
+            DynamicGrid.Children.Add(comboBox2);
+
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "▼";
+            txtBlock2.FontSize = 14;
+            txtBlock2.FontWeight = FontWeights.Bold;
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtBlock2, 2);
+            Grid.SetColumnSpan(txtBlock2, 3);
+            DynamicGrid.Children.Add(txtBlock2);
+
+            return DynamicGrid;
+        }
+        public static Grid CodeItem_DigitalRead(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
+
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "읽을 포트와 저장할 변수를 지정하세요";
+            txtBlock1.FontSize = 14;
+            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumn(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
+
+            TextBlock txtTitle = new TextBlock();
+            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            txtTitle.Text = "포트번호 & 변수 이름";
+            txtTitle.FontSize = 14;
+            txtTitle.FontWeight = FontWeights.Bold;
+            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtTitle, 1);
+            Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
+
+            ComboBox comboBox = new ComboBox();
+            comboBox.Uid = "PORT";
+            comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox.ItemsSource = MakePortItemMenu();
+            Grid.SetRow(comboBox, 1);
+            Grid.SetColumn(comboBox, 1);
+            DynamicGrid.Children.Add(comboBox);
 
 
             TextBox txtBox1 = new TextBox();
+            txtBox1.Uid = "NAME";
             txtBox1.FontSize = 14;
             txtBox1.FontWeight = FontWeights.Bold;
             txtBox1.Foreground = new SolidColorBrush(Colors.Green);
@@ -628,7 +770,75 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
+        public static Grid CodeItem_PinMode(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "사용할 포트 모드를 할당합니다.";
+            txtBlock1.FontSize = 14;
+            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumn(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
+
+            TextBlock txtTitle = new TextBlock();
+            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            txtTitle.Text = "PinMode";
+            txtTitle.FontSize = 14;
+            txtTitle.FontWeight = FontWeights.Bold;
+            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtTitle, 1);
+            Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
+
+            ComboBox comboBox = new ComboBox();
+            comboBox.Uid = "PORT";
+            comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox.ItemsSource = MakePortItemMenu();
+            Grid.SetRow(comboBox, 1);
+            Grid.SetColumn(comboBox, 1);
+            DynamicGrid.Children.Add(comboBox);
+
+
+
+            ComboBox comboBox2 = new ComboBox();
+            comboBox2.Uid = "PINMODE";
+            comboBox2.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox2.ItemsSource = MakePinmodeItemMenu();
+            Grid.SetRow(comboBox2, 1);
+            Grid.SetColumn(comboBox2, 2);
+            DynamicGrid.Children.Add(comboBox2);
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "▼";
+            txtBlock2.FontSize = 14;
+            txtBlock2.FontWeight = FontWeights.Bold;
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtBlock2, 2);
+            Grid.SetColumnSpan(txtBlock2, 3);
+            DynamicGrid.Children.Add(txtBlock2);
+
+            return DynamicGrid;
+        }
 
 
 
@@ -645,7 +855,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                Grid DynamicGrid = ItemCreateHelper.FindGetGridItem(data.ToString());
+                Grid DynamicGrid = ItemCreateHelper.FindGetCodeGridItem(data.ToString());
 
                 parent.Items.Add(DynamicGrid);
                 counter++;
@@ -883,7 +1093,40 @@ namespace Banana_Project
 
             return items;
         }
+        static List<ComboBoxItem> MakePinmodeItemMenu()
+        {
+            List<ComboBoxItem> items = new List<ComboBoxItem>()
+            {
+                new ComboBoxItem() { Name = "OUTPUT" , Content = "OUTPUT"},
+                new ComboBoxItem() { Name = "INPUT" , Content = "INPUT"},
+            };
 
+            return items;
+        }
+        static List<ComboBoxItem> MakeItemOutputMenu()
+        {
+            List<ComboBoxItem> items = new List<ComboBoxItem>()
+            {
+                new ComboBoxItem() { Name = "HIGH" , Content = "HIGH"},
+                new ComboBoxItem() { Name = "LOW" , Content = "LOW"},
+            };
+
+            return items;
+        }
+        static List<ComboBoxItem> MakeItemDataMenu()
+        {
+            List<ComboBoxItem> items = new List<ComboBoxItem>()
+            {
+                new ComboBoxItem() { Name = "boolean" , Content = "boolean"},
+                new ComboBoxItem() { Name = "char" , Content = "char"},
+                new ComboBoxItem() { Name = "byte" , Content = "byte"},
+                new ComboBoxItem() { Name = "int" , Content = "int"},
+                new ComboBoxItem() { Name = "String" , Content = "String"},
+
+            };
+
+            return items;
+        }
     }
 
 
