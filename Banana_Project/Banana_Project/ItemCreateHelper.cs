@@ -16,6 +16,18 @@ namespace Banana_Project
         static int itemWidth = 1500;
         static Thickness itemMargin = new Thickness(5, 5, 5, 5);
 
+        public static ObservableCollection<string> GetSetupList()
+        {
+            ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
+            nodeObjectList.Add("포트설정");
+            nodeObjectList.Add("와이파이모듈");
+            nodeObjectList.Add("시간지연");
+            nodeObjectList.Add("여러번반복");
+            nodeObjectList.Add("포트사용");
+            nodeObjectList.Add("Variable");
+            return nodeObjectList;
+        }
+
         // Node List에 추가 내용
         public static ObservableCollection<string> GetNodeList()
         {

@@ -27,6 +27,7 @@ namespace Banana_Project
             this.Width = SystemParameters.MaximizedPrimaryScreenWidth;
             NodeList.MouseDown += NodeListView_MouseDown;
 
+            SetupMenuList.ItemsSource = ItemCreateHelper.GetSetupList();
             NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
             SampleNodeList.ItemsSource = SampleTab.GetSampleList();
 
@@ -111,6 +112,21 @@ namespace Banana_Project
             }
         }
 
+        void SetupListView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ListBox parent = (ListBox)sender;
+            ItemCreateHelper.counter = 1;
+            dragSource = parent;
+            object data = MouseEventHelper.GetDataFromSetupList(dragSource, e.GetPosition(parent));
+            if (data == null)
+            {
+                Console.WriteLine("Err : Mouse Click object is null");
+            }
+            if (data != null)
+            {
+                DragDrop.DoDragDrop(parent, data, DragDropEffects.Copy);
+            }
+        }
 
         #endregion
 
@@ -134,11 +150,25 @@ namespace Banana_Project
                 ItemCreateHelper.counter++;
             }
 
-            if (e.Data.GetDataPresent("UIElement"))
+        }
+        void SetupNode_Drop(object sender, DragEventArgs e)
+        {
+            //Console.WriteLine("Drop event");
+
+            if (ItemCreateHelper.counter > 1)
+                return;
+            if (e.Data.GetDataPresent("SetupList"))
             {
+                object data = e.Data.GetData("SetupList");
+                UIElement droptarget = e.Source as UIElement;
+                ListBox parent = (ListBox)sender;
 
+                //Grid DynamicGrid = SetGridObject(data.ToString());
+                Grid DynamicGrid = ItemCreateHelper.FindGetGridItem(data.ToString());
+
+                parent.Items.Add(DynamicGrid);
+                ItemCreateHelper.counter++;
             }
-
         }
 
 
@@ -172,16 +202,56 @@ namespace Banana_Project
 
             //Console.WriteLine("current id : " + currentClickID + ",  select id : " + id);
 
-            if ( /*(currentClickID != id) &&*/ (currentClickID != -1) && (id != -1))
+            if ((currentClickID != id) && (currentClickID != -1) && (id != -1))
             {
                 object oot = CodeNodeList.Items.GetItemAt(currentClickID);
                 CodeNodeList.Items.Remove(oot);
                 CodeNodeList.Items.Insert(id, oot);
                 currentClickID = id;
             }
-
         }
 
+        bool setupListBox_Click = false;
+        int setupCurrentClickID = -1;
+        void SetupListView_MouseButtonDown(object sender, MouseEventArgs e)
+        {
+            if (setupListBox_Click == false)
+                setupListBox_Click = true;
+            ListBox ob = sender as ListBox;
+            Point po = e.GetPosition(ob);
+            DependencyObject ch = ob.InputHitTest(po) as DependencyObject;
+            int id = MouseEventHelper.findCodeListItemIndex(ob, ch);
+
+            Console.WriteLine("ID : " + id);
+            setupCurrentClickID = id;
+
+        }
+        void SetupListView_MouseButtonUp(object sender, MouseEventArgs e)
+        {
+            if (setupListBox_Click == true)
+                setupListBox_Click = false;
+
+        }
+        void SetupListView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (setupListBox_Click == false)
+                return;
+            ListBox ob = sender as ListBox;
+            Point po = e.GetPosition(ob);
+            DependencyObject ch = ob.InputHitTest(po) as DependencyObject;
+            int id = MouseEventHelper.findCodeListItemIndex(ob, ch);
+
+            Console.WriteLine("current id : " + setupCurrentClickID + ",  select id : " + id);
+
+            if ((setupCurrentClickID != id) && (setupCurrentClickID != -1) && (id != -1) )
+            {
+                object oot = SetupNodeList.Items.GetItemAt(setupCurrentClickID);
+                Console.WriteLine(oot.ToString());
+                SetupNodeList.Items.Remove(oot);
+                SetupNodeList.Items.Insert(id, oot);
+                setupCurrentClickID = id;
+            }
+        }
         private void SaveMenu_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();

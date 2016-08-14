@@ -32,7 +32,22 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <ListBox x:Name="NodeList" Grid.Column="0" PreviewMouseLeftButtonDown="NodeListView_MouseDown" 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="설정메뉴" Grid.Column="0" Grid.Row="0" Background="Goldenrod"></TextBlock>
+                    <ListBox x:Name="SetupMenuList" Grid.Column="0"  Grid.Row="1"
+                             PreviewMouseLeftButtonDown="SetupListView_MouseDown" 
+                             FontSize="15" 
+                             Height="Auto"
+                             VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch"/>
+                    <TextBlock Text="루프메뉴" Grid.Column="0" Grid.Row="2" Background="Goldenrod"></TextBlock>
+                    <ListBox x:Name="NodeList" Grid.Column="0"  Grid.Row="3"
+                             PreviewMouseLeftButtonDown="NodeListView_MouseDown" 
                              FontSize="15" 
                              Height="Auto"
                              VerticalAlignment="Stretch"
@@ -45,8 +60,19 @@
                              ShowsPreview="true"
                              ResizeDirection="Columns"
                              />
-
-                    <ListBox x:Name="CodeNodeList" x:Uid="LastNodeListBox" Grid.Column="2" AllowDrop="True" Drop="CodeNode_Drop"  
+                    <TextBlock Text="설정블록" Grid.Column="2" Grid.Row="0" Background="Goldenrod"></TextBlock>
+                    
+                    <ListBox x:Name="SetupNodeList" x:Uid="LastNodeListBox" Grid.Column="2" Grid.Row="1"
+                             AllowDrop="True" Drop="SetupNode_Drop"  
+                             PreviewMouseLeftButtonDown="SetupListView_MouseButtonDown"
+                             PreviewMouseLeftButtonUp="SetupListView_MouseButtonUp"
+                             PreviewMouseMove="SetupListView_MouseMove"
+                             VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch"
+                                />
+                    <TextBlock Text="루프블록" Grid.Column="2" Grid.Row="2" Background="Goldenrod"></TextBlock>
+                    <ListBox x:Name="CodeNodeList" x:Uid="LastNodeListBox" Grid.Column="2" Grid.Row="3"
+                             AllowDrop="True" Drop="CodeNode_Drop"  
                              PreviewMouseLeftButtonDown="CodeNodeListView_MouseButtonDown"
                              PreviewMouseLeftButtonUp="CodeNodeListView_MouseButtonUp"
                              PreviewMouseMove="CodeNodeListView_MouseMove"

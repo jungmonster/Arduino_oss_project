@@ -17,10 +17,6 @@ namespace Banana_Project
             if (obj.GetType() == typeof(Grid))
             {
                 Grid item = obj as Grid;
-                //if (MouseEventHelper.CheckCodeNodeUID(item.Uid))
-                //{
-                //    return parent.Items.IndexOf(item);
-                //}
                 if(item != null)
                     return parent.Items.IndexOf(item);
                 else
@@ -34,10 +30,6 @@ namespace Banana_Project
                     Grid item = pt as Grid;
                     if (item == null)
                         return -1;
-                    //if (MouseEventHelper.CheckCodeNodeUID(item.Uid))
-                    //{
-                    //    return parent.Items.IndexOf(item);
-                    //}
                     if (item != null)
                         return parent.Items.IndexOf(item);
                     else
@@ -78,6 +70,34 @@ namespace Banana_Project
             return null;
         }
 
+        public static object GetDataFromSetupList(ListBox source, Point point)
+        {
+            UIElement element = source.InputHitTest(point) as UIElement;
+            if (element != null)
+            {
+                object data = DependencyProperty.UnsetValue;
+                while (data == DependencyProperty.UnsetValue)
+                {
+                    data = source.ItemContainerGenerator.ItemFromContainer(element);
+                    if (data == DependencyProperty.UnsetValue)
+                    {
+                        element = VisualTreeHelper.GetParent(element) as UIElement;
+                    }
+
+                    if (element == source)
+                    {
+                        return null;
+                    }
+                }
+
+                if (data != DependencyProperty.UnsetValue)
+                {
+                    return new DataObject("SetupList", data, true);
+                }
+            }
+
+            return null;
+        }
 
     }
 }
