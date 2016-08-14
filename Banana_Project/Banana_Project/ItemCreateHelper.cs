@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 
 namespace Banana_Project
@@ -23,6 +24,7 @@ namespace Banana_Project
             nodeObjectList.Add("주석");
             nodeObjectList.Add("시간지연");
             nodeObjectList.Add("여러번반복");
+            nodeObjectList.Add("포트사용");
             nodeObjectList.Add("Variable");
             return nodeObjectList;
         }
@@ -39,6 +41,9 @@ namespace Banana_Project
                 return CodeItem_Variable("Variable");
             else if (itemName.Equals("여러번반복"))
                 return CodeItem_While("While");
+            else if (itemName.Equals("포트사용"))
+                return CodeItem_DigitalWrite("DigitalWrite");
+
 
             //else if (itemName.Equals("Wifi Shield")) ;
             //    return 
@@ -281,7 +286,7 @@ namespace Banana_Project
         }
         public static Grid CodeItem_Note(string UIDStirng)
         {
-            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng, Colors.LightGreen);
 
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
@@ -289,7 +294,7 @@ namespace Banana_Project
             txtBlock1.Text = "코드에 삽입할 주석을 입력하세요";
             txtBlock1.FontSize = 14;
             txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Blue);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
             Grid.SetColumn(txtBlock1, 0);
@@ -531,8 +536,88 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
+        public static Grid CodeItem_DigitalWrite(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
-        
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "▼";
+            txtBlock1.FontSize = 14;
+            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumn(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
+
+            TextBlock txtTitle = new TextBlock();
+            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            txtTitle.Text = "Variable";
+            txtTitle.FontSize = 14;
+            txtTitle.FontWeight = FontWeights.Bold;
+            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtTitle, 1);
+            Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
+
+            //CheckBox checkBox = new CheckBox();
+            //checkBox.HorizontalAlignment = HorizontalAlignment.Center;
+            //checkBox.Content = "사용여부";
+            //checkBox.FontSize = 14;
+            //checkBox.IsChecked = true;
+
+            //Grid.SetRow(checkBox, 1);
+            //Grid.SetColumn(checkBox, 1);
+            //DynamicGrid.Children.Add(checkBox);
+
+            ComboBox comboBox = new ComboBox();
+            comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox.ItemsSource = MakePortItemMenu();
+            Grid.SetRow(comboBox, 1);
+            Grid.SetColumn(comboBox, 1);
+            DynamicGrid.Children.Add(comboBox); 
+
+
+            TextBox txtBox1 = new TextBox();
+            txtBox1.FontSize = 14;
+            txtBox1.FontWeight = FontWeights.Bold;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtBox1, 1);
+            Grid.SetColumn(txtBox1, 2);
+            DynamicGrid.Children.Add(txtBox1);
+
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "▼";
+            txtBlock2.FontSize = 14;
+            txtBlock2.FontWeight = FontWeights.Bold;
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtBlock2, 2);
+            Grid.SetColumnSpan(txtBlock2, 3);
+            DynamicGrid.Children.Add(txtBlock2);
+
+            return DynamicGrid;
+        }
+
+
 
 
         // Event helper function
@@ -586,6 +671,7 @@ namespace Banana_Project
 
         }
 
+        // Mouse UpDown Event
         static bool codeListBox_Click = false;
         static int currentClickID = -1;
 
@@ -637,6 +723,42 @@ namespace Banana_Project
             DynamicGrid.Margin = itemMargin;
             //DynamicGrid.ShowGridLines = true;
             DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
+            DynamicGrid.Uid = UIDStirng;
+
+
+            // Create Columns
+            ColumnDefinition gridCol1 = new ColumnDefinition();
+            gridCol1.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition gridCol2 = new ColumnDefinition();
+            gridCol2.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition gridCol3 = new ColumnDefinition();
+            gridCol2.Width = new GridLength(1, GridUnitType.Star);
+            DynamicGrid.ColumnDefinitions.Add(gridCol1);
+            DynamicGrid.ColumnDefinitions.Add(gridCol2);
+            DynamicGrid.ColumnDefinitions.Add(gridCol3);
+
+            // Create Rows
+            RowDefinition gridRow1 = new RowDefinition();
+            gridRow1.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition gridRow2 = new RowDefinition();
+            gridRow2.Height = new GridLength(3, GridUnitType.Star);
+            RowDefinition gridRow3 = new RowDefinition();
+            gridRow3.Height = new GridLength(1, GridUnitType.Star);
+            DynamicGrid.RowDefinitions.Add(gridRow1);
+            DynamicGrid.RowDefinitions.Add(gridRow2);
+            DynamicGrid.RowDefinitions.Add(gridRow3);
+
+            return DynamicGrid;
+        }
+        static Grid GetDynamicGrid3x3(string UIDStirng, Color color )
+        {
+            Grid DynamicGrid = new Grid();
+            DynamicGrid.Width = itemWidth;
+            DynamicGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+            DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
+            DynamicGrid.Margin = itemMargin;
+            //DynamicGrid.ShowGridLines = true;
+            DynamicGrid.Background = new SolidColorBrush(color);
             DynamicGrid.Uid = UIDStirng;
 
 
@@ -727,6 +849,29 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
+
+        static List<ComboBoxItem> MakePortItemMenu()
+        {
+            List<ComboBoxItem> items = new List<ComboBoxItem>()
+            {
+                new ComboBoxItem() { Name = "Digital_01" , Content = "Digital_01"},
+                new ComboBoxItem() { Name = "Digital_02" , Content = "Digital_02"},
+                new ComboBoxItem() { Name = "Digital_03" , Content = "Digital_03"},
+                new ComboBoxItem() { Name = "Digital_04" , Content = "Digital_04"},
+                new ComboBoxItem() { Name = "Digital_05" , Content = "Digital_05"},
+                new ComboBoxItem() { Name = "Digital_06" , Content = "Digital_06"},
+                new ComboBoxItem() { Name = "Digital_07" , Content = "Digital_07"},
+                new ComboBoxItem() { Name = "Digital_08" , Content = "Digital_08"},
+                new ComboBoxItem() { Name = "Digital_09" , Content = "Digital_09"},
+                new ComboBoxItem() { Name = "Digital_10" , Content = "Digital_10"},
+                new ComboBoxItem() { Name = "Digital_11" , Content = "Digital_11"},
+                new ComboBoxItem() { Name = "Digital_12" , Content = "Digital_12"},
+                new ComboBoxItem() { Name = "Digital_13" , Content = "Digital_13"},
+            };
+
+            return items;
+        }
+
     }
 
 

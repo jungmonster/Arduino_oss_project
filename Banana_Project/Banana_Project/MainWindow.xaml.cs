@@ -29,6 +29,7 @@ namespace Banana_Project
 
             NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
             SampleNodeList.ItemsSource = SampleTab.GetSampleList();
+
         }
 
         void Menu_Check(object sender, RoutedEventArgs e)

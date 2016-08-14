@@ -7,7 +7,6 @@ using System.Windows;
 
 namespace Banana_Project
 {
-
     class CodeGenerator
     {
         List<string> ortherArea = new List<string>();
@@ -15,13 +14,14 @@ namespace Banana_Project
         List<string> loopArea = new List<string>();
         int check_maxCounter = 0;
         int check_counter = 0;
-        
+        string padding = "    ";
+        string padding_temp = "    ";
+
         public CodeGenerator()
         {
             initSetGenerator();
 
         }
-
         public void CodeGeneratorClear()
         {
             ortherArea.Clear();
@@ -31,21 +31,23 @@ namespace Banana_Project
             check_counter = 0;
             initSetGenerator();
         }
-
         private void initSetGenerator()
         {
             // ortherArea setting
+            ortherArea.Add("#include <");
             ortherArea.Add("// 전역 구역");
+            ortherArea.Add("int speed = 9600;");
 
             // setupArea setting
             setupArea.Add("// setup 함수 구역");
             setupArea.Add("void setup(){");
+            setupArea.Add(padding + "// USB 통신 준비");
+            setupArea.Add(padding + "Serial.begin(speed);");
 
             // loopArea setting
             loopArea.Add("// loop 함수 구역 ");
             loopArea.Add("void loop() {");
         }
-
         public void endSetGenerator()
         {
             // add empty space in ortherArea
@@ -66,7 +68,6 @@ namespace Banana_Project
             loopArea.Add("");
 
         }
-        
 
         public List<string> GetLoopString()
         {
@@ -132,15 +133,15 @@ namespace Banana_Project
                 TextBox element = VisualTreeHelper.GetChild(child, i) as TextBox;
                 if(element != null)
                 {
-                    string str = "println(\"" + element.Text + "\");" ;
+                    string str = padding + "Serial.println(\"" + element.Text + "\");" ;
                     loopArea.Add(str);
+                    CodePadding_Minus();
                     return true;
                 }
 
             }
             return false;    
         }
-
         bool Parser_Delay(Grid child)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
@@ -148,15 +149,15 @@ namespace Banana_Project
                 TextBox element = VisualTreeHelper.GetChild(child, i) as TextBox;
                 if (element != null)
                 {
-                    string str = "delay(" + element.Text + ");";
+                    string str = padding + "delay(" + element.Text + ");";
                     loopArea.Add(str);
+                    CodePadding_Minus();
                     return true;
                 }
 
             }
             return false;
         }
-
         bool Parser_Note(Grid child)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
@@ -164,15 +165,15 @@ namespace Banana_Project
                 TextBox element = VisualTreeHelper.GetChild(child, i) as TextBox;
                 if (element != null)
                 {
-                    string str = "// " + element.Text;
+                    string str = padding + "// " + element.Text;
                     loopArea.Add(str);
+                    CodePadding_Minus();
                     return true;
                 }
 
             }
             return false;
         }
-
         bool Parser_While(Grid child)
         {
             check_counter += 1;
@@ -185,20 +186,43 @@ namespace Banana_Project
             {
                 UIElement element = VisualTreeHelper.GetChild(child, i) as UIElement;
 
-                if (element.GetType() == typeof(TextBox))
+                if (element.GetType() == typeof(TextBox))  // get count
                 {
                     Console.WriteLine("Find text box for get count");
+                    TextBox textbox = element as TextBox;
+                    string str = padding + "for ( counter" + check_counter + " = 0 ; conuter" + check_counter + " < " + textbox.Text + " ; counter" + check_counter + "++ ) {";
+                    
+                    loopArea.Add(str);
                 }
                 else if(element.GetType() == typeof(ListBox))
                 {
                     Console.WriteLine("Find Listbox");
                     ListBox listbox = element as ListBox;
+                    CodePadding_Plus();
                     ChangeToCode(listbox);
+                    CodePadding_Minus();
                 }
 
             }
+            
             check_counter -= 1;
+            CodePadding_Minus();
+            loopArea.Add(padding + "}");
             return false;
+        }
+
+
+        // for padding 
+        void CodePadding_Plus()
+        {
+            //for (int i = 0; i < check_counter; i++)
+            //{
+                padding += padding_temp;
+            //}
+        }
+        void CodePadding_Minus()
+        {
+            padding = padding.Substring(0 , 4 * (check_counter + 1) );
         }
 
     }
