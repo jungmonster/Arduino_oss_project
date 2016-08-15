@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Banana_Project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="740" Width="793"
+        Title="코딩 블록" Height="740" Width="793"
         ResizeMode="CanResize" WindowState="Maximized">
 
     <Window.CommandBindings>
