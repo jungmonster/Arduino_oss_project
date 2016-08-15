@@ -16,13 +16,13 @@
 
     <DockPanel>
         <Menu Height="25" DockPanel.Dock="Top">
-            <MenuItem Header="File">
+            <MenuItem Header="파일">
                 <MenuItem Header="_Save" Click="SaveMenu_Click" InputGestureText="Ctrl+S"/>
             </MenuItem>
         </Menu>
         <TabControl x:Name="tabControl"
                     DockPanel.Dock="Bottom">
-            <TabItem Header="Node" Width="100" VerticalAlignment="Stretch" >
+            <TabItem Header="도우미 블록" Width="100" VerticalAlignment="Stretch" >
                 <Grid x:Name="GridList" Background="Beige"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch">
@@ -81,7 +81,7 @@
                                 />
                 </Grid>
             </TabItem>
-            <TabItem Header="Code Block" Width="100" Selector.Selected="Select_CodeVIewTab" VerticalAlignment="Stretch">
+            <TabItem Header="코드" Width="100" Selector.Selected="Select_CodeVIewTab" VerticalAlignment="Stretch">
                 <DockPanel x:Name="GeneraterTab">
                     <TextBox Name="CodeView" 
                             TextWrapping="Wrap"
@@ -93,7 +93,7 @@
                 </DockPanel>
             </TabItem>
 
-            <TabItem Header="Sample" Width="100">
+            <TabItem Header="예제 코드" Width="100">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
