@@ -17,7 +17,23 @@
     <DockPanel>
         <Menu Height="25" DockPanel.Dock="Top">
             <MenuItem Header="파일">
-                <MenuItem Header="_Save" Click="SaveMenu_Click" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="저장하기" Click="SaveMenu_Click" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="열기" Command="ApplicationCommands.Open" />
+                <MenuItem Header="종료" Command="ApplicationCommands.Close" />
+            </MenuItem>
+            <MenuItem Header="편집">
+                <MenuItem Header="되돌리기" Command="ApplicationCommands.Undo" />
+                <MenuItem Header="다시 실행" Command="ApplicationCommands.Redo"/>
+                <MenuItem Header="복사" Command="ApplicationCommands.Copy"/>
+                <MenuItem Header="잘라내기" Command="ApplicationCommands.Cut"/>
+                <MenuItem Header="붙여넣기" Command="ApplicationCommands.Paste"/>
+                <MenuItem Header="모두 선택" Command="ApplicationCommands.SelectAll"/>
+            </MenuItem>
+            <MenuItem Header="도구">
+                <MenuItem Header="찾기" Command="ApplicationCommands.Find"/>
+            </MenuItem>
+            <MenuItem Header="도움말">
+                <MenuItem Header="도움말" Command="ApplicationCommands.Help"/>
             </MenuItem>
         </Menu>
         <TabControl x:Name="tabControl"
