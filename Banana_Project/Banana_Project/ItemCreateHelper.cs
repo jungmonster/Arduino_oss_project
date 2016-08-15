@@ -19,7 +19,7 @@ namespace Banana_Project
         public static ObservableCollection<string> GetSetupList()
         {
             ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
-            nodeObjectList.Add("포트설정");
+            nodeObjectList.Add("디지털포트설정");
             nodeObjectList.Add("문자열출력");
             nodeObjectList.Add("주석");
             nodeObjectList.Add("시간지연");
@@ -34,17 +34,18 @@ namespace Banana_Project
             ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
             nodeObjectList.Add("문자열출력");
             nodeObjectList.Add("주석");
-            nodeObjectList.Add("시간지연");
-            nodeObjectList.Add("여러번반복");
-            nodeObjectList.Add("포트출력");
-            nodeObjectList.Add("포트입력");
             nodeObjectList.Add("변수사용");
+            nodeObjectList.Add("시간지연");
+            nodeObjectList.Add("조건문사용");
+            nodeObjectList.Add("여러번반복");
+            nodeObjectList.Add("디지털포트출력");
+            nodeObjectList.Add("디지털포트입력");
             return nodeObjectList;
         }
         
         public static Grid FindGetSetupGridItem(string itemName)
         {
-            if (itemName.Equals("포트설정"))
+            if (itemName.Equals("디지털포트설정"))
                 return CodeItem_PinMode("PinMode");
             else if (itemName.Equals("주석"))
                 return CodeItem_Note("Note");
@@ -66,13 +67,13 @@ namespace Banana_Project
                 return CodeItem_Note("Note");
             else if (itemName.Equals("시간지연"))
                 return CodeItem_Delay("Delay");
-            else if (itemName.Equals("Variable"))
-                return CodeItem_Variable("Variable");
+            else if (itemName.Equals("조건문사용"))
+                return CodeItem_If("If");
             else if (itemName.Equals("여러번반복"))
                 return CodeItem_While("While");
-            else if (itemName.Equals("포트출력"))
+            else if (itemName.Equals("디지털포트출력"))
                 return CodeItem_DigitalWrite("DigitalWrite");
-            else if (itemName.Equals("포트입력"))
+            else if (itemName.Equals("디지털포트입력"))
                 return CodeItem_DigitalRead("DigitalRead");
             if (itemName.Equals("변수사용"))
                 return CodeItem_Variable_Use("Variable_Use");
@@ -622,6 +623,80 @@ namespace Banana_Project
             listbox.PreviewMouseLeftButtonUp += ChildListBox_MouseButtonUp;
             listbox.MouseMove += ChildListBox_MouseButtonMove;
             listbox.MinHeight = 20 ;
+            Grid.SetRow(listbox, 2);
+            Grid.SetColumnSpan(listbox, 3);
+
+            DynamicGrid.Children.Add(listbox);
+
+            return DynamicGrid;
+        }
+        public static Grid CodeItem_If(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
+
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "조건에 따라 실행 할 구문";
+            txtBlock1.FontSize = 14;
+            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumn(txtBlock1, 0);
+            Grid.SetColumnSpan(txtBlock1, 2);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
+            TextBlock txtTitle = new TextBlock();
+            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            txtTitle.Text = "If";
+            txtTitle.FontSize = 14;
+            txtTitle.FontWeight = FontWeights.Bold;
+            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtTitle, 1);
+            Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
+
+            TextBlock txt = new TextBlock();
+            txt.HorizontalAlignment = HorizontalAlignment.Center;
+            txt.Text = "조건을 입력하세요 : ";
+            txt.FontSize = 14;
+            txt.FontWeight = FontWeights.Bold;
+            txt.Foreground = new SolidColorBrush(Colors.Green);
+            txt.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txt, 1);
+            Grid.SetColumn(txt, 1);
+            DynamicGrid.Children.Add(txt);
+
+            TextBox txtBox1 = new TextBox();
+            txtBox1.FontSize = 14;
+            txtBox1.FontWeight = FontWeights.Bold;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.VerticalAlignment = VerticalAlignment.Top;
+
+            Grid.SetRow(txtBox1, 1);
+            Grid.SetColumn(txtBox1, 2);
+            DynamicGrid.Children.Add(txtBox1);
+
+
+            ListBox listbox = new ListBox();
+            listbox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            listbox.VerticalAlignment = VerticalAlignment.Top;
+            listbox.Foreground = new SolidColorBrush(Colors.Red);
+            listbox.AllowDrop = true;
+            listbox.Drop += Node_Drop;
+            listbox.PreviewMouseLeftButtonDown += ChildListBox_MouseButtonDown;
+            listbox.PreviewMouseLeftButtonUp += ChildListBox_MouseButtonUp;
+            listbox.MouseMove += ChildListBox_MouseButtonMove;
+            listbox.MinHeight = 20;
             Grid.SetRow(listbox, 2);
             Grid.SetColumnSpan(listbox, 3);
 

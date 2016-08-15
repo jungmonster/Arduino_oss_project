@@ -14,6 +14,8 @@ namespace Banana_Project
         List<string> loopArea = new List<string>();
         int check_maxCounter = 0;
         int check_counter = 0;
+        int check_padding = 0;
+  
         string padding = "    ";
         string padding_temp = "    ";
 
@@ -133,6 +135,12 @@ namespace Banana_Project
                 else if (child.Uid.Equals("Variable_Use"))
                 {
                     bool check = Parser_Veriable_Use(child);
+                    if (!check)
+                        Console.WriteLine("Err : While object err");
+                }
+                else if (child.Uid.Equals("If"))
+                {
+                    bool check = Parser_If(child);
                     if (!check)
                         Console.WriteLine("Err : While object err");
                 }
@@ -329,6 +337,36 @@ namespace Banana_Project
             loopArea.Add(padding + "}");
             return false;
         }
+        bool Parser_If(Grid child)
+        {
+            check_padding += 1;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
+            {
+                UIElement element = VisualTreeHelper.GetChild(child, i) as UIElement;
+
+                if (element.GetType() == typeof(TextBox))  // get count
+                {
+                    Console.WriteLine("Find text box for get count");
+                    TextBox textbox = element as TextBox;
+                    string str = padding + "if ( "  + textbox.Text + " ) {";
+                    loopArea.Add(str);
+                }
+                else if (element.GetType() == typeof(ListBox))
+                {
+                    Console.WriteLine("Find Listbox");
+                    ListBox listbox = element as ListBox;
+                    CodePadding_Plus();
+                    ChangeToCode_Loop(listbox);
+                    CodePadding_Minus();
+                }
+
+            }
+
+            check_padding -= 1;
+            CodePadding_Minus();
+            loopArea.Add(padding + "}");
+            return false;
+        }
         bool Parser_PinMode(Grid child)
         {
             string port = null;
@@ -497,7 +535,7 @@ namespace Banana_Project
         }
         void CodePadding_Minus()
         {
-            padding = padding.Substring(0 , 4 * (check_counter + 1) );
+            padding = padding.Substring(0 , 4 * (check_padding +  check_counter + 1) );
         }
 
         int CheckPortNumber(string port)
