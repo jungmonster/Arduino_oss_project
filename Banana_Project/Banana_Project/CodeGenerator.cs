@@ -36,7 +36,7 @@ namespace Banana_Project
         private void initSetGenerator()
         {
             // ortherArea setting
-            ortherArea.Add("// 전역 구역");
+            ortherArea.Add("");
             ortherArea.Add("int speed = 9600;");
 
             // setupArea setting
@@ -317,7 +317,7 @@ namespace Banana_Project
                 {
                     Console.WriteLine("Find text box for get count");
                     TextBox textbox = element as TextBox;
-                    string str = padding + "for ( counter" + check_counter + " = 0 ; conuter" + check_counter + " < " + textbox.Text + " ; counter" + check_counter + "++ ) {";
+                    string str = padding + "for ( counter" + check_counter + " = 0 ; counter" + check_counter + " < " + textbox.Text + " ; counter" + check_counter + "++ ) {";
                     
                     loopArea.Add(str);
                 }
