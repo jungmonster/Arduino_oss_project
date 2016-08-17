@@ -8,7 +8,8 @@ namespace Banana_Project
     // Mouse Event Helper Class
     static class MouseEventHelper
     {
-        // CodeListView에서 
+        
+        // Check block index in listbox
         public static int findCodeListItemIndex(ListBox parent, DependencyObject obj)
         {
             if (obj == null)
@@ -41,6 +42,7 @@ namespace Banana_Project
 
         }
 
+        // Check block collection in listbox
         public static object GetDataFromNodeList(ListBox source, Point point)
         {
             UIElement element = source.InputHitTest(point) as UIElement;
@@ -69,7 +71,6 @@ namespace Banana_Project
 
             return null;
         }
-
         public static object GetDataFromSetupList(ListBox source, Point point)
         {
             UIElement element = source.InputHitTest(point) as UIElement;

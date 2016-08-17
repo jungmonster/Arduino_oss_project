@@ -9,16 +9,18 @@ namespace Banana_Project
 {
     class CodeGenerator
     {
+        //  Arduino code string
         List<string> ortherArea = new List<string>();
         List<string> setupArea = new List<string>();
         List<string> loopArea = new List<string>();
+        //  for padding
         int check_maxCounter = 0;
         int check_counter = 0;
         int check_padding = 0;
-  
         string padding = "    ";
         string padding_temp = "    ";
 
+        //  for init code
         public CodeGenerator()
         {
             initSetGenerator();
@@ -70,6 +72,7 @@ namespace Banana_Project
 
         }
 
+        // return Arduino Code
         public List<string> GetLoopString()
         {
             return loopArea;
@@ -83,6 +86,7 @@ namespace Banana_Project
             return ortherArea;
         }
 
+        // Block check function for call parser
         public void ChangeToCode_Loop(ListBox listbox)
         {
             //Console.WriteLine("Change to Code Event");
@@ -150,7 +154,6 @@ namespace Banana_Project
                 }
             }
         }
-
         public void ChangeToCode_Setup(ListBox listbox)
         {
             //Console.WriteLine("Change to Code Event");
@@ -201,6 +204,9 @@ namespace Banana_Project
             }
         }
 
+
+        // Block Parser Funtion for Generate
+        #region Block Parser Funtion 
         bool Parser_Println(Grid child)
         {
             for(int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
@@ -525,6 +531,9 @@ namespace Banana_Project
             else
                 return false;
         }
+
+        #endregion
+
         // for padding 
         void CodePadding_Plus()
         {
@@ -538,6 +547,7 @@ namespace Banana_Project
             padding = padding.Substring(0 , 4 * (check_padding +  check_counter + 1) );
         }
 
+        // Check Digital port number (0~13)
         int CheckPortNumber(string port)
         {
             if (port.Equals("Digital_01"))

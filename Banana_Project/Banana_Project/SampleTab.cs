@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Banana_Project
 {
+    // Sample Code Tab Help Class
     static class SampleTab
     {
         public static ObservableCollection<string> GetSampleList()

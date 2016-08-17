@@ -1,7 +1,7 @@
 # Arduino_oss_project
 
 #Gitbook : Arduino_oss_project
-https://www.gitbook.com/book/jungmonster/arduino_oss_project
+https://www.gitbook.com/book/jungmonster/knu_oss_2016_banana
 
 
 #Trello : Arduino_oss_project

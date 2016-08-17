@@ -40,9 +40,10 @@ namespace Banana_Project
             CodeNodeList.Items.Insert(4, ob);
         }
 
+
+        // Code Tab Select
         void Select_CodeVIewTab(object sender, RoutedEventArgs e)
         {
-            //Console.WriteLine("Select Code Tab");
             codegnt.CodeGeneratorClear();                       // init
             codegnt.ChangeToCode_Setup(this.SetupNodeList);
             codegnt.ChangeToCode_Loop(this.CodeNodeList);
@@ -96,7 +97,7 @@ namespace Banana_Project
         }
         #endregion
 
-        #region Drag&Drop
+        #region Mouse Help Event
         void NodeListView_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ListBox parent = (ListBox)sender;
@@ -112,7 +113,6 @@ namespace Banana_Project
                 DragDrop.DoDragDrop(parent, data, DragDropEffects.Copy);
             }
         }
-
         void SetupListView_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ListBox parent = (ListBox)sender;
@@ -128,9 +128,6 @@ namespace Banana_Project
                 DragDrop.DoDragDrop(parent, data, DragDropEffects.Copy);
             }
         }
-
-        #endregion
-
 
         void CodeNode_Drop(object sender, DragEventArgs e)
         {
@@ -172,7 +169,7 @@ namespace Banana_Project
             }
         }
 
-
+        //  Loop List mouse event
         bool codeListBox_Click = false;
         int currentClickID = -1;
         void CodeNodeListView_MouseButtonDown(object sender, MouseEventArgs e)
@@ -212,6 +209,7 @@ namespace Banana_Project
             }
         }
 
+        //  Setup List mouse event
         bool setupListBox_Click = false;
         int setupCurrentClickID = -1;
         void SetupListView_MouseButtonDown(object sender, MouseEventArgs e)
@@ -253,6 +251,10 @@ namespace Banana_Project
                 setupCurrentClickID = id;
             }
         }
+
+        #endregion
+
+        // Ssve (.ino) File
         private void SaveMenu_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
