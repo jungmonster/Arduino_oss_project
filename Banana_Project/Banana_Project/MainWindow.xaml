@@ -18,6 +18,7 @@
         <Menu Height="25" DockPanel.Dock="Top">
             <MenuItem Header="파일">
                 <MenuItem Header="저장하기" Click="SaveMenu_Click" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="가져오기" Click="ImportMenu_Click"/>
                 <MenuItem Header="열기" Command="ApplicationCommands.Open" />
                 <MenuItem Header="종료" Command="ApplicationCommands.Close" />
             </MenuItem>
@@ -78,7 +79,7 @@
                                   ResizeDirection="Columns"
                              />
                     <TextBlock Text="설정블록" Grid.Column="2" Grid.Row="0" Background="Goldenrod"></TextBlock>
-                    
+
                     <ListBox x:Name="SetupNodeList" x:Uid="LastNodeListBox" Grid.Column="2" Grid.Row="1"
                              AllowDrop="True" Drop="SetupNode_Drop"  
                              PreviewMouseLeftButtonDown="SetupListView_MouseButtonDown"
@@ -86,7 +87,13 @@
                              PreviewMouseMove="SetupListView_MouseMove"
                              VerticalAlignment="Stretch"
                              HorizontalAlignment="Stretch"
-                                />
+                             >
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
                     <TextBlock Text="루프블록" Grid.Column="2" Grid.Row="2" Background="Goldenrod"></TextBlock>
                     <ListBox x:Name="CodeNodeList" x:Uid="LastNodeListBox" Grid.Column="2" Grid.Row="3"
                              AllowDrop="True" Drop="CodeNode_Drop"  
@@ -95,7 +102,13 @@
                              PreviewMouseMove="CodeNodeListView_MouseMove"
                              VerticalAlignment="Stretch"
                              HorizontalAlignment="Stretch"
-                                />
+                                >
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
                 </Grid>
             </TabItem>
             <TabItem Header="코드" Width="100" Selector.Selected="Select_CodeVIewTab" VerticalAlignment="Stretch">

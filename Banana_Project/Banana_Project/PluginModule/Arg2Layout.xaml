@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Banana_Project.PluginModule.Arg2Layout"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Banana_Project.PluginModule"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Border BorderBrush="Black"
+            BorderThickness="1"
+            Padding="5"
+                >
+        <Grid x:Name="LayoutRoot" 
+          HorizontalAlignment="Stretch"
+          Background="LightGoldenrodYellow"
+          Width="AUTO">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*" />
+                <RowDefinition Height="0.4*" />
+                <RowDefinition Height="0.2*" />
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.4*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <TextBlock x:Name="Arg2_Name1"
+                    Text="TextBox"
+                    Background="PeachPuff"
+                    FontSize="12"
+                    TextAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="3, 3, 3, 3"
+                    />
+            <TextBox x:Name="Arg1_Content1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="3, 3, 3, 3"
+                    />
+
+            <TextBlock x:Name="Arg2_Name2"
+                    FontSize="12"
+                    TextAlignment="Center"
+                    Background="Lavender"
+                    Text="TextBox"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="3, 3, 3, 3"
+                    />
+            <TextBox x:Name="Arg2_Content2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="3, 3, 3, 3"
+                    />
+
+            <Button x:Name="Arg1_Remove_btn"
+                Width="80"
+                HorizontalAlignment="Right"
+                Content="Remove"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5, 5, 5, 5"
+                Click="RemoveBtn_Cilck"
+                />
+        </Grid>
+    </Border>
+</UserControl>

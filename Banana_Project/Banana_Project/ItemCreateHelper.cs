@@ -5,7 +5,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-
+using Banana_Project.PluginModule;
 
 namespace Banana_Project
 {
@@ -23,7 +23,6 @@ namespace Banana_Project
             nodeObjectList.Add("문자열출력");
             nodeObjectList.Add("주석");
             nodeObjectList.Add("시간지연");
-            nodeObjectList.Add("와이파이모듈");
             nodeObjectList.Add("변수선언");
             return nodeObjectList;
         }
@@ -43,7 +42,7 @@ namespace Banana_Project
             return nodeObjectList;
         }
         
-        public static Grid FindGetSetupGridItem(string itemName)
+        public static object FindGetSetupGridItem(string itemName , List<MenuListNode> list)
         {
             if (itemName.Equals("디지털포트설정"))
                 return CodeItem_PinMode("PinMode");
@@ -51,14 +50,59 @@ namespace Banana_Project
                 return CodeItem_Note("Note");
             else if (itemName.Equals("시간지연"))
                 return CodeItem_Delay("Delay");
-            if (itemName.Equals("문자열출력"))
+            else if (itemName.Equals("문자열출력"))
                 return CodeItemPrintln("Println");
-            if (itemName.Equals("변수선언"))
+            else if (itemName.Equals("변수선언"))
+                return CodeItem_Variable("Variable");
+            else {
+                return SetGridObject(itemName , list);
+            }
+        }
+
+        public static object FindGetSetupGridItem(string itemName)
+        {
+            if (itemName.Equals("디지털포트설정"))
+                return CodeItem_PinMode("PinMode");
+            else if (itemName.Equals("주석"))
+                return CodeItem_Note("Note");
+            else if (itemName.Equals("시간지연"))
+                return CodeItem_Delay("Delay");
+            else if (itemName.Equals("문자열출력"))
+                return CodeItemPrintln("Println");
+            else if (itemName.Equals("변수선언"))
                 return CodeItem_Variable("Variable");
             else
-                return SetGridObject(itemName);
+            {
+                return null;
+            }
+                
         }
-        public static Grid FindGetCodeGridItem(string itemName)
+
+        private static object SetGridObject(string itemName , List<MenuListNode> list)
+        {
+            
+            foreach(MenuListNode e in list)
+            {
+                if(e.MenuName.Equals(itemName))
+                {
+                    int args = e.Args;
+
+                    switch(args)
+                    {
+                        case 0:
+                            return new Arg0Layout();
+                        case 1:
+                            return new Arg1Layout(e.Arg0);
+                        case 2:
+                            return new Arg2Layout(e.Arg0 , e.Arg1);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public static object FindGetCodeGridItem(string itemName , List<MenuListNode> list)
         {
             if (itemName.Equals("문자열출력"))
                 return CodeItemPrintln("Println");
@@ -74,11 +118,34 @@ namespace Banana_Project
                 return CodeItem_DigitalWrite("DigitalWrite");
             else if (itemName.Equals("디지털포트입력"))
                 return CodeItem_DigitalRead("DigitalRead");
-            if (itemName.Equals("변수사용"))
+            else if (itemName.Equals("변수사용"))
+                return CodeItem_Variable_Use("Variable_Use");
+            else 
+                return SetGridObject(itemName, list);
+        }
+
+        public static object FindGetCodeGridItem(string itemName)
+        {
+            if (itemName.Equals("문자열출력"))
+                return CodeItemPrintln("Println");
+            else if (itemName.Equals("주석"))
+                return CodeItem_Note("Note");
+            else if (itemName.Equals("시간지연"))
+                return CodeItem_Delay("Delay");
+            else if (itemName.Equals("조건문사용"))
+                return CodeItem_If("If");
+            else if (itemName.Equals("여러번반복"))
+                return CodeItem_While("While");
+            else if (itemName.Equals("디지털포트출력"))
+                return CodeItem_DigitalWrite("DigitalWrite");
+            else if (itemName.Equals("디지털포트입력"))
+                return CodeItem_DigitalRead("DigitalRead");
+            else if (itemName.Equals("변수사용"))
                 return CodeItem_Variable_Use("Variable_Use");
             else
-                return SetGridObject(itemName);
+                return null;
         }
+
 
         // Create block item function
         #region Block Create Function
@@ -145,7 +212,7 @@ namespace Banana_Project
         }
         public static Grid CodeItem_Note(string UIDStirng)
         {
-            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng, Colors.LightGreen);
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng, Colors.LightGoldenrodYellow);
 
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
@@ -763,7 +830,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                Grid DynamicGrid = ItemCreateHelper.FindGetCodeGridItem(data.ToString());
+                object DynamicGrid = ItemCreateHelper.FindGetCodeGridItem(data.ToString()) ;
 
                 parent.Items.Add(DynamicGrid);
                 counter++;
@@ -798,7 +865,6 @@ namespace Banana_Project
                 }
                 element = VisualTreeHelper.GetParent(element) as DependencyObject;
             } 
-
         }
         static bool codeListBox_Click = false;
         static int currentClickID = -1;
@@ -849,7 +915,7 @@ namespace Banana_Project
             DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
             DynamicGrid.Margin = itemMargin;
             //DynamicGrid.ShowGridLines = true;
-            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
+            DynamicGrid.Background = new SolidColorBrush(Colors.LightGoldenrodYellow);
             DynamicGrid.Uid = UIDStirng;
 
 
@@ -921,7 +987,7 @@ namespace Banana_Project
             DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
             DynamicGrid.Margin = itemMargin;
             //DynamicGrid.ShowGridLines = true;
-            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
+            DynamicGrid.Background = new SolidColorBrush(Colors.LightGoldenrodYellow);
             DynamicGrid.Uid = UIDStirng;
 
 
@@ -954,7 +1020,7 @@ namespace Banana_Project
             DynamicGrid.VerticalAlignment = VerticalAlignment.Top;
             DynamicGrid.Margin = itemMargin;
             //DynamicGrid.ShowGridLines = true;
-            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
+            DynamicGrid.Background = new SolidColorBrush(Colors.LightGoldenrodYellow);
             DynamicGrid.Uid = UIDStirng;
 
 
