@@ -44,7 +44,7 @@ namespace Banana_Project
             SetupMenuList.Items.Add("디지털포트설정");
             SetupMenuList.Items.Add("문자열출력");
             SetupMenuList.Items.Add("주석");
-            SetupMenuList.Items.Add("시간지연");
+            SetupMenuList.Items.Add("지연시간");
             SetupMenuList.Items.Add("변수선언");
 
             foreach (MenuListNode node in plugins.GetList)
@@ -60,9 +60,9 @@ namespace Banana_Project
             NodeList.Items.Add("문자열출력");
             NodeList.Items.Add("주석");
             NodeList.Items.Add("변수사용");
-            NodeList.Items.Add("시간지연");
-            NodeList.Items.Add("조건문사용");
-            NodeList.Items.Add("여러번반복");
+            NodeList.Items.Add("지연시간");
+            NodeList.Items.Add("조건문");
+            NodeList.Items.Add("반복");
             NodeList.Items.Add("디지털포트출력");
             NodeList.Items.Add("디지털포트입력");
 

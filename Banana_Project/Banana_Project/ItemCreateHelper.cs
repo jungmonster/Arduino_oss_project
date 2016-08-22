@@ -22,7 +22,7 @@ namespace Banana_Project
             nodeObjectList.Add("디지털포트설정");
             nodeObjectList.Add("문자열출력");
             nodeObjectList.Add("주석");
-            nodeObjectList.Add("시간지연");
+            nodeObjectList.Add("지연시간");
             nodeObjectList.Add("변수선언");
             return nodeObjectList;
         }
@@ -33,10 +33,10 @@ namespace Banana_Project
             ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
             nodeObjectList.Add("문자열출력");
             nodeObjectList.Add("주석");
+            nodeObjectList.Add("지연시간");
             nodeObjectList.Add("변수사용");
-            nodeObjectList.Add("시간지연");
-            nodeObjectList.Add("조건문사용");
-            nodeObjectList.Add("여러번반복");
+            nodeObjectList.Add("조건문");
+            nodeObjectList.Add("반복");
             nodeObjectList.Add("디지털포트출력");
             nodeObjectList.Add("디지털포트입력");
             return nodeObjectList;
@@ -46,12 +46,12 @@ namespace Banana_Project
         {
             if (itemName.Equals("디지털포트설정"))
                 return CodeItem_PinMode("PinMode");
-            else if (itemName.Equals("주석"))
-                return CodeItem_Note("Note");
-            else if (itemName.Equals("시간지연"))
-                return CodeItem_Delay("Delay");
             else if (itemName.Equals("문자열출력"))
                 return CodeItemPrintln("Println");
+            else if (itemName.Equals("주석"))
+                return CodeItem_Note("Note");
+            else if (itemName.Equals("지연시간"))
+                return CodeItem_Delay("Delay");
             else if (itemName.Equals("변수선언"))
                 return CodeItem_Variable("Variable");
             else {
@@ -65,7 +65,7 @@ namespace Banana_Project
                 return CodeItem_PinMode("PinMode");
             else if (itemName.Equals("주석"))
                 return CodeItem_Note("Note");
-            else if (itemName.Equals("시간지연"))
+            else if (itemName.Equals("지연시간"))
                 return CodeItem_Delay("Delay");
             else if (itemName.Equals("문자열출력"))
                 return CodeItemPrintln("Println");
@@ -108,11 +108,11 @@ namespace Banana_Project
                 return CodeItemPrintln("Println");
             else if (itemName.Equals("주석"))
                 return CodeItem_Note("Note");
-            else if (itemName.Equals("시간지연"))
+            else if (itemName.Equals("지연시간"))
                 return CodeItem_Delay("Delay");
-            else if (itemName.Equals("조건문사용"))
+            else if (itemName.Equals("조건문"))
                 return CodeItem_If("If");
-            else if (itemName.Equals("여러번반복"))
+            else if (itemName.Equals("반복"))
                 return CodeItem_While("While");
             else if (itemName.Equals("디지털포트출력"))
                 return CodeItem_DigitalWrite("DigitalWrite");
@@ -132,9 +132,9 @@ namespace Banana_Project
                 return CodeItem_Note("Note");
             else if (itemName.Equals("시간지연"))
                 return CodeItem_Delay("Delay");
-            else if (itemName.Equals("조건문사용"))
+            else if (itemName.Equals("조건문"))
                 return CodeItem_If("If");
-            else if (itemName.Equals("여러번반복"))
+            else if (itemName.Equals("반복"))
                 return CodeItem_While("While");
             else if (itemName.Equals("디지털포트출력"))
                 return CodeItem_DigitalWrite("DigitalWrite");
@@ -146,9 +146,87 @@ namespace Banana_Project
                 return null;
         }
 
-
         // Create block item function
-        #region Block Create Function
+        #region Setup Block Create Function
+        public static Grid CodeItem_PinMode(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
+
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "포트를 선택하세요";
+            txtBlock1.FontSize = 13;
+            txtBlock1.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetRow(txtBlock1, 0);
+            Grid.SetColumn(txtBlock1, 1);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "값을 선택하세요";
+            txtBlock2.FontSize = 13;
+            txtBlock2.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetRow(txtBlock2, 0);
+            Grid.SetColumn(txtBlock2, 2);
+            DynamicGrid.Children.Add(txtBlock2);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
+            btn.Click += RemoveBtn_ClickEvent;
+            Grid.SetRow(btn, 2);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
+            TextBlock txtBlock3 = new TextBlock();
+            txtBlock3.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock3.Text = "디지털포트설정";
+            txtBlock3.FontSize = 14;
+            txtBlock3.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock3.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock3, 1);
+            Grid.SetColumn(txtBlock3, 0);
+            DynamicGrid.Children.Add(txtBlock3);
+
+            ComboBox comboBox1 = new ComboBox();
+            comboBox1.Uid = "PORT";
+            comboBox1.Width = 250;
+            comboBox1.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox1.ItemsSource = MakePortItemMenu();
+            Grid.SetRow(comboBox1, 1);
+            Grid.SetColumn(comboBox1, 1);
+            DynamicGrid.Children.Add(comboBox1);
+
+            ComboBox comboBox2 = new ComboBox();
+            comboBox2.Uid = "PINMODE";
+            comboBox2.Width = 250;
+            comboBox2.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox2.ItemsSource = MakePinmodeItemMenu();
+            Grid.SetRow(comboBox2, 1);
+            Grid.SetColumn(comboBox2, 2);
+            DynamicGrid.Children.Add(comboBox2);
+
+            TextBlock txtBlock4 = new TextBlock();
+            txtBlock4.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock4.Text = "↓";
+            txtBlock4.FontSize = 14;
+            txtBlock4.FontWeight = FontWeights.Bold;
+            txtBlock4.Foreground = new SolidColorBrush(Colors.Red);
+            txtBlock4.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock4, 2);
+            Grid.SetColumnSpan(txtBlock4, 3);
+            DynamicGrid.Children.Add(txtBlock4);
+
+            return DynamicGrid;
+        }
+
         public static Grid CodeItemPrintln(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
@@ -157,28 +235,29 @@ namespace Banana_Project
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
             txtBlock1.Text = "콘솔에 출력할 문자를 적으세요.";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.FontSize = 13;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            txtBlock1.Margin = new Thickness(5, 5, 5, 5);
             Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumn(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
+            Grid.SetColumn(txtBlock1, 1);
             DynamicGrid.Children.Add(txtBlock1);
 
             Button btn = new Button();
             btn.Content = "Remove";
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
             btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
+            Grid.SetRow(btn, 2);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "Println";
+            txtTitle.Text = "문자열출력";
             txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.Foreground = new SolidColorBrush(Colors.Black);
             txtTitle.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtTitle, 1);
             Grid.SetColumn(txtTitle, 0);
@@ -186,21 +265,20 @@ namespace Banana_Project
 
 
             TextBox txtBox1 = new TextBox();
-            txtBox1.FontSize = 14;
-            txtBox1.FontWeight = FontWeights.Bold;
-            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.FontSize = 12;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Black);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 1);
             Grid.SetColumnSpan(txtBox1, 2);
             DynamicGrid.Children.Add(txtBox1);
 
-            TextBlock txtBlock2 = new TextBlock();
+                        TextBlock txtBlock2 = new TextBlock();
             txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock2.Text = "▼";
+            txtBlock2.Text = "↓";
             txtBlock2.FontSize = 14;
             txtBlock2.FontWeight = FontWeights.Bold;
-            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Red);
             txtBlock2.VerticalAlignment = VerticalAlignment.Top;
 
             Grid.SetRow(txtBlock2, 2);
@@ -210,6 +288,7 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
+
         public static Grid CodeItem_Note(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng, Colors.LightGoldenrodYellow);
@@ -218,21 +297,33 @@ namespace Banana_Project
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
             txtBlock1.Text = "코드에 삽입할 주석을 입력하세요";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
+            txtBlock1.FontSize = 13;
+            txtBlock1.Margin = new Thickness(5, 5, 5, 5);
             txtBlock1.Foreground = new SolidColorBrush(Colors.Blue);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumn(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
+            Grid.SetColumn(txtBlock1, 1);
             DynamicGrid.Children.Add(txtBlock1);
 
             Button btn = new Button();
             btn.Content = "Remove";
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
             btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
+            Grid.SetRow(btn, 2);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
+
+            TextBlock txtTitle = new TextBlock();
+            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            txtTitle.Text = "주석입력";
+            txtTitle.FontSize = 14;
+            txtTitle.Foreground = new SolidColorBrush(Colors.Blue);
+            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtTitle, 1);
+            Grid.SetColumn(txtTitle, 0);
+            DynamicGrid.Children.Add(txtTitle);
 
             TextBox txtBox1 = new TextBox();
             txtBox1.FontSize = 14;
@@ -242,16 +333,16 @@ namespace Banana_Project
             txtBox1.TextWrapping = TextWrapping.Wrap;
             txtBox1.AcceptsReturn = true;
             Grid.SetRow(txtBox1, 1);
-            Grid.SetColumn(txtBox1, 0);
-            Grid.SetColumnSpan(txtBox1, 3);
+            Grid.SetColumn(txtBox1, 1);
+            Grid.SetColumnSpan(txtBox1, 2);
             DynamicGrid.Children.Add(txtBox1);
 
             TextBlock txtBlock2 = new TextBlock();
             txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock2.Text = "▼";
+            txtBlock2.Text = "↓";
             txtBlock2.FontSize = 14;
             txtBlock2.FontWeight = FontWeights.Bold;
-            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Blue);
             txtBlock2.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock2, 2);
             Grid.SetColumn(txtBlock2, 0);
@@ -260,127 +351,66 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
+
         public static Grid CodeItem_Delay(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "지연 시간을 입력하세요 ( 1000 = 1s )";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.Text = "지연시간을 입력하세요( 1 second = 1000 )";
+            txtBlock1.FontSize = 13;
+            txtBlock1.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
+            Grid.SetColumn(txtBlock1, 1);
             DynamicGrid.Children.Add(txtBlock1);
 
             Button btn = new Button();
             btn.Content = "Remove";
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
             btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
+            Grid.SetRow(btn, 2);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "Delay";
+            txtTitle.Text = "지연시간(Delay)";
             txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.Foreground = new SolidColorBrush(Colors.Black);
             txtTitle.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtTitle, 1);
             Grid.SetColumn(txtTitle, 0);
             DynamicGrid.Children.Add(txtTitle);
 
             TextBox txtBox1 = new TextBox();
-            txtBox1.FontSize = 14;
-            txtBox1.FontWeight = FontWeights.Bold;
+            txtBox1.FontSize = 12;
             txtBox1.Foreground = new SolidColorBrush(Colors.Green);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 1);
+            Grid.SetColumnSpan(txtBox1, 2);
             DynamicGrid.Children.Add(txtBox1);
 
             TextBlock txtBlock2 = new TextBlock();
             txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock2.Text = "▼";
+            txtBlock2.Text = "↓";
             txtBlock2.FontSize = 14;
             txtBlock2.FontWeight = FontWeights.Bold;
-            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Red);
             txtBlock2.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock2, 2);
-            Grid.SetColumnSpan(txtBlock2,2);
+            Grid.SetColumn(txtBlock2, 0);
+            Grid.SetColumnSpan(txtBlock2, 3);
             DynamicGrid.Children.Add(txtBlock2);
 
             return DynamicGrid;
         }
-        public static Grid CodeItem_Variable_Use(string UIDStirng)
-        {
-            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
-            TextBlock txtBlock1 = new TextBlock();
-            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "변수에 데이터를 입력하세요 (선언한 변수의 이름과 데이터를 참고하세요)";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
-            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
-            DynamicGrid.Children.Add(txtBlock1);
-
-            Button btn = new Button();
-            btn.Content = "Remove";
-            btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
-            Grid.SetColumn(btn, 2);
-            DynamicGrid.Children.Add(btn);
-
-            TextBlock txtTitle = new TextBlock();
-            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "변수 이름 & 데이터";
-            txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
-            txtTitle.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txtTitle, 1);
-            Grid.SetColumn(txtTitle, 0);
-            DynamicGrid.Children.Add(txtTitle);
-
-            TextBox txtBox1 = new TextBox();
-            txtBox1.Uid = "NAME";
-            txtBox1.FontSize = 14;
-            txtBox1.FontWeight = FontWeights.Bold;
-            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
-            txtBox1.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txtBox1, 1);
-            Grid.SetColumn(txtBox1, 1);
-            DynamicGrid.Children.Add(txtBox1);
-
-            TextBox txtBox2 = new TextBox();
-            txtBox2.Uid = "DATA";
-            txtBox2.FontSize = 14;
-            txtBox2.FontWeight = FontWeights.Bold;
-            txtBox2.Foreground = new SolidColorBrush(Colors.Green);
-            txtBox2.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txtBox2, 1);
-            Grid.SetColumn(txtBox2, 2);
-            DynamicGrid.Children.Add(txtBox2);
-
-            TextBlock txtBlock2 = new TextBlock();
-            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock2.Text = "▼";
-            txtBlock2.FontSize = 14;
-            txtBlock2.FontWeight = FontWeights.Bold;
-            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
-            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txtBlock2, 2);
-            Grid.SetColumnSpan(txtBlock2, 2);
-            DynamicGrid.Children.Add(txtBlock2);
-
-            return DynamicGrid;
-        }
         public static Grid CodeItem_Variable(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
@@ -388,145 +418,165 @@ namespace Banana_Project
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "자료형과 변수 이름을 지정하세요";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.Text = "변수의 자료형을 선택하세요";
+            txtBlock1.FontSize = 13;
+            txtBlock1.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumn(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
+            Grid.SetColumn(txtBlock1, 1);
             DynamicGrid.Children.Add(txtBlock1);
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "변수명을 입력하세요";
+            txtBlock2.FontSize = 13;
+            txtBlock2.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock2, 0);
+            Grid.SetColumn(txtBlock2, 2);
+            DynamicGrid.Children.Add(txtBlock2);
 
             Button btn = new Button();
             btn.Content = "Remove";
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
             btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
+            Grid.SetRow(btn, 2);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
-
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
             txtTitle.Text = "자료형 & 이름";
             txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.Foreground = new SolidColorBrush(Colors.Black);
             txtTitle.VerticalAlignment = VerticalAlignment.Top;
-
             Grid.SetRow(txtTitle, 1);
             Grid.SetColumn(txtTitle, 0);
             DynamicGrid.Children.Add(txtTitle);
 
             ComboBox comboBox = new ComboBox();
             comboBox.Uid = "DATA";
+            comboBox.Width = 250;
             comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
             comboBox.ItemsSource = MakeItemDataMenu();
             Grid.SetRow(comboBox, 1);
             Grid.SetColumn(comboBox, 1);
             DynamicGrid.Children.Add(comboBox);
 
-
             TextBox txtBox1 = new TextBox();
             txtBox1.Uid = "NAME";
             txtBox1.FontSize = 14;
-            txtBox1.FontWeight = FontWeights.Bold;
-            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.Width = 250;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Black);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
-
+            txtBox1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBox1.TextAlignment = TextAlignment.Center;
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 2);
             DynamicGrid.Children.Add(txtBox1);
 
-
-            TextBlock txtBlock2 = new TextBlock();
-            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock2.Text = "▼";
-            txtBlock2.FontSize = 14;
-            txtBlock2.FontWeight = FontWeights.Bold;
-            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
-            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
-
-            Grid.SetRow(txtBlock2, 2);
-            Grid.SetColumnSpan(txtBlock2, 3);
-            DynamicGrid.Children.Add(txtBlock2);
+            TextBlock txtBlock3 = new TextBlock();
+            txtBlock3.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock3.Text = "↓";
+            txtBlock3.FontSize = 14;
+            txtBlock3.FontWeight = FontWeights.Bold;
+            txtBlock3.Foreground = new SolidColorBrush(Colors.Red);
+            txtBlock3.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock3, 2);
+            Grid.SetColumnSpan(txtBlock3, 3);
+            DynamicGrid.Children.Add(txtBlock3);
 
             return DynamicGrid;
         }
-        public static Grid CodeItem_While(string UIDStirng)
+        #endregion
+
+        #region Loop Block Create Function
+        public static Grid CodeItem_Variable_Use(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
 
-            //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "해당 구간을 지정한 수 만큼 반복합니다. (숫자만 입력하세요)";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.Text = "변수명을 입력하세요";
+            txtBlock1.FontSize = 13;
+            txtBlock1.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumn(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
+            Grid.SetColumn(txtBlock1, 1);
             DynamicGrid.Children.Add(txtBlock1);
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "대입할 값을 입력하세요";
+            txtBlock2.FontSize = 13;
+            txtBlock2.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock2, 0);
+            Grid.SetColumn(txtBlock2, 2);
+            DynamicGrid.Children.Add(txtBlock2);
 
             Button btn = new Button();
             btn.Content = "Remove";
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
             btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
+            Grid.SetRow(btn, 2);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
 
             TextBlock txtTitle = new TextBlock();
             txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "While";
+            txtTitle.Text = "변수 이름 & 데이터";
             txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
+            txtTitle.Foreground = new SolidColorBrush(Colors.Black);
             txtTitle.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtTitle, 1);
             Grid.SetColumn(txtTitle, 0);
             DynamicGrid.Children.Add(txtTitle);
 
-            TextBlock txt = new TextBlock();
-            txt.HorizontalAlignment = HorizontalAlignment.Center;
-            txt.Text = "Count : ";
-            txt.FontSize = 14;
-            txt.FontWeight = FontWeights.Bold;
-            txt.Foreground = new SolidColorBrush(Colors.Green);
-            txt.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txt, 1);
-            Grid.SetColumn(txt, 1);
-            DynamicGrid.Children.Add(txt);
-
             TextBox txtBox1 = new TextBox();
-            txtBox1.FontSize = 14;
-            txtBox1.FontWeight = FontWeights.Bold;
-            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.Uid = "NAME";
+            txtBox1.FontSize = 12;
+            txtBox1.Width = 400;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Black);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
-            
+            txtBox1.TextAlignment = TextAlignment.Center;
             Grid.SetRow(txtBox1, 1);
-            Grid.SetColumn(txtBox1, 2);
+            Grid.SetColumn(txtBox1, 1);
             DynamicGrid.Children.Add(txtBox1);
 
+            TextBox txtBox2 = new TextBox();
+            txtBox2.Uid = "DATA";
+            txtBox2.FontSize = 12;
+            txtBox2.Width = 400;
+            txtBox2.Foreground = new SolidColorBrush(Colors.Black);
+            txtBox2.VerticalAlignment = VerticalAlignment.Top;
+            txtBox2.TextAlignment = TextAlignment.Center;
+            Grid.SetRow(txtBox2, 1);
+            Grid.SetColumn(txtBox2, 2);
+            DynamicGrid.Children.Add(txtBox2);
 
-            ListBox listbox = new ListBox();
-            listbox.HorizontalAlignment = HorizontalAlignment.Stretch;
-            listbox.VerticalAlignment = VerticalAlignment.Top;
-            listbox.Foreground = new SolidColorBrush(Colors.Red);
-            listbox.AllowDrop = true;
-            listbox.Drop += Node_Drop;
-            listbox.PreviewMouseLeftButtonDown += ChildListBox_MouseButtonDown;
-            listbox.PreviewMouseLeftButtonUp += ChildListBox_MouseButtonUp;
-            listbox.MouseMove += ChildListBox_MouseButtonMove;
-            listbox.MinHeight = 20 ;
-            Grid.SetRow(listbox, 2);
-            Grid.SetColumnSpan(listbox, 3);
-
-            DynamicGrid.Children.Add(listbox);
+            TextBlock txtBlock3 = new TextBlock();
+            txtBlock3.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock3.Text = "↓";
+            txtBlock3.FontSize = 14;
+            txtBlock3.FontWeight = FontWeights.Bold;
+            txtBlock3.Foreground = new SolidColorBrush(Colors.Red);
+            txtBlock3.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock3, 2);
+            Grid.SetColumnSpan(txtBlock3, 3);
+            DynamicGrid.Children.Add(txtBlock3);
 
             return DynamicGrid;
         }
+
         public static Grid CodeItem_If(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
@@ -534,59 +584,49 @@ namespace Banana_Project
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "조건에 따라 실행 할 구문";
+            txtBlock1.Text = "조건문";
             txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txtBlock1, 0);
+            Grid.SetRow(txtBlock1, 1);
             Grid.SetColumn(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
             DynamicGrid.Children.Add(txtBlock1);
 
             Button btn = new Button();
             btn.Content = "Remove";
             btn.Click += RemoveBtn_ClickEvent;
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
             Grid.SetRow(btn, 0);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
-
-            TextBlock txtTitle = new TextBlock();
-            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "If";
-            txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
-            txtTitle.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txtTitle, 1);
-            Grid.SetColumn(txtTitle, 0);
-            DynamicGrid.Children.Add(txtTitle);
-
-            TextBlock txt = new TextBlock();
-            txt.HorizontalAlignment = HorizontalAlignment.Center;
-            txt.Text = "조건을 입력하세요 : ";
-            txt.FontSize = 14;
-            txt.FontWeight = FontWeights.Bold;
-            txt.Foreground = new SolidColorBrush(Colors.Green);
-            txt.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txt, 1);
-            Grid.SetColumn(txt, 1);
-            DynamicGrid.Children.Add(txt);
+            
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.VerticalAlignment = VerticalAlignment.Center;
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock2.Text = "조건식을 입력하세요";
+            txtBlock2.FontSize = 13;
+            Grid.SetRow(txtBlock2, 0);
+            Grid.SetColumn(txtBlock2, 1);
+            DynamicGrid.Children.Add(txtBlock2);
 
             TextBox txtBox1 = new TextBox();
-            txtBox1.FontSize = 14;
-            txtBox1.FontWeight = FontWeights.Bold;
-            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.FontSize = 12;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Black);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
-
             Grid.SetRow(txtBox1, 1);
-            Grid.SetColumn(txtBox1, 2);
+            Grid.SetColumn(txtBox1, 1);
+            Grid.SetColumnSpan(txtBox1, 2);
             DynamicGrid.Children.Add(txtBox1);
 
 
             ListBox listbox = new ListBox();
             listbox.HorizontalAlignment = HorizontalAlignment.Stretch;
-            listbox.VerticalAlignment = VerticalAlignment.Top;
+            listbox.VerticalAlignment = VerticalAlignment.Bottom;
+            listbox.Margin = new Thickness(10, 10, 10, 0);
+            listbox.Background = new SolidColorBrush(Colors.LightBlue);
             listbox.Foreground = new SolidColorBrush(Colors.Red);
             listbox.AllowDrop = true;
             listbox.Drop += Node_Drop;
@@ -596,11 +636,75 @@ namespace Banana_Project
             listbox.MinHeight = 20;
             Grid.SetRow(listbox, 2);
             Grid.SetColumnSpan(listbox, 3);
-
             DynamicGrid.Children.Add(listbox);
 
             return DynamicGrid;
         }
+
+        public static Grid CodeItem_While(string UIDStirng)
+        {
+            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
+
+            //Add first column header
+            TextBlock txtBlock1 = new TextBlock();
+            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock1.Text = "반복문";
+            txtBlock1.FontSize = 14;
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock1, 1);
+            Grid.SetColumn(txtBlock1, 0);
+            DynamicGrid.Children.Add(txtBlock1);
+
+            Button btn = new Button();
+            btn.Content = "Remove";
+            btn.Click += RemoveBtn_ClickEvent;
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            Grid.SetRow(btn, 0);
+            Grid.SetColumn(btn, 2);
+            DynamicGrid.Children.Add(btn);
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "반복할 횟수를 입력하세요(숫자만)";
+            txtBlock2.FontSize = 13;
+            txtBlock2.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock2, 0);
+            Grid.SetColumn(txtBlock2, 1);
+            DynamicGrid.Children.Add(txtBlock2);
+
+            TextBox txtBox1 = new TextBox();
+            txtBox1.FontSize = 12;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Black);
+            txtBox1.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBox1, 1);
+            Grid.SetColumn(txtBox1, 1);
+            Grid.SetColumnSpan(txtBox1, 2);
+            DynamicGrid.Children.Add(txtBox1);
+
+            ListBox listbox = new ListBox();
+            listbox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            listbox.VerticalAlignment = VerticalAlignment.Bottom;
+            listbox.Margin = new Thickness(10, 10, 10, 0);
+            listbox.Background = new SolidColorBrush(Colors.LightBlue);
+            listbox.Foreground = new SolidColorBrush(Colors.Red);
+            listbox.AllowDrop = true;
+            listbox.Drop += Node_Drop;
+            listbox.PreviewMouseLeftButtonDown += ChildListBox_MouseButtonDown;
+            listbox.PreviewMouseLeftButtonUp += ChildListBox_MouseButtonUp;
+            listbox.MouseMove += ChildListBox_MouseButtonMove;
+            listbox.MinHeight = 20;
+            Grid.SetRow(listbox, 2);
+            Grid.SetColumnSpan(listbox, 3);
+            DynamicGrid.Children.Add(listbox);
+
+            return DynamicGrid;
+        }
+
         public static Grid CodeItem_DigitalWrite(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
@@ -608,47 +712,60 @@ namespace Banana_Project
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "사용중인 포트의 출력을 조절합니다.";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.Text = "포트를 선택하세요";
+            txtBlock1.FontSize = 13;
+            txtBlock1.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumn(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
+            Grid.SetColumn(txtBlock1, 1);
             DynamicGrid.Children.Add(txtBlock1);
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "값을 선택하세요";
+            txtBlock2.FontSize = 13;
+            txtBlock2.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock2, 0);
+            Grid.SetColumn(txtBlock2, 2);
+            DynamicGrid.Children.Add(txtBlock2);
 
             Button btn = new Button();
             btn.Content = "Remove";
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
             btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
+            Grid.SetRow(btn, 2);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
 
 
-            TextBlock txtTitle = new TextBlock();
-            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "DigitaWrite";
-            txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
-            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+            TextBlock txtBlock3 = new TextBlock();
+            txtBlock3.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock3.Text = "DigitaWrite";
+            txtBlock3.FontSize = 14;
+            txtBlock3.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock3.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock3, 1);
+            Grid.SetColumn(txtBlock3, 0);
+            DynamicGrid.Children.Add(txtBlock3);
 
-            Grid.SetRow(txtTitle, 1);
-            Grid.SetColumn(txtTitle, 0);
-            DynamicGrid.Children.Add(txtTitle);
-
-            ComboBox comboBox = new ComboBox();
-            comboBox.Uid = "PORT";
-            comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-            comboBox.ItemsSource = MakePortItemMenu();
-            Grid.SetRow(comboBox, 1);
-            Grid.SetColumn(comboBox, 1);
-            DynamicGrid.Children.Add(comboBox);
+            ComboBox comboBox1 = new ComboBox();
+            comboBox1.Uid = "PORT";
+            comboBox1.Width = 250;
+            comboBox1.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox1.ItemsSource = MakePortItemMenu();
+            Grid.SetRow(comboBox1, 1);
+            Grid.SetColumn(comboBox1, 1);
+            DynamicGrid.Children.Add(comboBox1);
 
 
             ComboBox comboBox2 = new ComboBox();
             comboBox2.Uid = "OUTPUT";
+            comboBox2.Width = 250;
             comboBox2.HorizontalAlignment = HorizontalAlignment.Stretch;
             comboBox2.ItemsSource = MakeItemOutputMenu();
             Grid.SetRow(comboBox2, 1);
@@ -656,20 +773,20 @@ namespace Banana_Project
             DynamicGrid.Children.Add(comboBox2);
 
 
-            TextBlock txtBlock2 = new TextBlock();
-            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock2.Text = "▼";
-            txtBlock2.FontSize = 14;
-            txtBlock2.FontWeight = FontWeights.Bold;
-            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
-            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
-
-            Grid.SetRow(txtBlock2, 2);
-            Grid.SetColumnSpan(txtBlock2, 3);
-            DynamicGrid.Children.Add(txtBlock2);
+            TextBlock txtBlock4 = new TextBlock();
+            txtBlock4.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock4.Text = "↓";
+            txtBlock4.FontSize = 14;
+            txtBlock4.FontWeight = FontWeights.Bold;
+            txtBlock4.Foreground = new SolidColorBrush(Colors.Red);
+            txtBlock4.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock4, 2);
+            Grid.SetColumnSpan(txtBlock4, 3);
+            DynamicGrid.Children.Add(txtBlock4);
 
             return DynamicGrid;
         }
+
         public static Grid CodeItem_DigitalRead(string UIDStirng)
         {
             Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
@@ -677,143 +794,81 @@ namespace Banana_Project
             //Add first column header
             TextBlock txtBlock1 = new TextBlock();
             txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "읽을 포트와 저장할 변수를 지정하세요";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBlock1.Text = "포트를 선택하세요";
+            txtBlock1.FontSize = 13;
+            txtBlock1.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock1.Foreground = new SolidColorBrush(Colors.Black);
             txtBlock1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumn(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
+            Grid.SetColumn(txtBlock1, 1);
             DynamicGrid.Children.Add(txtBlock1);
+
+            TextBlock txtBlock2 = new TextBlock();
+            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock2.Text = "저장할 변수명을 입력하세요";
+            txtBlock2.FontSize = 13;
+            txtBlock2.Margin = new Thickness(5, 5, 5, 5);
+            txtBlock2.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock2, 0);
+            Grid.SetColumn(txtBlock2, 2);
+            DynamicGrid.Children.Add(txtBlock2);
 
             Button btn = new Button();
             btn.Content = "Remove";
+            btn.Width = 80;
+            btn.Margin = new Thickness(5, 5, 5, 5);
+            btn.HorizontalAlignment = HorizontalAlignment.Right;
             btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
+            Grid.SetRow(btn, 2);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
 
 
-            TextBlock txtTitle = new TextBlock();
-            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "포트번호 & 변수 이름";
-            txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
-            txtTitle.VerticalAlignment = VerticalAlignment.Top;
+            TextBlock txtBlock3 = new TextBlock();
+            txtBlock3.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock3.Text = "DigitalRead";
+            txtBlock3.FontSize = 14;
+            txtBlock3.Foreground = new SolidColorBrush(Colors.Black);
+            txtBlock3.VerticalAlignment = VerticalAlignment.Top;
 
-            Grid.SetRow(txtTitle, 1);
-            Grid.SetColumn(txtTitle, 0);
-            DynamicGrid.Children.Add(txtTitle);
+            Grid.SetRow(txtBlock3, 1);
+            Grid.SetColumn(txtBlock3, 0);
+            DynamicGrid.Children.Add(txtBlock3);
 
-            ComboBox comboBox = new ComboBox();
-            comboBox.Uid = "PORT";
-            comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-            comboBox.ItemsSource = MakePortItemMenu();
-            Grid.SetRow(comboBox, 1);
-            Grid.SetColumn(comboBox, 1);
-            DynamicGrid.Children.Add(comboBox);
-
+            ComboBox comboBox1 = new ComboBox();
+            comboBox1.Uid = "PORT";
+            comboBox1.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox1.Width = 250;
+            comboBox1.ItemsSource = MakePortItemMenu();
+            Grid.SetRow(comboBox1, 1);
+            Grid.SetColumn(comboBox1, 1);
+            DynamicGrid.Children.Add(comboBox1);
 
             TextBox txtBox1 = new TextBox();
             txtBox1.Uid = "NAME";
-            txtBox1.FontSize = 14;
-            txtBox1.FontWeight = FontWeights.Bold;
-            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.FontSize = 12;
+            txtBox1.Width = 400;
+            txtBox1.Foreground = new SolidColorBrush(Colors.Black);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
-
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 2);
             DynamicGrid.Children.Add(txtBox1);
 
-
-            TextBlock txtBlock2 = new TextBlock();
-            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock2.Text = "▼";
-            txtBlock2.FontSize = 14;
-            txtBlock2.FontWeight = FontWeights.Bold;
-            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
-            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
-
-            Grid.SetRow(txtBlock2, 2);
-            Grid.SetColumnSpan(txtBlock2, 3);
-            DynamicGrid.Children.Add(txtBlock2);
+            TextBlock txtBlock4 = new TextBlock();
+            txtBlock4.HorizontalAlignment = HorizontalAlignment.Center;
+            txtBlock4.Text = "↓";
+            txtBlock4.FontSize = 14;
+            txtBlock4.FontWeight = FontWeights.Bold;
+            txtBlock4.Foreground = new SolidColorBrush(Colors.Red);
+            txtBlock4.VerticalAlignment = VerticalAlignment.Top;
+            Grid.SetRow(txtBlock4, 2);
+            Grid.SetColumnSpan(txtBlock4, 3);
+            DynamicGrid.Children.Add(txtBlock4);
 
             return DynamicGrid;
         }
-        public static Grid CodeItem_PinMode(string UIDStirng)
-        {
-            Grid DynamicGrid = GetDynamicGrid3x3(UIDStirng);
-
-            //Add first column header
-            TextBlock txtBlock1 = new TextBlock();
-            txtBlock1.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock1.Text = "사용할 포트 모드를 할당합니다.";
-            txtBlock1.FontSize = 14;
-            txtBlock1.FontWeight = FontWeights.Bold;
-            txtBlock1.Foreground = new SolidColorBrush(Colors.Green);
-            txtBlock1.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(txtBlock1, 0);
-            Grid.SetColumn(txtBlock1, 0);
-            Grid.SetColumnSpan(txtBlock1, 2);
-            DynamicGrid.Children.Add(txtBlock1);
-
-            Button btn = new Button();
-            btn.Content = "Remove";
-            btn.Click += RemoveBtn_ClickEvent;
-            Grid.SetRow(btn, 0);
-            Grid.SetColumn(btn, 2);
-            DynamicGrid.Children.Add(btn);
-
-
-            TextBlock txtTitle = new TextBlock();
-            txtTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            txtTitle.Text = "PinMode";
-            txtTitle.FontSize = 14;
-            txtTitle.FontWeight = FontWeights.Bold;
-            txtTitle.Foreground = new SolidColorBrush(Colors.Green);
-            txtTitle.VerticalAlignment = VerticalAlignment.Top;
-
-            Grid.SetRow(txtTitle, 1);
-            Grid.SetColumn(txtTitle, 0);
-            DynamicGrid.Children.Add(txtTitle);
-
-            ComboBox comboBox = new ComboBox();
-            comboBox.Uid = "PORT";
-            comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-            comboBox.ItemsSource = MakePortItemMenu();
-            Grid.SetRow(comboBox, 1);
-            Grid.SetColumn(comboBox, 1);
-            DynamicGrid.Children.Add(comboBox);
-
-
-
-            ComboBox comboBox2 = new ComboBox();
-            comboBox2.Uid = "PINMODE";
-            comboBox2.HorizontalAlignment = HorizontalAlignment.Stretch;
-            comboBox2.ItemsSource = MakePinmodeItemMenu();
-            Grid.SetRow(comboBox2, 1);
-            Grid.SetColumn(comboBox2, 2);
-            DynamicGrid.Children.Add(comboBox2);
-
-            TextBlock txtBlock2 = new TextBlock();
-            txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
-            txtBlock2.Text = "▼";
-            txtBlock2.FontSize = 14;
-            txtBlock2.FontWeight = FontWeights.Bold;
-            txtBlock2.Foreground = new SolidColorBrush(Colors.Green);
-            txtBlock2.VerticalAlignment = VerticalAlignment.Top;
-
-            Grid.SetRow(txtBlock2, 2);
-            Grid.SetColumnSpan(txtBlock2, 3);
-            DynamicGrid.Children.Add(txtBlock2);
-
-            return DynamicGrid;
-        }
-
         #endregion
-
 
         #region Block helper event function
 
