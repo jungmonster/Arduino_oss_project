@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Banana_Project
 {
@@ -29,7 +30,7 @@ namespace Banana_Project
             string currentPath = AppDomain.CurrentDomain.BaseDirectory ;
             if (sampleName.Equals("TASExample"))
             {
-                filePath = @"C:\Users\icdi0\Desktop\호작질\Banana\Banana\KNU_OSS_2016_Banana-study_wpf\Banana_Project\Banana_Project\plugin\Mobius\images\TASExample.jpg";
+                filePath = currentPath + @"..\..\plugin\Mobius\images\TASExample.jpg";
             }
             else
             {

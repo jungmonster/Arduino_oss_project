@@ -12,7 +12,7 @@
         Title="SplashWindow" Height="400" Width="550">
     <Window.Background>
         <ImageBrush 
-            ImageSource="C:\Users\icdi0\Desktop\호작질\Banana\Banana\KNU_OSS_2016_Banana-study_wpf\Banana_Project\Banana_Project\images\Loading_Background.PNG"
+            ImageSource="@..\..\images\Loading_Background.PNG"
                     />
     </Window.Background>
     <Grid>
