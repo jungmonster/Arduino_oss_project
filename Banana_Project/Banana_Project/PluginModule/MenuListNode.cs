@@ -49,6 +49,14 @@ namespace Banana_Project.PluginModule
             arg3 = _arg3;
         }
 
+        public string Filename
+        {
+            get
+            {
+                return "mobius";
+            }
+        }
+
         public string MenuName
         {
             get

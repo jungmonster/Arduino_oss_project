@@ -1,0 +1,14 @@
+<startOther>
+<endOther>
+
+<startSetup>
+<endSetup>
+
+<startLoop>
+<endLoop>
+
+<startLocation>
+www.close();
+Serial.println(F("\n\nDisconnecting"));
+cc3000.disconnect();
+<endLocation>

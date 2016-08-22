@@ -10,23 +10,57 @@ namespace Banana_Project.PluginModule
     /// </summary>
     public partial class Arg2Layout : UserControl, ArgLayout
     {
-        public Arg2Layout()
+        private string plugName = null;
+        private string menuName = null; 
+
+        public Arg2Layout(string _plugName , string _menuName)
         {
             InitializeComponent();
+            plugName = _plugName;
+            menuName = _menuName;
         }
 
-        public Arg2Layout(String arg1)
+        public Arg2Layout(string _plugName, string _menuName , String arg1) : this(_plugName , _menuName)
         {
-            InitializeComponent();
-
             Arg2_Name1.Text = arg1;
         }
 
-        public Arg2Layout(String arg1, String arg2)
+        public Arg2Layout(string _plugName, string _menuName , String arg1, String arg2) : this(_plugName, _menuName)
         {
-            InitializeComponent();
             Arg2_Name1.Text = arg1;
             Arg2_Name2.Text = arg2;
+        }
+
+        public string Filename
+        {
+            get
+            {
+                return plugName;
+            }
+        }
+
+        public string Menuname
+        {
+            get
+            {
+                return menuName;
+            }
+        }
+
+        public string Arg1
+        {
+            get
+            {
+                return Arg1_Content1.Text;
+            }
+        }
+
+        public string Arg2
+        {
+            get
+            {
+                return Arg2_Content2.Text;
+            }
         }
 
         private void RemoveBtn_Cilck(object sender, RoutedEventArgs e)

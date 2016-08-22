@@ -33,9 +33,24 @@ namespace Banana_Project
 
             AddItemAtSetupMenuList();
             AddItemAtNodeList();
-            //NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
-            SampleNodeList.ItemsSource = SampleTab.GetSampleList();
+            AddItemAtSampleList();
+        }
 
+        private void AddItemAtSampleList()
+        {
+            SampleNodeList.Items.Clear();
+            SampleNodeList.Items.Add("Wifi_Shield");
+            SampleNodeList.Items.Add("Bluetooth_4.0_Master");
+            SampleNodeList.Items.Add("Bluetooth_4.0_Slave");
+            SampleNodeList.Items.Add("GPS_module");
+            SampleNodeList.Items.Add("Web_Server_example");
+            SampleNodeList.Items.Add("For_example");
+            SampleNodeList.Items.Add("If_example");
+
+            foreach (ExampleNode node in plugins.Examples)
+            {
+                SampleNodeList.Items.Add(node.ExampleName);
+            }
         }
 
         private void AddItemAtSetupMenuList()
@@ -56,7 +71,7 @@ namespace Banana_Project
         private void AddItemAtNodeList()
         {
             NodeList.Items.Clear();
-            
+
             NodeList.Items.Add("문자열출력");
             NodeList.Items.Add("주석");
             NodeList.Items.Add("변수사용");
@@ -320,7 +335,7 @@ namespace Banana_Project
 
                 using (FileStream fs = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 {
-                    StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+                    StreamWriter sw = new StreamWriter(fs, Encoding.ASCII);
                     if (tabControl.SelectedIndex == 2)
                         sw.WriteLine(sampleCode.Text);
                     else
@@ -358,6 +373,8 @@ namespace Banana_Project
                     plugins.Refresh();
                     AddItemAtSetupMenuList();
                     AddItemAtNodeList();
+                    AddItemAtSampleList();
+
                 }
             }
         }

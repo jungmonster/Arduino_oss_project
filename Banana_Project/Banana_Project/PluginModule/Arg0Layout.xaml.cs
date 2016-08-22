@@ -20,15 +20,34 @@ namespace Banana_Project.PluginModule
     /// </summary>
     public partial class Arg0Layout : UserControl, ArgLayout
     {
-        public Arg0Layout()
+        private string plugName;
+        private string menuName;
+
+        public string Filename
         {
-            InitializeComponent();
+            get
+            {
+                return plugName; 
+            }
         }
 
-        public Arg0Layout(String arg1)
+        public string Menuname
+        {
+            get
+            {
+                return menuName;
+            }
+        }
+
+        public Arg0Layout(string plugName , string menuName)
         {
             InitializeComponent();
+            this.plugName = plugName;
+            this.menuName = menuName;
+        }
 
+        public Arg0Layout(string plugName , string menuName , string arg1) : this(plugName , menuName)
+        {
             Arg0_Name1.Text = arg1;
         }
 

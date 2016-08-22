@@ -10,16 +10,43 @@ namespace Banana_Project.PluginModule
     /// </summary>
     public partial class Arg1Layout : UserControl, ArgLayout
     {
-        public Arg1Layout()
+        private string plugName;
+        private string menuName;
+        public Arg1Layout(string plugName , string menuName)
         {
             InitializeComponent();
+            this.plugName = plugName;
+            this.menuName = menuName;
         }
 
-        public Arg1Layout(string arg1)
+        public Arg1Layout(string plugName, string menuName , string arg1) : this(plugName , menuName)
         {
-            InitializeComponent();
-            MessageBox.Show(arg1);
             Arg1_Name1.Text = arg1;
+        }
+
+        public string Filename
+        {
+            get
+            {
+                return plugName;
+            }
+        }
+
+        public string Menuname
+        {
+            get
+            {
+                return menuName;
+            }
+        }
+
+        public string Arg1
+        {
+            get
+            {
+                return Arg1_Content1.Text;
+            }
+
         }
 
         private void RemoveBtn_Cilck(object sender, RoutedEventArgs e)

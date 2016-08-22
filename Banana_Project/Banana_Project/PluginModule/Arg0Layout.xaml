@@ -25,6 +25,7 @@
                     FontSize="16"
                     FontWeight="Heavy"
                     Text="Close"
+                    FontStyle="Italic"
                     VerticalAlignment="Center"
                     Grid.Row="0"
                     HorizontalAlignment="Stretch"

@@ -41,8 +41,8 @@ namespace Banana_Project
             nodeObjectList.Add("디지털포트입력");
             return nodeObjectList;
         }
-        
-        public static object FindGetSetupGridItem(string itemName , List<MenuListNode> list)
+
+        public static object FindGetSetupGridItem(string itemName, List<MenuListNode> list)
         {
             if (itemName.Equals("디지털포트설정"))
                 return CodeItem_PinMode("PinMode");
@@ -54,8 +54,9 @@ namespace Banana_Project
                 return CodeItem_Delay("Delay");
             else if (itemName.Equals("변수선언"))
                 return CodeItem_Variable("Variable");
-            else {
-                return SetGridObject(itemName , list);
+            else
+            {
+                return SetGridObject(itemName, list);
             }
         }
 
@@ -75,26 +76,26 @@ namespace Banana_Project
             {
                 return null;
             }
-                
+
         }
 
-        private static object SetGridObject(string itemName , List<MenuListNode> list)
+        private static object SetGridObject(string itemName, List<MenuListNode> list)
         {
-            
-            foreach(MenuListNode e in list)
+
+            foreach (MenuListNode e in list)
             {
-                if(e.MenuName.Equals(itemName))
+                if (e.MenuName.Equals(itemName))
                 {
                     int args = e.Args;
 
-                    switch(args)
+                    switch (args)
                     {
                         case 0:
-                            return new Arg0Layout();
+                            return new Arg0Layout(e.Filename, e.MenuName);
                         case 1:
-                            return new Arg1Layout(e.Arg0);
+                            return new Arg1Layout(e.Filename, e.MenuName, e.Arg0);
                         case 2:
-                            return new Arg2Layout(e.Arg0 , e.Arg1);
+                            return new Arg2Layout(e.Filename, e.MenuName, e.Arg0, e.Arg1);
                     }
                 }
             }
@@ -102,7 +103,7 @@ namespace Banana_Project
             return null;
         }
 
-        public static object FindGetCodeGridItem(string itemName , List<MenuListNode> list)
+        public static object FindGetCodeGridItem(string itemName, List<MenuListNode> list)
         {
             if (itemName.Equals("문자열출력"))
                 return CodeItemPrintln("Println");
@@ -120,7 +121,7 @@ namespace Banana_Project
                 return CodeItem_DigitalRead("DigitalRead");
             else if (itemName.Equals("변수사용"))
                 return CodeItem_Variable_Use("Variable_Use");
-            else 
+            else
                 return SetGridObject(itemName, list);
         }
 
@@ -273,7 +274,7 @@ namespace Banana_Project
             Grid.SetColumnSpan(txtBox1, 2);
             DynamicGrid.Children.Add(txtBox1);
 
-                        TextBlock txtBlock2 = new TextBlock();
+            TextBlock txtBlock2 = new TextBlock();
             txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
             txtBlock2.Text = "↓";
             txtBlock2.FontSize = 14;
@@ -601,7 +602,7 @@ namespace Banana_Project
             Grid.SetRow(btn, 0);
             Grid.SetColumn(btn, 2);
             DynamicGrid.Children.Add(btn);
-            
+
             TextBlock txtBlock2 = new TextBlock();
             txtBlock2.HorizontalAlignment = HorizontalAlignment.Center;
             txtBlock2.VerticalAlignment = VerticalAlignment.Center;
@@ -885,7 +886,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                object DynamicGrid = ItemCreateHelper.FindGetCodeGridItem(data.ToString()) ;
+                object DynamicGrid = ItemCreateHelper.FindGetCodeGridItem(data.ToString());
 
                 parent.Items.Add(DynamicGrid);
                 counter++;
@@ -897,7 +898,7 @@ namespace Banana_Project
             Button btn = sender as Button;
 
             Grid btnParent = VisualTreeHelper.GetParent(btn) as Grid;
-            if(btnParent == null)
+            if (btnParent == null)
             {
                 Console.WriteLine("Err : Don' find parent of item. check item tree (" + btn.ToString() + ")");
             }
@@ -905,13 +906,13 @@ namespace Banana_Project
             element = VisualTreeHelper.GetParent(btnParent) as DependencyObject;
             while (true)
             {
-                Console.WriteLine(element.GetType());   
+                Console.WriteLine(element.GetType());
                 if (element == null)
                 {
                     Console.WriteLine("Err : null point inception");
-                    return ;
+                    return;
                 }
-                if( element.GetType() == typeof(ListBox))
+                if (element.GetType() == typeof(ListBox))
                 {
                     ListBox temp = element as ListBox;
                     Console.WriteLine(temp.Uid);
@@ -919,7 +920,7 @@ namespace Banana_Project
                     break;
                 }
                 element = VisualTreeHelper.GetParent(element) as DependencyObject;
-            } 
+            }
         }
         static bool codeListBox_Click = false;
         static int currentClickID = -1;
@@ -930,7 +931,7 @@ namespace Banana_Project
                 codeListBox_Click = true;
             ListBox ob = sender as ListBox;
             Point po = e.GetPosition(ob);
-            DependencyObject ch = ob.InputHitTest(po) as DependencyObject; 
+            DependencyObject ch = ob.InputHitTest(po) as DependencyObject;
             int id = MouseEventHelper.findCodeListItemIndex(ob, ch);
             currentClickID = id;
         }
@@ -998,7 +999,7 @@ namespace Banana_Project
 
             return DynamicGrid;
         }
-        static Grid GetDynamicGrid3x3(string UIDStirng, Color color )
+        static Grid GetDynamicGrid3x3(string UIDStirng, Color color)
         {
             Grid DynamicGrid = new Grid();
             DynamicGrid.Width = itemWidth;

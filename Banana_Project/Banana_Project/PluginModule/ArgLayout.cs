@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace Banana_Project.PluginModule
 {
-    interface ArgLayout
+    public interface ArgLayout
     {
+        string Filename
+        {
+            get;
+        }
+
+        string Menuname
+        {
+            get;
+        }
     }
 }

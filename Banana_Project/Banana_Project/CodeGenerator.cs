@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
+using Banana_Project.PluginModule;
 
 namespace Banana_Project
 {
@@ -39,22 +40,22 @@ namespace Banana_Project
         {
             // ortherArea setting
             ortherArea.Add("");
-            ortherArea.Add("int speed = 9600;");
+            
 
             // setupArea setting
-            setupArea.Add("// setup 함수 구역");
+            setupArea.Add("// setup resion");
             setupArea.Add("void setup(){");
-            setupArea.Add(padding + "// USB 통신 준비");
+            setupArea.Add(padding + "// prepare USB communication");
             setupArea.Add(padding + "Serial.begin(speed);");
 
             // loopArea setting
-            loopArea.Add("// loop 함수 구역 ");
+            loopArea.Add("// loop resion ");
             loopArea.Add("void loop() {");
         }
         public void endSetGenerator()
         {
             // add empty space in ortherArea
-            ortherArea.Add("");
+            ortherArea.Add("int speed = 9600;");
             ortherArea.Add("");
             ortherArea.Add("");
 
@@ -96,8 +97,50 @@ namespace Banana_Project
                 Grid child = listbox.Items[i] as Grid;
                 if(child == null)
                 {
-                    Console.WriteLine("err : List child is not Grid at index num : " + i );
-                    continue;
+                    if (child == null)
+                    {
+                        if (listbox.Items[i] is ArgLayout)
+                        {
+                            string other = null; ;
+                            string setup = null;
+                            string loop = null;
+
+                            ImportFromPlugin.ParseCode(listbox.Items[i] as ArgLayout, out other, out setup, out loop, "loop");
+
+                            if (listbox.Items[i] is Arg1Layout)
+                            {
+                                Arg1Layout temp = listbox.Items[i] as Arg1Layout;
+                                other = other.Replace("@<param1>", temp.Arg1);
+                                setup = setup.Replace("@<param1>", temp.Arg1);
+                                loop = loop.Replace("@<param1>", temp.Arg1);
+                                //other = string.Format(other, temp.Arg1);
+                                //setup = string.Format(setup, temp.Arg1);
+                                //loop = string.Format(loop, temp.Arg1);
+                            }
+                            else if (listbox.Items[i] is Arg2Layout)
+                            {
+                                Arg2Layout temp = listbox.Items[i] as Arg2Layout;
+                                other = other.Replace("@<param1>", temp.Arg1);
+                                setup = setup.Replace("@<param1>", temp.Arg1);
+                                loop = loop.Replace("@<param1>", temp.Arg1);
+
+                                other = other.Replace("@<param2>", temp.Arg2);
+                                setup = setup.Replace("@<param2>", temp.Arg2);
+                                loop = loop.Replace("@<param2>", temp.Arg2);
+                            }
+
+                            if (other.Length != 0)
+                                ortherArea.Add(other);
+
+                            if (setup.Length != 0)
+                                setupArea.Add(setup);
+
+                            if (loop.Length != 0)
+                                loopArea.Add(loop);
+                        }
+                        Console.WriteLine("err : List child is not Grid at index num : " + i);
+                        continue;
+                    }
                 }
                 if (child.Uid.Equals("Println"))
                 {
@@ -154,15 +197,54 @@ namespace Banana_Project
                 }
             }
         }
+
         public void ChangeToCode_Setup(ListBox listbox)
         {
             //Console.WriteLine("Change to Code Event");
             for (int i = 0; i < listbox.Items.Count; i++)
             {
-                //Console.WriteLine("Change to Code Event");
                 Grid child = listbox.Items[i] as Grid;
                 if (child == null)
                 {
+                    if (listbox.Items[i] is ArgLayout)
+                    {
+                        string other = null; ;
+                        string setup = null;
+                        string loop = null; 
+                        
+                        ImportFromPlugin.ParseCode(listbox.Items[i] as ArgLayout , out other , out setup , out loop , "setup");
+
+                        if (listbox.Items[i] is Arg1Layout)
+                        {
+                            Arg1Layout temp = listbox.Items[i] as Arg1Layout;
+                            other = other.Replace("@<param1>", temp.Arg1);
+                            setup = setup.Replace("@<param1>", temp.Arg1);
+                            loop = loop.Replace("@<param1>", temp.Arg1);
+                            //other = string.Format(other, temp.Arg1);
+                            //setup = string.Format(setup, temp.Arg1);
+                            //loop = string.Format(loop, temp.Arg1);
+                        }
+                        else if (listbox.Items[i] is Arg2Layout)
+                        {
+                            Arg2Layout temp = listbox.Items[i] as Arg2Layout;
+                            other = other.Replace("@<param1>", temp.Arg1);
+                            setup = setup.Replace("@<param1>", temp.Arg1);
+                            loop = loop.Replace("@<param1>", temp.Arg1);
+
+                            other = other.Replace("@<param2>", temp.Arg2);
+                            setup = setup.Replace("@<param2>", temp.Arg2);
+                            loop = loop.Replace("@<param2>", temp.Arg2);
+                        }
+
+                        if (other.Length != 0)
+                            ortherArea.Add(other);
+
+                        if(setup.Length != 0)
+                            setupArea.Add(setup);
+                        
+                        if(loop.Length != 0)
+                            loopArea.Add(loop);
+                    }
                     Console.WriteLine("err : List child is not Grid at index num : " + i);
                     continue;
                 }
@@ -240,6 +322,7 @@ namespace Banana_Project
             }
             return false;
         }
+
         bool Parser_Delay(Grid child)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
