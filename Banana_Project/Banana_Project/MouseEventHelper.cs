@@ -8,38 +8,21 @@ namespace Banana_Project
     // Mouse Event Helper Class
     static class MouseEventHelper
     {
-        
+
         // Check block index in listbox
         public static int findCodeListItemIndex(ListBox parent, DependencyObject obj)
         {
-            if (obj == null)
-                return -1;
+            if (parent.Items.IndexOf(obj) != -1)
+                return parent.Items.IndexOf(obj);
 
-            if (obj.GetType() == typeof(Grid))
+            UIElement pt = VisualTreeHelper.GetParent(obj) as UIElement;
+            while (!(pt is ListBoxItem) && !(pt is MainWindow) && parent.Items.IndexOf(pt) == -1)
             {
-                Grid item = obj as Grid;
-                if(item != null)
-                    return parent.Items.IndexOf(item);
-                else
-                    return -1;
-            }
-            else
-            {
-                UIElement pt = VisualTreeHelper.GetParent(obj) as UIElement;
-                if (pt.GetType() == typeof(Grid))
-                {
-                    Grid item = pt as Grid;
-                    if (item == null)
-                        return -1;
-                    if (item != null)
-                        return parent.Items.IndexOf(item);
-                    else
-                        return -1;
-                }
-                else
-                    return -1;
+                obj = pt;
+                pt = VisualTreeHelper.GetParent(obj) as UIElement;
             }
 
+            return parent.Items.IndexOf(pt);
         }
 
         // Check block collection in listbox

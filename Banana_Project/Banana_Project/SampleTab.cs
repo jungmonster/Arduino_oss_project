@@ -25,8 +25,18 @@ namespace Banana_Project
 
         public static BitmapImage SampleImage(string sampleName)
         {
-            string currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = currentPath + @"..\..\sampleImage\" + sampleName + ".png";
+            string filePath = null;
+            string currentPath = AppDomain.CurrentDomain.BaseDirectory ;
+            if (sampleName.Equals("TASExample"))
+            {
+                filePath = @"C:\Users\icdi0\Desktop\호작질\Banana\Banana\KNU_OSS_2016_Banana-study_wpf\Banana_Project\Banana_Project\plugin\Mobius\images\TASExample.jpg";
+            }
+            else
+            {
+                filePath = currentPath + @"..\..\sampleImage\" + sampleName + ".jpg";
+            }
+            
+            
             BitmapImage bi3 = new BitmapImage();
             bi3.BeginInit();
             if(!System.IO.File.Exists(filePath))
@@ -42,14 +52,22 @@ namespace Banana_Project
 
         public static List<string> SampleCodeExam(string sampleName)
         {
-            string filePath = @"..\..\samplecode\" + sampleName + ".txt";
+            string filePath = null;
+
+            if(sampleName.Equals("TASExample"))
+                filePath = @"..\..\plugin\mobius\examples\TASExample.txt";
+            else
+                filePath = @"..\..\samplecode\" + sampleName + ".txt";
+
             int counter = 0;
             string line;
             List<string> txtline = new List<string>();
 
             //when file doesn't exist
             if (!System.IO.File.Exists(filePath))
+            {
                 return null;
+            }
 
             System.IO.StreamReader file = new System.IO.StreamReader(filePath);
             while ((line = file.ReadLine()) != null)

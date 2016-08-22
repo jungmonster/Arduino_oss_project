@@ -8,6 +8,8 @@ using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
 using System.IO;
+using System.IO.Compression;
+using Banana_Project.PluginModule;
 
 namespace Banana_Project
 {
@@ -16,6 +18,7 @@ namespace Banana_Project
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ImportFromPlugin plugins; 
         ListBox dragSource = null;
         CodeGenerator codegnt = new CodeGenerator();
         ObservableCollection<string> nodeObjectList = new ObservableCollection<string>();
@@ -23,15 +26,80 @@ namespace Banana_Project
         public MainWindow()
         {
             InitializeComponent();
+            Init_Program();
             this.Height = SystemParameters.MaximizedPrimaryScreenHeight;
             this.Width = SystemParameters.MaximizedPrimaryScreenWidth;
             NodeList.MouseDown += NodeListView_MouseDown;
 
-            SetupMenuList.ItemsSource = ItemCreateHelper.GetSetupList();
-            NodeList.ItemsSource = ItemCreateHelper.GetNodeList();
-            SampleNodeList.ItemsSource = SampleTab.GetSampleList();
-
+            AddItemAtSetupMenuList();
+            AddItemAtNodeList();
+            AddItemAtSampleList();
         }
+
+        private void AddItemAtSampleList()
+        {
+            SampleNodeList.Items.Clear();
+            SampleNodeList.Items.Add("Wifi_Shield");
+            SampleNodeList.Items.Add("Bluetooth_4.0_Master");
+            SampleNodeList.Items.Add("Bluetooth_4.0_Slave");
+            SampleNodeList.Items.Add("GPS_module");
+            SampleNodeList.Items.Add("Web_Server_example");
+            SampleNodeList.Items.Add("For_example");
+            SampleNodeList.Items.Add("If_example");
+
+            foreach (ExampleNode node in plugins.Examples)
+            {
+                SampleNodeList.Items.Add(node.ExampleName);
+            }
+        }
+
+        private void AddItemAtSetupMenuList()
+        {
+            SetupMenuList.Items.Clear();
+            SetupMenuList.Items.Add("디지털포트설정");
+            SetupMenuList.Items.Add("문자열출력");
+            SetupMenuList.Items.Add("주석");
+            SetupMenuList.Items.Add("지연시간");
+            SetupMenuList.Items.Add("변수선언");
+
+            foreach (MenuListNode node in plugins.GetList)
+            {
+                SetupMenuList.Items.Add(node.MenuName);
+            }
+        }
+
+        private void AddItemAtNodeList()
+        {
+            NodeList.Items.Clear();
+
+            NodeList.Items.Add("문자열출력");
+            NodeList.Items.Add("주석");
+            NodeList.Items.Add("변수사용");
+            NodeList.Items.Add("지연시간");
+            NodeList.Items.Add("조건문");
+            NodeList.Items.Add("반복");
+            NodeList.Items.Add("디지털포트출력");
+            NodeList.Items.Add("디지털포트입력");
+
+            foreach (MenuListNode node in plugins.GetList)
+            {
+                NodeList.Items.Add(node.MenuName);
+            }
+        }
+
+        private void Init_Program()
+        {
+            DirectoryInfo dir = new DirectoryInfo("..\\..\\plugin");
+
+            if (dir.Exists == false)
+            {
+                Directory.CreateDirectory(dir.FullName);
+            }
+
+            plugins = new ImportFromPlugin(dir.FullName);
+            plugins.Refresh();
+        }
+
 
         void Menu_Check(object sender, RoutedEventArgs e)
         {
@@ -142,7 +210,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                Grid DynamicGrid = ItemCreateHelper.FindGetCodeGridItem(data.ToString());
+                object DynamicGrid = ItemCreateHelper.FindGetCodeGridItem(data.ToString() , plugins.GetList);
 
                 parent.Items.Add(DynamicGrid);
                 ItemCreateHelper.counter++;
@@ -162,7 +230,7 @@ namespace Banana_Project
                 ListBox parent = (ListBox)sender;
 
                 //Grid DynamicGrid = SetGridObject(data.ToString());
-                Grid DynamicGrid = ItemCreateHelper.FindGetSetupGridItem(data.ToString());
+                object DynamicGrid = ItemCreateHelper.FindGetSetupGridItem(data.ToString() , plugins.GetList);
 
                 parent.Items.Add(DynamicGrid);
                 ItemCreateHelper.counter++;
@@ -267,13 +335,46 @@ namespace Banana_Project
 
                 using (FileStream fs = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 {
-                    StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+                    StreamWriter sw = new StreamWriter(fs, Encoding.ASCII);
                     if (tabControl.SelectedIndex == 2)
                         sw.WriteLine(sampleCode.Text);
                     else
                         sw.WriteLine(CodeView.Text);
                     sw.Flush();
                     MessageBox.Show("Save Complete", "Save");
+                }
+            }
+        }
+
+        private void ImportMenu_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openfileDialog = new OpenFileDialog();
+            openfileDialog.Filter = "zip|*.zip";
+            openfileDialog.Title = "Import a new platform";
+            if(openfileDialog.ShowDialog() == true)
+            {
+                string zipPath = openfileDialog.FileName;
+                string safeFilename = openfileDialog.SafeFileName;
+                safeFilename = safeFilename.Split(new char[] { '.' })[0];
+
+                DirectoryInfo dir = new DirectoryInfo("..\\..\\plugin");
+                DirectoryInfo plugin_dir = new DirectoryInfo(dir.FullName + "\\" + safeFilename);
+
+                if(plugin_dir.Exists)
+                {
+                    MessageBox.Show("이미 추가되어 있는 Platform 입니다.");
+                }
+                else
+                {
+                    Directory.CreateDirectory(plugin_dir.FullName);
+                    string extractPath = plugin_dir.FullName;
+                    ZipFile.ExtractToDirectory(zipPath, extractPath);
+                    MessageBox.Show("Import success!!");
+                    plugins.Refresh();
+                    AddItemAtSetupMenuList();
+                    AddItemAtNodeList();
+                    AddItemAtSampleList();
+
                 }
             }
         }
