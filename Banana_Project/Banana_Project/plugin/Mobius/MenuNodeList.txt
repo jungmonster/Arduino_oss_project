@@ -1,4 +1,0 @@
-[TAS]Connect 2 IP_Address Port
-[TAS]Send_data 2 Container Contents
-[TAS]Receive_command 2 Container Pin
-[TAS]Close 0
