@@ -328,8 +328,7 @@ namespace Banana_Project
 
             TextBox txtBox1 = new TextBox();
             txtBox1.FontSize = 14;
-            txtBox1.FontWeight = FontWeights.Bold;
-            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.Foreground = new SolidColorBrush(Colors.Black);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
             txtBox1.TextWrapping = TextWrapping.Wrap;
             txtBox1.AcceptsReturn = true;
@@ -390,7 +389,7 @@ namespace Banana_Project
 
             TextBox txtBox1 = new TextBox();
             txtBox1.FontSize = 12;
-            txtBox1.Foreground = new SolidColorBrush(Colors.Green);
+            txtBox1.Foreground = new SolidColorBrush(Colors.Black);
             txtBox1.VerticalAlignment = VerticalAlignment.Top;
             Grid.SetRow(txtBox1, 1);
             Grid.SetColumn(txtBox1, 1);
